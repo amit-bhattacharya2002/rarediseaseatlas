@@ -1,0 +1,51 @@
+{
+  "name": "is-anyone-working-on-this",
+  "version": "0.1.0",
+  "private": true,
+  "license": "Apache-2.0",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "prebuild": "tsx scripts/validate-india.ts && tsx scripts/assert-findings-isolation.ts",
+    "ingest": "tsx scripts/ingest.ts --limit 50",
+    "ingest:300": "tsx scripts/ingest.ts --limit 300",
+    "ingest:sample": "tsx scripts/ingest.ts --sample 300 --seed 42",
+    "ingest:full": "tsx scripts/ingest.ts --full",
+    "ingest:test": "tsx scripts/ingest.ts --limit 20",
+    "refresh:zero-trials": "tsx scripts/refresh-zero-trials.ts",
+    "assert:refresh-guards": "tsx scripts/assert-refresh-guards.ts",
+    "assert:findings-isolation": "tsx scripts/assert-findings-isolation.ts",
+    "derive": "tsx scripts/derive.ts",
+    "plain-language": "tsx scripts/plain-language.ts",
+    "percentiles": "tsx scripts/percentiles.ts",
+    "validate": "tsx scripts/validate.ts",
+    "verify:gold": "tsx scripts/verify-gold.ts",
+    "adjudicate:gold": "tsx scripts/adjudicate-gold.ts",
+    "accuracy": "npm run adjudicate:gold && npm run validate",
+    "test:accuracy": "tsx scripts/test-accuracy.ts",
+    "test:logger": "tsx scripts/test-logger.ts",
+    "validate:india": "tsx scripts/validate-india.ts",
+    "findings:build": "tsx scripts/build-findings.ts",
+    "findings:verify-defects": "tsx scripts/verify-defects.ts"
+  },
+  "dependencies": {
+    "next": "14.2.35",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.17.0",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "autoprefixer": "^10.4.20",
+    "eslint": "^8.57.1",
+    "eslint-config-next": "14.2.35",
+    "fast-xml-parser": "^4.5.1",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.15",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3"
+  }
+}

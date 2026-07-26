@@ -1,0 +1,83 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --ground: #faf9f6;
+  --ink: #1b1b1a;
+  --mute: #6b6a66;
+  --line: #e6e4de;
+}
+
+html {
+  background: var(--ground);
+  color: var(--ink);
+}
+
+body {
+  background:
+    radial-gradient(1200px 600px at 10% -10%, #f3efe6 0%, transparent 55%),
+    radial-gradient(900px 500px at 100% 0%, #ebe8e0 0%, transparent 50%),
+    var(--ground);
+  min-height: 100vh;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes count-in {
+  from {
+    opacity: 0;
+    letter-spacing: 0.08em;
+  }
+  to {
+    opacity: 1;
+    letter-spacing: -0.02em;
+  }
+}
+
+.animate-rise {
+  animation: rise-in 0.7s ease-out both;
+}
+
+.animate-count {
+  animation: count-in 0.9s ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-rise,
+  .animate-count {
+    animation: none;
+  }
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}

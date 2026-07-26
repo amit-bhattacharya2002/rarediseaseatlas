@@ -1,0 +1,141 @@
+{
+  "runAt": "2026-07-26T11:58:46.197Z",
+  "trialsRecall": 0.9615384615384616,
+  "trialsPrecision": 0.8640211640211641,
+  "publicationsWithinRange": 0.8787878787878788,
+  "count": 33,
+  "perEntry": {
+    "5": {
+      "foundTrials": 7,
+      "foundPubs": 799
+    },
+    "53": {
+      "foundTrials": 1,
+      "foundPubs": 89
+    },
+    "60": {
+      "foundTrials": 79,
+      "foundPubs": 10873
+    },
+    "70": {
+      "foundTrials": 1,
+      "foundPubs": 450
+    },
+    "98": {
+      "foundTrials": 11,
+      "foundPubs": 678
+    },
+    "213": {
+      "foundTrials": 26,
+      "foundPubs": 4698
+    },
+    "216": {
+      "foundTrials": 19,
+      "foundPubs": 6222
+    },
+    "324": {
+      "foundTrials": 114,
+      "foundPubs": 12631
+    },
+    "355": {
+      "foundTrials": 93,
+      "foundPubs": 12325
+    },
+    "550": {
+      "foundTrials": 26,
+      "foundPubs": 9802
+    },
+    "558": {
+      "foundTrials": 27,
+      "foundPubs": 22294
+    },
+    "586": {
+      "foundTrials": 1161,
+      "foundPubs": 159087
+    },
+    "636": {
+      "foundTrials": 117,
+      "foundPubs": 28661
+    },
+    "637": {
+      "foundTrials": 36,
+      "foundPubs": 13453
+    },
+    "739": {
+      "foundTrials": 107,
+      "foundPubs": 11995
+    },
+    "778": {
+      "foundTrials": 66,
+      "foundPubs": 14894
+    },
+    "791": {
+      "foundTrials": 202,
+      "foundPubs": 37311
+    },
+    "905": {
+      "foundTrials": 42,
+      "foundPubs": 20553
+    },
+    "1762": {
+      "foundTrials": 7,
+      "foundPubs": 728
+    },
+    "3099": {
+      "foundTrials": 9,
+      "foundPubs": 39489
+    },
+    "36383": {
+      "foundTrials": 1,
+      "foundPubs": 89
+    },
+    "79167": {
+      "foundTrials": 36,
+      "foundPubs": 3860
+    },
+    "79241": {
+      "foundTrials": 1,
+      "foundPubs": 1610
+    },
+    "98767": {
+      "foundTrials": 0,
+      "foundPubs": 257
+    },
+    "98878": {
+      "foundTrials": 336,
+      "foundPubs": 60681
+    },
+    "98896": {
+      "foundTrials": 307,
+      "foundPubs": 31130
+    },
+    "293621": {
+      "foundTrials": 10,
+      "foundPubs": 28
+    },
+    "300493": {
+      "foundTrials": 0,
+      "foundPubs": 54
+    },
+    "438213": {
+      "foundTrials": 0,
+      "foundPubs": 20
+    },
+    "465508": {
+      "foundTrials": 14,
+      "foundPubs": 0
+    },
+    "636945": {
+      "foundTrials": 51,
+      "foundPubs": 14391
+    },
+    "658595": {
+      "foundTrials": 1,
+      "foundPubs": 34
+    },
+    "693869": {
+      "foundTrials": 0,
+      "foundPubs": 4
+    }
+  }
+}

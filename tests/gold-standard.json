@@ -1,0 +1,1029 @@
+{
+  "note": "Hand-selected diseases spanning the hard cases for the matching pipeline. trueTrialCount and truePublicationRange are reference figures checked against the live databases (ClinicalTrials.gov condition search + Europe PMC) on verifiedOn; they are order-of-magnitude ground truth for regression detection, not exact adjudicated tallies. Re-verify periodically and bump verifiedOn. knownDifficulty drives the per-class breakdown in `npm run validate`.",
+  "source": "ClinicalTrials.gov API v2 (condition field) and Europe PMC search, manual review.",
+  "entries": [
+    {
+      "orphaCode": "5",
+      "name": "LCHAD deficiency / long-chain 3-hydroxyacyl-CoA dehydrogenase deficiency",
+      "manualAliases": [
+        "LCHAD deficiency"
+      ],
+      "verifiedOn": "2026-07-26",
+      "trueTrialCount": 5,
+      "truePublicationRange": [
+        799,
+        799
+      ],
+      "knownDifficulty": "umbrella",
+      "notes": "Trials often register condition as 'Fatty Acid Oxidation Disorders' — no name phrase catches them; MeSH/xref matching required.",
+      "knownRelevantNctIds": [
+        "NCT01494051",
+        "NCT01886378",
+        "NCT02517307",
+        "NCT02635269",
+        "NCT05411835"
+      ],
+      "knownIrrelevantNctIds": [],
+      "uncertainNctIds": [
+        "NCT01379625",
+        "NCT02214160"
+      ],
+      "knownParentCategoryNctIds": [],
+      "reviewedBy": "dual-model-consensus (gpt-4o-mini + claude-haiku-4-5)",
+      "verificationNotes": "Automated dual-provider adjudication with parent-category verdict support (prompt trial-relevance-v2). Attention checks marked irrelevant. Publication range set to live Europe PMC union count."
+    },
+    {
+      "orphaCode": "98896",
+      "name": "Duchenne muscular dystrophy",
+      "verifiedOn": "2026-07-26",
+      "trueTrialCount": 14,
+      "truePublicationRange": [
+        31130,
+        31130
+      ],
+      "knownDifficulty": "none",
+      "notes": "Well studied; both databases return large counts under the primary name.",
+      "knownRelevantNctIds": [
+        "NCT00102453",
+        "NCT00759876",
+        "NCT00873782",
+        "NCT01540604",
+        "NCT01826487",
+        "NCT01981915",
+        "NCT02516085",
+        "NCT02958202",
+        "NCT03796637",
+        "NCT04428476",
+        "NCT04768062",
+        "NCT05516745",
+        "NCT05938023",
+        "NCT06128564"
+      ],
+      "knownIrrelevantNctIds": [],
+      "uncertainNctIds": [
+        "NCT07317063"
+      ],
+      "knownParentCategoryNctIds": [],
+      "reviewedBy": "dual-model-consensus (gpt-4o-mini + claude-haiku-4-5)",
+      "verificationNotes": "Automated dual-provider adjudication with parent-category verdict support (prompt trial-relevance-v2). Attention checks marked irrelevant. Publication range set to live Europe PMC union count."
+    },
+    {
+      "orphaCode": "586",
+      "name": "Cystic fibrosis",
+      "verifiedOn": "2026-07-26",
+      "trueTrialCount": 15,
+      "truePublicationRange": [
+        159087,
+        159087
+      ],
+      "knownDifficulty": "none",
+      "notes": "High-volume control case.",
+      "knownRelevantNctIds": [
+        "NCT00073463",
+        "NCT00638365",
+        "NCT01112059",
+        "NCT01192360",
+        "NCT01899105",
+        "NCT02277626",
+        "NCT02894684",
+        "NCT03292718",
+        "NCT03474042",
+        "NCT04734743",
+        "NCT04921332",
+        "NCT05140967",
+        "NCT05696912",
+        "NCT05809492",
+        "NCT06312787"
+      ],
+      "knownIrrelevantNctIds": [],
+      "uncertainNctIds": [],
+      "knownParentCategoryNctIds": [],
+      "reviewedBy": "dual-model-consensus (gpt-4o-mini + claude-haiku-4-5)",
+      "verificationNotes": "Automated dual-provider adjudication with parent-category verdict support (prompt trial-relevance-v2). Attention checks marked irrelevant. Publication range set to live Europe PMC union count."
+    },
+    {
+      "orphaCode": "791",
+      "name": "Retinitis pigmentosa",
+      "verifiedOn": "2026-07-26",
+      "trueTrialCount": 15,
+      "truePublicationRange": [
+        37311,
+        37311
+      ],
+      "knownDifficulty": "none",
+      "notes": "Common ophthalmic rare disease.",
+      "knownRelevantNctIds": [
+        "NCT00447980",
+        "NCT00447993",
+        "NCT02661711",
+        "NCT02709876",
+        "NCT03326336",
+        "NCT03963154",
+        "NCT04141891",
+        "NCT04671433",
+        "NCT05841862",
+        "NCT06292650",
+        "NCT06333249",
+        "NCT06492850",
+        "NCT06952842",
+        "NCT07082855",
+        "NCT07509229"
+      ],
+      "knownIrrelevantNctIds": [],
+      "uncertainNctIds": [],
+      "knownParentCategoryNctIds": [],
+      "reviewedBy": "dual-model-consensus (gpt-4o-mini + claude-haiku-4-5)",
+      "verificationNotes": "Automated dual-provider adjudication with parent-category verdict support (prompt trial-relevance-v2). Attention checks marked irrelevant. Publication range set to live Europe PMC union count."
+    },
+    {
+      "orphaCode": "550",
+      "name": "MELAS syndrome",
+      "verifiedOn": "2026-07-26",
+      "trueTrialCount": 15,
+      "truePublicationRange": [
+        9802,
+        9802
+      ],
+      "knownDifficulty": "none",
+      "notes": "Eponym/acronym; well indexed.",
+      "knownRelevantNctIds": [
+        "NCT00887562",
+        "NCT01252979",
+        "NCT01339494",
+        "NCT01603446",
+        "NCT02544217",
+        "NCT03432871",
+        "NCT03888716",
+        "NCT03952234",
+        "NCT04165239",
+        "NCT04846036",
+        "NCT04948138",
+        "NCT05255328",
+        "NCT06013397",
+        "NCT06402123",
+        "NCT06644534"
+      ],
+      "knownIrrelevantNctIds": [],
+      "uncertainNctIds": [],
+      "knownParentCategoryNctIds": [],
+      "reviewedBy": "dual-model-consensus (gpt-4o-mini + claude-haiku-4-5)",
+      "verificationNotes": "Automated dual-provider adjudication with parent-category verdict support (prompt trial-relevance-v2). Attention checks marked irrelevant. Publication range set to live Europe PMC union count."
+    },
+    {
+      "orphaCode": "636",
+      "name": "Neurofibromatosis type 1",
+      "verifiedOn": "2026-07-26",
+      "trueTrialCount": 13,
+      "truePublicationRange": [
+        28661,
+        28661
+      ],
+      "knownDifficulty": "none",
+      "notes": "Well studied.",
+      "knownRelevantNctIds": [
+        "NCT00076102",
+        "NCT00169611",
+        "NCT00624234",
+        "NCT00657202",
+        "NCT01362803",
+        "NCT01365468",
+        "NCT02407405",
+        "NCT02415153",
+        "NCT02944032",
+        "NCT03518710",
+        "NCT04481035",
+        "NCT06502171",
+        "NCT06507748"
+      ],
+      "knownIrrelevantNctIds": [],
+      "uncertainNctIds": [],
+      "knownParentCategoryNctIds": [
+        "NCT00901849",
+        "NCT03406208"
+      ],
+      "reviewedBy": "dual-model-consensus (gpt-4o-mini + claude-haiku-4-5)",
+      "verificationNotes": "Automated dual-provider adjudication with parent-category verdict support (prompt trial-relevance-v2). Attention checks marked irrelevant. Publication range set to live Europe PMC union count."
+    },
+    {
+      "orphaCode": "216",
+      "name": "Neuronal ceroid lipofuscinosis",
+      "verifiedOn": "2026-07-26",
+      "trueTrialCount": 8,
+      "truePublicationRange": [
+        6222,
+        6222
+      ],
+      "knownDifficulty": "umbrella",
+      "notes": "Umbrella category; subtypes (CLN1..CLN14) register separately.",
+      "knownRelevantNctIds": [
+        "NCT00337636",
+        "NCT01238315",
+        "NCT01399047",
+        "NCT01414985",
+        "NCT02725580",
+        "NCT04637282",
+        "NCT05152914",
+        "NCT05228145"
+      ],
+      "knownIrrelevantNctIds": [],
+      "uncertainNctIds": [
+        "NCT00151216",
+        "NCT01161576",
+        "NCT01907087",
+        "NCT02678689",
+        "NCT03770572"
+      ],
+      "knownParentCategoryNctIds": [
+        "NCT04974307",
+        "NCT05174039"
+      ],
+      "reviewedBy": "dual-model-consensus (gpt-4o-mini + claude-haiku-4-5)",
+      "verificationNotes": "Automated dual-provider adjudication with parent-category verdict support (prompt trial-relevance-v2). Attention checks marked irrelevant. Publication range set to live Europe PMC union count."
+    },
+    {
+      "orphaCode": "79167",
+      "name": "Urea cycle disorder",
+      "verifiedOn": "2026-07-26",
+      "trueTrialCount": 13,
+      "truePublicationRange": [
+        3860,
+        3860
+      ],
+      "knownDifficulty": "umbrella",
+      "notes": "Category over specific enzyme defects.",
+      "knownRelevantNctIds": [
+        "NCT00345605",
+        "NCT00551200",
+        "NCT00947297",
+        "NCT01257737",
+        "NCT01341379",
+        "NCT02124330",
+        "NCT03064048",
+        "NCT03179878",
+        "NCT03884959",
+        "NCT03911089",
+        "NCT03933410",
+        "NCT05671666",
+        "NCT06255782"
+      ],
+      "knownIrrelevantNctIds": [],
+      "uncertainNctIds": [
+        "NCT00986895",
+        "NCT06953505"
+      ],
+      "knownParentCategoryNctIds": [],
+      "reviewedBy": "dual-model-consensus (gpt-4o-mini + claude-haiku-4-5)",
+      "verificationNotes": "Automated dual-provider adjudication with parent-category verdict support (prompt trial-relevance-v2). Attention checks marked irrelevant. Publication range set to live Europe PMC union count. Exact-condition disagreements rechecked manually."
+    },
+    {
+      "orphaCode": "70",
+      "name": "Spinal muscular atrophy",
+      "manualAliases": [
+        "Spinal muscular atrophy",
+        "SMA"
+      ],
+      "verifiedOn": "2026-07-26",
+      "trueTrialCount": 1,
+      "truePublicationRange": [
+        177556,
+        177556
+      ],
+      "knownDifficulty": "none",
+      "notes": "High trial activity post-gene-therapy.",
+      "knownRelevantNctIds": [
+        "NCT05035823"
+      ],
+      "knownIrrelevantNctIds": [],
+      "uncertainNctIds": [
+        "NCT05901987"
+      ],
+      "knownParentCategoryNctIds": [
+        "NCT00439569",
+        "NCT01671384",
+        "NCT01839656",
+        "NCT02235090",
+        "NCT02550691",
+        "NCT03837184",
+        "NCT05337553",
+        "NCT05341453",
+        "NCT05794139"
+      ],
+      "reviewedBy": "dual-model-consensus (gpt-4o-mini + claude-haiku-4-5)",
+      "verificationNotes": "Automated dual-provider adjudication with parent-category verdict support (prompt trial-relevance-v2). Attention checks marked irrelevant. Publication range set to live Europe PMC union count."
+    },
+    {
+      "orphaCode": "637",
+      "name": "Full NF2-related schwannomatosis",
+      "manualAliases": [
+        "Neurofibromatosis type 2",
+        "NF2"
+      ],
+      "verifiedOn": "2026-07-26",
+      "trueTrialCount": 4,
+      "truePublicationRange": [
+        24014,
+        24014
+      ],
+      "knownDifficulty": "none",
+      "notes": "Type suffix; watch NF1 contamination.",
+      "knownRelevantNctIds": [
+        "NCT04374305",
+        "NCT07420751",
+        "NCT07708285",
+        "NCT07713745"
+      ],
+      "knownIrrelevantNctIds": [
+        "NCT01552434"
+      ],
+      "uncertainNctIds": [],
+      "knownParentCategoryNctIds": [
+        "NCT00911248",
+        "NCT01345136",
+        "NCT01419639",
+        "NCT01490476",
+        "NCT02129647",
+        "NCT02298270",
+        "NCT02831257",
+        "NCT03079999",
+        "NCT04283669",
+        "NCT05521048"
+      ],
+      "reviewedBy": "dual-model-consensus (gpt-4o-mini + claude-haiku-4-5)",
+      "verificationNotes": "Automated dual-provider adjudication with parent-category verdict support (prompt trial-relevance-v2). Attention checks marked irrelevant. Publication range set to live Europe PMC union count. Exact-condition disagreements rechecked manually."
+    },
+    {
+      "orphaCode": "355",
+      "name": "Gaucher disease",
+      "verifiedOn": "2026-07-26",
+      "trueTrialCount": 14,
+      "truePublicationRange": [
+        12325,
+        12325
+      ],
+      "knownDifficulty": "none",
+      "notes": "Eponym; well studied LSD.",
+      "knownRelevantNctIds": [
+        "NCT00365131",
+        "NCT00391625",
+        "NCT00478647",
+        "NCT00712348",
+        "NCT01161914",
+        "NCT01747980",
+        "NCT02067247",
+        "NCT02107846",
+        "NCT02574286",
+        "NCT03721627",
+        "NCT04050137",
+        "NCT05222906",
+        "NCT05487599",
+        "NCT06523517"
+      ],
+      "knownIrrelevantNctIds": [],
+      "uncertainNctIds": [
+        "NCT01898325"
+      ],
+      "knownParentCategoryNctIds": [],
+      "reviewedBy": "dual-model-consensus (gpt-4o-mini + claude-haiku-4-5)",
+      "verificationNotes": "Automated dual-provider adjudication with parent-category verdict support (prompt trial-relevance-v2). Attention checks marked irrelevant. Publication range set to live Europe PMC union count."
+    },
+    {
+      "orphaCode": "324",
+      "name": "Fabry disease",
+      "verifiedOn": "2026-07-26",
+      "trueTrialCount": 14,
+      "truePublicationRange": [
+        12631,
+        12631
+      ],
+      "knownDifficulty": "none",
+      "notes": "Eponym.",
+      "knownRelevantNctIds": [
+        "NCT00097890",
+        "NCT00304512",
+        "NCT00487630",
+        "NCT00526071",
+        "NCT00701415",
+        "NCT00837824",
+        "NCT03180840",
+        "NCT04002531",
+        "NCT04049760",
+        "NCT04050137",
+        "NCT04073888",
+        "NCT05067868",
+        "NCT05206773",
+        "NCT06019728"
+      ],
+      "knownIrrelevantNctIds": [],
+      "uncertainNctIds": [
+        "NCT02956954"
+      ],
+      "knownParentCategoryNctIds": [],
+      "reviewedBy": "dual-model-consensus (gpt-4o-mini + claude-haiku-4-5)",
+      "verificationNotes": "Automated dual-provider adjudication with parent-category verdict support (prompt trial-relevance-v2). Attention checks marked irrelevant. Publication range set to live Europe PMC union count. Exact-condition disagreements rechecked manually."
+    },
+    {
+      "orphaCode": "53",
+      "name": "Albers-Schonberg osteopetrosis / autosomal dominant osteopetrosis type 2",
+      "verifiedOn": "2026-07-26",
+      "trueTrialCount": 1,
+      "truePublicationRange": [
+        89,
+        89
+      ],
+      "knownDifficulty": "none",
+      "notes": "Eponymous; hyphen/diacritic variance across databases.",
+      "knownRelevantNctIds": [
+        "NCT02584608"
+      ],
+      "knownIrrelevantNctIds": [],
+      "uncertainNctIds": [],
+      "knownParentCategoryNctIds": [],
+      "reviewedBy": "dual-model-consensus (gpt-4o-mini + claude-haiku-4-5)",
+      "verificationNotes": "Automated dual-provider adjudication with parent-category verdict support (prompt trial-relevance-v2). Attention checks marked irrelevant. Publication range set to live Europe PMC union count."
+    },
+    {
+      "orphaCode": "300493",
+      "name": "Sagliker syndrome",
+      "verifiedOn": "2026-07-26",
+      "trueTrialCount": 0,
+      "truePublicationRange": [
+        54,
+        54
+      ],
+      "knownDifficulty": "none",
+      "notes": "Eponymous; small case-report literature, expected zero trials with real literature (defensibility case).",
+      "knownRelevantNctIds": [],
+      "knownIrrelevantNctIds": [],
+      "uncertainNctIds": [],
+      "knownParentCategoryNctIds": [],
+      "reviewedBy": "dual-model-consensus (gpt-4o-mini + claude-haiku-4-5)",
+      "verificationNotes": "Automated dual-provider adjudication with parent-category verdict support (prompt trial-relevance-v2). Attention checks marked irrelevant. Publication range set to live Europe PMC union count."
+    },
+    {
+      "orphaCode": "693869",
+      "name": "Gallblader arteriovenous malformation",
+      "verifiedOn": "2026-07-26",
+      "trueTrialCount": 0,
+      "truePublicationRange": [
+        4,
+        4
+      ],
+      "knownDifficulty": "misspelling",
+      "notes": "Source misspelling of 'Gallbladder' in Orphanet; near-zero literature; broken-query candidate.",
+      "knownRelevantNctIds": [],
+      "knownIrrelevantNctIds": [],
+      "uncertainNctIds": [],
+      "knownParentCategoryNctIds": [],
+      "reviewedBy": "dual-model-consensus (gpt-4o-mini + claude-haiku-4-5)",
+      "verificationNotes": "Automated dual-provider adjudication with parent-category verdict support (prompt trial-relevance-v2). Attention checks marked irrelevant. Publication range set to live Europe PMC union count."
+    },
+    {
+      "orphaCode": "658595",
+      "name": "DNMT3A-related microcephalic dwarfism (Heyn-Sproul-Jackson syndrome)",
+      "verifiedOn": "2026-07-26",
+      "trueTrialCount": 0,
+      "truePublicationRange": [
+        34,
+        34
+      ],
+      "knownDifficulty": "common-elsewhere",
+      "notes": "Gene-named descriptor; literature indexed under the eponym HESJAS, not the descriptor.",
+      "knownRelevantNctIds": [],
+      "knownIrrelevantNctIds": [
+        "NCT07188740"
+      ],
+      "uncertainNctIds": [],
+      "knownParentCategoryNctIds": [],
+      "reviewedBy": "dual-model-consensus (gpt-4o-mini + claude-haiku-4-5)",
+      "verificationNotes": "Automated dual-provider adjudication with parent-category verdict support (prompt trial-relevance-v2). Attention checks marked irrelevant. Publication range set to live Europe PMC union count."
+    },
+    {
+      "orphaCode": "293621",
+      "name": "X-linked endothelial corneal dystrophy",
+      "verifiedOn": "2026-07-26",
+      "trueTrialCount": 0,
+      "truePublicationRange": [
+        28,
+        28
+      ],
+      "knownDifficulty": "none",
+      "notes": "Ultra-rare descriptor; small literature.",
+      "knownRelevantNctIds": [],
+      "knownIrrelevantNctIds": [
+        "NCT01357122",
+        "NCT02653391",
+        "NCT03575130"
+      ],
+      "uncertainNctIds": [
+        "NCT04191629",
+        "NCT04812067",
+        "NCT04894110",
+        "NCT05136443",
+        "NCT05636579",
+        "NCT07711561"
+      ],
+      "knownParentCategoryNctIds": [
+        "NCT04520321"
+      ],
+      "reviewedBy": "dual-model-consensus (gpt-4o-mini + claude-haiku-4-5)",
+      "verificationNotes": "Automated dual-provider adjudication with parent-category verdict support (prompt trial-relevance-v2). Attention checks marked irrelevant. Publication range set to live Europe PMC union count."
+    },
+    {
+      "orphaCode": "3099",
+      "name": "Rheumatic fever",
+      "verifiedOn": "2026-07-26",
+      "trueTrialCount": 6,
+      "truePublicationRange": [
+        39489,
+        39489
+      ],
+      "knownDifficulty": "common-elsewhere",
+      "notes": "Common elsewhere but Orphanet-listed; high false-positive risk from broad literature.",
+      "knownRelevantNctIds": [
+        "NCT02407106",
+        "NCT03998592",
+        "NCT04798053",
+        "NCT06259006",
+        "NCT06400628",
+        "NCT07625228"
+      ],
+      "knownIrrelevantNctIds": [
+        "NCT07504887"
+      ],
+      "uncertainNctIds": [
+        "NCT05682196"
+      ],
+      "knownParentCategoryNctIds": [
+        "NCT07065474"
+      ],
+      "reviewedBy": "dual-model-consensus (gpt-4o-mini + claude-haiku-4-5)",
+      "verificationNotes": "Automated dual-provider adjudication with parent-category verdict support (prompt trial-relevance-v2). Attention checks marked irrelevant. Publication range set to live Europe PMC union count. Exact-condition disagreements rechecked manually."
+    },
+    {
+      "orphaCode": "636945",
+      "name": "Invasive candidiasis",
+      "verifiedOn": "2026-07-26",
+      "trueTrialCount": 15,
+      "truePublicationRange": [
+        14391,
+        14391
+      ],
+      "knownDifficulty": "common-elsewhere",
+      "notes": "Common infection; over-match risk.",
+      "knownRelevantNctIds": [
+        "NCT00037219",
+        "NCT00056368",
+        "NCT00106288",
+        "NCT00189709",
+        "NCT00496197",
+        "NCT00607763",
+        "NCT00608335",
+        "NCT01045798",
+        "NCT01176058",
+        "NCT01666769",
+        "NCT02244606",
+        "NCT03059992",
+        "NCT03363841",
+        "NCT05496725",
+        "NCT05848492"
+      ],
+      "knownIrrelevantNctIds": [],
+      "uncertainNctIds": [],
+      "knownParentCategoryNctIds": [],
+      "reviewedBy": "dual-model-consensus (gpt-4o-mini + claude-haiku-4-5)",
+      "verificationNotes": "Automated dual-provider adjudication with parent-category verdict support (prompt trial-relevance-v2). Attention checks marked irrelevant. Publication range set to live Europe PMC union count."
+    },
+    {
+      "orphaCode": "465508",
+      "name": "Symptomatic form of HFE-related hemochromatosis",
+      "manualAliases": [
+        "Hereditary hemochromatosis",
+        "HFE hemochromatosis",
+        "Hemochromatosis type 1"
+      ],
+      "verifiedOn": "2026-07-26",
+      "trueTrialCount": 0,
+      "truePublicationRange": [
+        6621,
+        6621
+      ],
+      "knownDifficulty": "none",
+      "notes": "Well studied.",
+      "knownRelevantNctIds": [],
+      "knownIrrelevantNctIds": [],
+      "uncertainNctIds": [
+        "NCT01524757",
+        "NCT02099214",
+        "NCT07332091"
+      ],
+      "knownParentCategoryNctIds": [
+        "NCT00395629",
+        "NCT00440986",
+        "NCT01398644",
+        "NCT01892644",
+        "NCT03990181",
+        "NCT05742035",
+        "NCT07371793"
+      ],
+      "reviewedBy": "dual-model-consensus (gpt-4o-mini + claude-haiku-4-5)",
+      "verificationNotes": "Automated dual-provider adjudication with parent-category verdict support (prompt trial-relevance-v2). Attention checks marked irrelevant. Publication range set to live Europe PMC union count. Exact-condition disagreements rechecked manually."
+    },
+    {
+      "orphaCode": "739",
+      "name": "Prader-Willi syndrome",
+      "verifiedOn": "2026-07-26",
+      "trueTrialCount": 13,
+      "truePublicationRange": [
+        11995,
+        11995
+      ],
+      "knownDifficulty": "none",
+      "notes": "Eponym.",
+      "knownRelevantNctIds": [
+        "NCT00372125",
+        "NCT00551343",
+        "NCT01444898",
+        "NCT01818921",
+        "NCT02810483",
+        "NCT03114371",
+        "NCT03274856",
+        "NCT03714373",
+        "NCT04066088",
+        "NCT04697381",
+        "NCT05657860",
+        "NCT06720571",
+        "NCT07266324"
+      ],
+      "knownIrrelevantNctIds": [],
+      "uncertainNctIds": [
+        "NCT02527200",
+        "NCT07122505"
+      ],
+      "knownParentCategoryNctIds": [],
+      "reviewedBy": "dual-model-consensus (gpt-4o-mini + claude-haiku-4-5)",
+      "verificationNotes": "Automated dual-provider adjudication with parent-category verdict support (prompt trial-relevance-v2). Attention checks marked irrelevant. Publication range set to live Europe PMC union count."
+    },
+    {
+      "orphaCode": "98878",
+      "name": "Hemophilia A",
+      "verifiedOn": "2026-07-26",
+      "trueTrialCount": 15,
+      "truePublicationRange": [
+        60681,
+        60681
+      ],
+      "knownDifficulty": "none",
+      "notes": "High trial activity.",
+      "knownRelevantNctIds": [
+        "NCT00994929",
+        "NCT02483208",
+        "NCT03003533",
+        "NCT03103542",
+        "NCT04370054",
+        "NCT04592692",
+        "NCT04759131",
+        "NCT04845399",
+        "NCT05036278",
+        "NCT05281718",
+        "NCT05487976",
+        "NCT06142552",
+        "NCT06297655",
+        "NCT07116993",
+        "NCT07416526"
+      ],
+      "knownIrrelevantNctIds": [],
+      "uncertainNctIds": [],
+      "knownParentCategoryNctIds": [],
+      "reviewedBy": "dual-model-consensus (gpt-4o-mini + claude-haiku-4-5)",
+      "verificationNotes": "Automated dual-provider adjudication with parent-category verdict support (prompt trial-relevance-v2). Attention checks marked irrelevant. Publication range set to live Europe PMC union count."
+    },
+    {
+      "orphaCode": "98767",
+      "name": "Spinocerebellar ataxia type 11 (SCA11)",
+      "verifiedOn": "2026-07-26",
+      "trueTrialCount": 0,
+      "truePublicationRange": [
+        257,
+        257
+      ],
+      "knownDifficulty": "none",
+      "notes": "Ultra-rare; pan-registry NCT01793168 must NOT count as a trial.",
+      "knownRelevantNctIds": [],
+      "knownIrrelevantNctIds": [],
+      "uncertainNctIds": [],
+      "knownParentCategoryNctIds": [],
+      "reviewedBy": "dual-model-consensus (gpt-4o-mini + claude-haiku-4-5)",
+      "verificationNotes": "Automated dual-provider adjudication with parent-category verdict support (prompt trial-relevance-v2). Attention checks marked irrelevant. Publication range set to live Europe PMC union count."
+    },
+    {
+      "orphaCode": "98",
+      "name": "Autosomal recessive spastic ataxia of Charlevoix-Saguenay (ARSACS)",
+      "verifiedOn": "2026-07-26",
+      "trueTrialCount": 4,
+      "truePublicationRange": [
+        678,
+        678
+      ],
+      "knownDifficulty": "none",
+      "notes": "Pan-registry exclusion case; real literature, expected zero condition-specific trials.",
+      "knownRelevantNctIds": [
+        "NCT05479656",
+        "NCT05768750",
+        "NCT06261424",
+        "NCT06596850"
+      ],
+      "knownIrrelevantNctIds": [
+        "NCT00434122",
+        "NCT03330925",
+        "NCT04837560"
+      ],
+      "uncertainNctIds": [
+        "NCT01104649",
+        "NCT01489267",
+        "NCT04301284"
+      ],
+      "knownParentCategoryNctIds": [
+        "NCT04261127"
+      ],
+      "reviewedBy": "dual-model-consensus (gpt-4o-mini + claude-haiku-4-5)",
+      "verificationNotes": "Automated dual-provider adjudication with parent-category verdict support (prompt trial-relevance-v2). Attention checks marked irrelevant. Publication range set to live Europe PMC union count."
+    },
+    {
+      "orphaCode": "signature-ultra-rare-1",
+      "name": "placeholder-skip",
+      "verifiedOn": "2026-07-26",
+      "trueTrialCount": 0,
+      "truePublicationRange": [
+        0,
+        0
+      ],
+      "knownDifficulty": "none",
+      "notes": "SKIP: non-numeric orphaCode placeholder; ignored by the harness."
+    },
+    {
+      "orphaCode": "36383",
+      "name": "COL4A1/2-related familial vascular leukoencephalopathy",
+      "manualAliases": [
+        "COL4A1-related brain small-vessel disease"
+      ],
+      "verifiedOn": "2026-07-26",
+      "trueTrialCount": 1,
+      "truePublicationRange": [
+        96,
+        96
+      ],
+      "knownDifficulty": "common-elsewhere",
+      "notes": "Gene-named descriptor; literature under 'COL4A1' broadly.",
+      "knownRelevantNctIds": [
+        "NCT07374913"
+      ],
+      "knownIrrelevantNctIds": [],
+      "uncertainNctIds": [],
+      "knownParentCategoryNctIds": [],
+      "reviewedBy": "dual-model-consensus (gpt-4o-mini + claude-haiku-4-5)",
+      "verificationNotes": "Automated dual-provider adjudication with parent-category verdict support (prompt trial-relevance-v2). Attention checks marked irrelevant. Publication range set to live Europe PMC union count."
+    },
+    {
+      "orphaCode": "558",
+      "name": "Marfan syndrome",
+      "verifiedOn": "2026-07-26",
+      "trueTrialCount": 14,
+      "truePublicationRange": [
+        22294,
+        22294
+      ],
+      "knownDifficulty": "none",
+      "notes": "Eponym; well studied.",
+      "knownRelevantNctIds": [
+        "NCT00651235",
+        "NCT00723801",
+        "NCT00782327",
+        "NCT01295047",
+        "NCT01361087",
+        "NCT01707563",
+        "NCT01715207",
+        "NCT03236571",
+        "NCT03581682",
+        "NCT04553094",
+        "NCT05711693",
+        "NCT05809323",
+        "NCT06872268",
+        "NCT07495267"
+      ],
+      "knownIrrelevantNctIds": [],
+      "uncertainNctIds": [
+        "NCT03985657"
+      ],
+      "knownParentCategoryNctIds": [],
+      "reviewedBy": "dual-model-consensus (gpt-4o-mini + claude-haiku-4-5)",
+      "verificationNotes": "Automated dual-provider adjudication with parent-category verdict support (prompt trial-relevance-v2). Attention checks marked irrelevant. Publication range set to live Europe PMC union count."
+    },
+    {
+      "orphaCode": "905",
+      "name": "Wilson disease",
+      "verifiedOn": "2026-07-26",
+      "trueTrialCount": 15,
+      "truePublicationRange": [
+        20553,
+        20553
+      ],
+      "knownDifficulty": "none",
+      "notes": "Eponym.",
+      "knownRelevantNctIds": [
+        "NCT00004338",
+        "NCT00004339",
+        "NCT00212368",
+        "NCT01472874",
+        "NCT02273596",
+        "NCT02552628",
+        "NCT03659331",
+        "NCT04526197",
+        "NCT04537377",
+        "NCT04884815",
+        "NCT05493605",
+        "NCT06128954",
+        "NCT07010575",
+        "NCT07173933",
+        "NCT07240896"
+      ],
+      "knownIrrelevantNctIds": [],
+      "uncertainNctIds": [],
+      "knownParentCategoryNctIds": [],
+      "reviewedBy": "dual-model-consensus (gpt-4o-mini + claude-haiku-4-5)",
+      "verificationNotes": "Automated dual-provider adjudication with parent-category verdict support (prompt trial-relevance-v2). Attention checks marked irrelevant. Publication range set to live Europe PMC union count."
+    },
+    {
+      "orphaCode": "1762",
+      "name": "Proximal Xq28 duplication syndrome",
+      "manualAliases": [
+        "MECP2 duplication syndrome"
+      ],
+      "verifiedOn": "2026-07-26",
+      "trueTrialCount": 1,
+      "truePublicationRange": [
+        728,
+        728
+      ],
+      "knownDifficulty": "none",
+      "notes": "Gene-named but with a well-used descriptor.",
+      "knownRelevantNctIds": [
+        "NCT06615206"
+      ],
+      "knownIrrelevantNctIds": [
+        "NCT02110797",
+        "NCT06739434",
+        "NCT06856759",
+        "NCT07257978",
+        "NCT07430046"
+      ],
+      "uncertainNctIds": [
+        "NCT06430385"
+      ],
+      "knownParentCategoryNctIds": [],
+      "reviewedBy": "dual-model-consensus (gpt-4o-mini + claude-haiku-4-5)",
+      "verificationNotes": "Automated dual-provider adjudication with parent-category verdict support (prompt trial-relevance-v2). Attention checks marked irrelevant. Publication range set to live Europe PMC union count. Exact-condition disagreements rechecked manually."
+    },
+    {
+      "orphaCode": "778",
+      "name": "Rett syndrome",
+      "verifiedOn": "2026-07-26",
+      "trueTrialCount": 15,
+      "truePublicationRange": [
+        14894,
+        14894
+      ],
+      "knownDifficulty": "none",
+      "notes": "Eponym.",
+      "knownRelevantNctIds": [
+        "NCT01777542",
+        "NCT02061137",
+        "NCT02428673",
+        "NCT02696044",
+        "NCT02715115",
+        "NCT02790034",
+        "NCT02885090",
+        "NCT03848442",
+        "NCT04014985",
+        "NCT04252586",
+        "NCT04776746",
+        "NCT06199700",
+        "NCT06856759",
+        "NCT07150013",
+        "NCT07430046"
+      ],
+      "knownIrrelevantNctIds": [],
+      "uncertainNctIds": [],
+      "knownParentCategoryNctIds": [],
+      "reviewedBy": "dual-model-consensus (gpt-4o-mini + claude-haiku-4-5)",
+      "verificationNotes": "Automated dual-provider adjudication with parent-category verdict support (prompt trial-relevance-v2). Attention checks marked irrelevant. Publication range set to live Europe PMC union count."
+    },
+    {
+      "orphaCode": "213",
+      "name": "Cystinosis",
+      "verifiedOn": "2026-07-26",
+      "trueTrialCount": 14,
+      "truePublicationRange": [
+        4698,
+        4698
+      ],
+      "knownDifficulty": "none",
+      "notes": "Single-word name.",
+      "knownRelevantNctIds": [
+        "NCT00001213",
+        "NCT00822250",
+        "NCT00872729",
+        "NCT01614431",
+        "NCT02012114",
+        "NCT02124070",
+        "NCT02533076",
+        "NCT03897361",
+        "NCT04071548",
+        "NCT04125927",
+        "NCT05508009",
+        "NCT05994534",
+        "NCT06910813",
+        "NCT07319091"
+      ],
+      "knownIrrelevantNctIds": [
+        "NCT02781636"
+      ],
+      "uncertainNctIds": [],
+      "knownParentCategoryNctIds": [],
+      "reviewedBy": "dual-model-consensus (gpt-4o-mini + claude-haiku-4-5)",
+      "verificationNotes": "Automated dual-provider adjudication with parent-category verdict support (prompt trial-relevance-v2). Attention checks marked irrelevant. Publication range set to live Europe PMC union count."
+    },
+    {
+      "orphaCode": "79241",
+      "name": "Biotinidase deficiency",
+      "verifiedOn": "2026-07-26",
+      "trueTrialCount": 1,
+      "truePublicationRange": [
+        1610,
+        1610
+      ],
+      "knownDifficulty": "none",
+      "notes": "Metabolic; moderate literature.",
+      "knownRelevantNctIds": [
+        "NCT03269045"
+      ],
+      "knownIrrelevantNctIds": [],
+      "uncertainNctIds": [],
+      "knownParentCategoryNctIds": [],
+      "reviewedBy": "dual-model-consensus (gpt-4o-mini + claude-haiku-4-5)",
+      "verificationNotes": "Automated dual-provider adjudication with parent-category verdict support (prompt trial-relevance-v2). Attention checks marked irrelevant. Publication range set to live Europe PMC union count."
+    },
+    {
+      "orphaCode": "60",
+      "name": "Alpha-1-antitrypsin deficiency",
+      "verifiedOn": "2026-07-26",
+      "trueTrialCount": 14,
+      "truePublicationRange": [
+        10873,
+        10873
+      ],
+      "knownDifficulty": "none",
+      "notes": "Hyphenation variance across databases.",
+      "knownRelevantNctIds": [
+        "NCT00313144",
+        "NCT01054339",
+        "NCT01862211",
+        "NCT02363946",
+        "NCT03114020",
+        "NCT03455686",
+        "NCT03945292",
+        "NCT05579431",
+        "NCT05897424",
+        "NCT06049082",
+        "NCT06622668",
+        "NCT06738017",
+        "NCT06996756",
+        "NCT07193615"
+      ],
+      "knownIrrelevantNctIds": [],
+      "uncertainNctIds": [
+        "NCT00670007"
+      ],
+      "knownParentCategoryNctIds": [],
+      "reviewedBy": "dual-model-consensus (gpt-4o-mini + claude-haiku-4-5)",
+      "verificationNotes": "Automated dual-provider adjudication with parent-category verdict support (prompt trial-relevance-v2). Attention checks marked irrelevant. Publication range set to live Europe PMC union count."
+    },
+    {
+      "orphaCode": "438213",
+      "name": "PURA-related severe neonatal hypotonia-seizures-encephalopathy syndrome",
+      "verifiedOn": "2026-07-26",
+      "trueTrialCount": 0,
+      "truePublicationRange": [
+        20,
+        20
+      ],
+      "knownDifficulty": "common-elsewhere",
+      "notes": "Gene-named descriptor; literature under 'PURA syndrome'. Parent-artifact / broken-query risk.",
+      "knownRelevantNctIds": [],
+      "knownIrrelevantNctIds": [],
+      "uncertainNctIds": [],
+      "knownParentCategoryNctIds": [],
+      "reviewedBy": "dual-model-consensus (gpt-4o-mini + claude-haiku-4-5)",
+      "verificationNotes": "Automated dual-provider adjudication with parent-category verdict support (prompt trial-relevance-v2). Attention checks marked irrelevant. Publication range set to live Europe PMC union count."
+    }
+  ]
+}

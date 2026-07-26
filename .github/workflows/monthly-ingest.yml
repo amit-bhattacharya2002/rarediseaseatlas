@@ -1,0 +1,97 @@
+# Full corpus ingest via checkpoint-resume chain (GitHub-hosted ~6h cap).
+# Prefer a self-hosted runner for a one-shot monthly ingest when available.
+name: Monthly full ingest (resume chain)
+
+on:
+  schedule:
+    - cron: "30 4 1 * *" # 04:30 UTC on the 1st
+  workflow_dispatch:
+    inputs:
+      continue:
+        description: "Set true to resume from checkpoint without resetting"
+        required: false
+        default: "true"
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: monthly-ingest
+  cancel-in-progress: false
+
+jobs:
+  ingest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Snapshot before (published)
+        run: cp data/diseases.json /tmp/diseases.before.json
+
+      - name: Full ingest with resume
+        run: npx tsx scripts/ingest.ts --full --resume
+        continue-on-error: true
+        id: ingest
+
+      - name: Commit checkpoint progress
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/diseases.checkpoint.json data/diseases.json data/refresh-log.jsonl || true
+          if git diff --staged --quiet; then
+            echo "No checkpoint changes"
+          else
+            git commit -m "data: monthly ingest checkpoint/progress"
+            git push
+          fi
+
+      - name: Derive + guards when published
+        if: hashFiles('data/diseases.json') != ''
+        run: |
+          # Only run loud monthly guards when diseases.json changed vs before
+          if cmp -s /tmp/diseases.before.json data/diseases.json; then
+            echo "Published artifact unchanged — ingest not complete yet"
+            exit 0
+          fi
+          npm run derive
+          npm run assert:refresh-guards -- \
+            --mode monthly \
+            --before /tmp/diseases.before.json \
+            --after data/diseases.json
+          git add data/diseases.json
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if ! git diff --staged --quiet; then
+            git commit -m "data: monthly full ingest publish"
+            git push
+          fi
+
+      - name: Re-dispatch if incomplete
+        if: success() || failure()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # If checkpoint exists and is smaller than a full publish expectation,
+          # continue the chain. Heuristic: checkpoint newer/larger than publish
+          # or publish unchanged after a failed ingest.
+          if [[ -f data/diseases.checkpoint.json ]]; then
+            before=$(node -e "console.log(require('/tmp/diseases.before.json').diseases.length)")
+            after=$(node -e "console.log(require('./data/diseases.json').diseases.length)")
+            ckpt=$(node -e "console.log(require('./data/diseases.checkpoint.json').diseases.length)")
+            echo "before=$before after=$after checkpoint=$ckpt"
+            if [[ "$after" -eq "$before" && "$ckpt" -gt "$after" ]]; then
+              echo "Ingest incomplete — re-dispatching resume chain"
+              gh workflow run monthly-ingest.yml -f continue=true
+            fi
+          fi

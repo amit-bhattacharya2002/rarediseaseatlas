@@ -1,0 +1,188 @@
+{
+  "snapshotDate": "2026-07-26",
+  "artifactSource": "data/diseases.sample300-seed42.json",
+  "defectProvenanceSource": "data/defect-provenance.json",
+  "orphanetVersion": "2026-06-23 07:53:50",
+  "mondoVersion": "http://purl.obolibrary.org/obo/mondo/releases/2026-07-06/mondo.owl",
+  "genccVersion": "max_submitted_run_date=2026-07-19",
+  "sampling": {
+    "mode": "sample",
+    "n": 300,
+    "seed": 42,
+    "excludedObsoleteOrNonRare": 801
+  },
+  "corpusLevels": {
+    "product1Total": 11645,
+    "byDisorderGroup": {
+      "Disorder": 7515,
+      "Subtype of disorder": 1457,
+      "Group of disorders": 2673
+    },
+    "afterDroppingGroups": 8972,
+    "excludedObsoleteOrNonRarePreferredNames": 801,
+    "atlasUsableEstimate": 8171,
+    "commonlyCitedDisorderLevel": 7515,
+    "reconciliationNote": "Orphanet product1 lists every nomenclature row: Disorder, Subtype of disorder, and Group of disorders. The figure 11,645 is that full row count. The commonly cited “about 7,000 rare diseases” aligns with the Disorder level alone (clinical disease entities), not with groups or every subtype. This atlas samples from usable non-group rows after dropping OBSOLETE: and NON RARE IN EUROPE: preferred names."
+  },
+  "searchability": {
+    "sampled": 300,
+    "brokenQueryRows": 43,
+    "brokenSharePct": 14.3,
+    "publicationsDenominator": 183,
+    "publicationsExcludedFromDenom": 117,
+    "publicationsExcludedPct": 39,
+    "examples": [
+      {
+        "orphaCode": "1129",
+        "name": "Arachnodactyly-abnormal ossification-intellectual disability syndrome",
+        "reason": "Every search strategy returned zero across Europe PMC and ClinicalTrials.gov — this is almost always a query-construction problem, not absence of research."
+      },
+      {
+        "orphaCode": "1174",
+        "name": "Cerebellar ataxia-ectodermal dysplasia syndrome",
+        "reason": "Every search strategy returned zero across Europe PMC and ClinicalTrials.gov — this is almost always a query-construction problem, not absence of research."
+      },
+      {
+        "orphaCode": "1564",
+        "name": "Dandy-Walker malformation-facial hemangioma syndrome",
+        "reason": "Every search strategy returned zero across Europe PMC and ClinicalTrials.gov — this is almost always a query-construction problem, not absence of research."
+      },
+      {
+        "orphaCode": "2269",
+        "name": "Ichthyosis-alopecia-eclabion-ectropion-intellectual disability syndrome",
+        "reason": "Every search strategy returned zero across Europe PMC and ClinicalTrials.gov — this is almost always a query-construction problem, not absence of research."
+      },
+      {
+        "orphaCode": "2408",
+        "name": "Lowe-Kohn-Cohen syndrome",
+        "reason": "Every search strategy returned zero across Europe PMC and ClinicalTrials.gov — this is almost always a query-construction problem, not absence of research."
+      },
+      {
+        "orphaCode": "2519",
+        "name": "Microcephaly-seizures-intellectual disability-heart disease syndrome",
+        "reason": "Every search strategy returned zero across Europe PMC and ClinicalTrials.gov — this is almost always a query-construction problem, not absence of research."
+      },
+      {
+        "orphaCode": "3194",
+        "name": "Corneodermatoosseous syndrome",
+        "reason": "Every search strategy returned zero across Europe PMC and ClinicalTrials.gov — this is almost always a query-construction problem, not absence of research."
+      },
+      {
+        "orphaCode": "3224",
+        "name": "Deafness-genital anomalies-metacarpal and metatarsal synostosis syndrome",
+        "reason": "Every search strategy returned zero across Europe PMC and ClinicalTrials.gov — this is almost always a query-construction problem, not absence of research."
+      }
+    ]
+  },
+  "trials": {
+    "trialsDenominator": 255,
+    "noTrialsSpecific": 151,
+    "noTrialsSpecificPct": 59.2,
+    "noTrialsParentInclusive": 125,
+    "noTrialsParentInclusivePct": 49,
+    "preliminary": true,
+    "preliminaryNote": "Trial relevance has dual-model adjudication on a 33-disease gold set; full human validation of trial relevance is not yet complete. Treat the sensitivity range as preliminary."
+  },
+  "labelDefects": {
+    "framing": "method-fragility",
+    "disorderEntriesInProduct1": 11645,
+    "upstreamPreferredLabelMisspellings": 3,
+    "upstreamShareOfProduct1Pct": 0,
+    "defects": [
+      {
+        "orphaCode": "693869",
+        "preferredLabel": "Gallblader arteriovenous malformation",
+        "suspectedForm": "Gallblader",
+        "synonyms": [
+          "Arteriovenous malformation of gallbladder"
+        ],
+        "orphanetUrl": "https://www.orpha.net/en/disease/detail/693869",
+        "note": "Preferred label spelling \"Gallblader\" vs standard \"gallbladder\". Raw preferred Name equals our parsed label — form is upstream, not introduced by the parser."
+      },
+      {
+        "orphaCode": "53583",
+        "preferredLabel": "Paroxysmal dystonic choreathetosis with episodic ataxia and spasticity",
+        "suspectedForm": "choreathetosis",
+        "synonyms": [
+          "DYT9",
+          "Episodic choreoathetosis/spasticity"
+        ],
+        "orphanetUrl": "https://www.orpha.net/en/disease/detail/53583",
+        "note": "Preferred label uses \"choreathetosis\"; synonym uses \"choreoathetosis\". Raw preferred Name equals our parsed label — form is upstream, not introduced by the parser."
+      },
+      {
+        "orphaCode": "436159",
+        "preferredLabel": "Autoimmune lymphoproliferative syndrome due to CTLA4 haploinsuffiency",
+        "suspectedForm": "haploinsuffiency",
+        "synonyms": [
+          "ALPS due to CTLA4 haploinsuffiency",
+          "CHAI",
+          "CTLA-4 haploinsufficiency with autoimmune infiltration disease"
+        ],
+        "orphanetUrl": "https://www.orpha.net/en/disease/detail/436159",
+        "note": "Preferred label spelling \"haploinsuffiency\" vs \"haploinsufficiency\". Raw preferred Name equals our parsed label — form is upstream, not introduced by the parser."
+      }
+    ],
+    "corpusMisspellingCounts": {
+      "gallbladerPreferred": 1,
+      "haploinsuffiencyPreferred": 1,
+      "choreathetosisPreferred": 1
+    }
+  },
+  "hyperSpecificLabels": {
+    "countZeroWithInformativeParent": 17,
+    "examples": [
+      {
+        "orphaCode": "2269",
+        "name": "Ichthyosis-alopecia-eclabion-ectropion-intellectual disability syndrome",
+        "publicationTotal": 0,
+        "mondoParentLabel": "ectodermal dysplasia syndrome",
+        "mondoParentPublications": 690,
+        "geneRelatedForm": false
+      },
+      {
+        "orphaCode": "1174",
+        "name": "Cerebellar ataxia-ectodermal dysplasia syndrome",
+        "publicationTotal": 0,
+        "mondoParentLabel": "ectodermal dysplasia syndrome",
+        "mondoParentPublications": 690,
+        "geneRelatedForm": false
+      },
+      {
+        "orphaCode": "466921",
+        "name": "Childhood-onset progressive contractures-limb-girdle weakness-muscle dystrophy syndrome",
+        "publicationTotal": 0,
+        "mondoParentLabel": "progressive muscular dystrophy",
+        "mondoParentPublications": 2712,
+        "geneRelatedForm": false
+      },
+      {
+        "orphaCode": "308621",
+        "name": "Glycogen storage disease due to glycogen branching enzyme deficiency, progressive hepatic form",
+        "publicationTotal": 0,
+        "mondoParentLabel": "disorder of glycogen metabolism",
+        "mondoParentPublications": 117,
+        "geneRelatedForm": false
+      }
+    ],
+    "geneRelatedInSample": 12,
+    "geneRelatedExamples": [
+      {
+        "orphaCode": "610573",
+        "name": "CLCN6-related childhood-onset progressive neurodegeneration-peripheral neuropathy syndrome",
+        "publicationTotal": 1,
+        "queryStatus": "suspect"
+      },
+      {
+        "orphaCode": "692812",
+        "name": "RAC2-related combined immunodeficiency-bronchiectasis-cancer-predisposing syndrome",
+        "publicationTotal": 0,
+        "queryStatus": "broken"
+      }
+    ]
+  },
+  "housekeeping": {
+    "excludedObsoleteOrNonRare": 801,
+    "note": "Preferred names beginning OBSOLETE: or NON RARE IN EUROPE: are dropped before atlas sampling. A literal query for such a prefixed string returns no literature even when the underlying condition is well studied."
+  }
+}

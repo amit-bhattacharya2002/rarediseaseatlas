@@ -1,0 +1,173 @@
+{
+  "verifiedOn": "2026-07-26",
+  "orphanetSourceFile": "/Users/amitbhattacharya/RRD/.cache/en_product1.xml",
+  "orphanetVersion": "2026-06-23 07:53:50",
+  "orphanetJdbor": {
+    "date": "2026-06-23 07:53:50",
+    "version": "1.3.42 / 4.1.8 [2025-03-03]"
+  },
+  "disorderCountInXml": 11645,
+  "defects": [
+    {
+      "orphaCode": "693869",
+      "kind": "misspelling",
+      "suspectedForm": "Gallblader",
+      "rawSourceLabel": "Gallblader arteriovenous malformation",
+      "rawSynonyms": [
+        "Arteriovenous malformation of gallbladder"
+      ],
+      "parsedLabel": "Gallblader arteriovenous malformation",
+      "origin": "upstream",
+      "note": "Preferred label spelling \"Gallblader\" vs standard \"gallbladder\". Raw preferred Name equals our parsed label — form is upstream, not introduced by the parser."
+    },
+    {
+      "orphaCode": "658595",
+      "kind": "missing-word-boundary",
+      "suspectedForm": "microcephalicdwarfism",
+      "rawSourceLabel": "DNMT3A-related microcephalic dwarfism",
+      "rawSynonyms": [
+        "HESJAS",
+        "Heyn-Sproul-Jackson syndrome",
+        "Microcephaly-short stature-intellectual disability syndrome"
+      ],
+      "parsedLabel": "DNMT3A-related microcephalic dwarfism",
+      "origin": "not-reproduced",
+      "note": "Suspected glued form \"microcephalicdwarfism\" in preferred label. Not found in raw preferred Name (\"DNMT3A-related microcephalic dwarfism\") or synonyms [HESJAS; Heyn-Sproul-Jackson syndrome; Microcephaly-short stature-intellectual disability syndrome]."
+    },
+    {
+      "orphaCode": "293621",
+      "kind": "missing-word-boundary",
+      "suspectedForm": "cornealdystrophy",
+      "rawSourceLabel": "X-linked endothelial corneal dystrophy",
+      "rawSynonyms": [
+        "XECD"
+      ],
+      "parsedLabel": "X-linked endothelial corneal dystrophy",
+      "origin": "not-reproduced",
+      "note": "Suspected glued form \"cornealdystrophy\" in preferred label. Not found in raw preferred Name (\"X-linked endothelial corneal dystrophy\") or synonyms [XECD]."
+    },
+    {
+      "orphaCode": "53583",
+      "kind": "misspelling",
+      "suspectedForm": "choreathetosis",
+      "rawSourceLabel": "Paroxysmal dystonic choreathetosis with episodic ataxia and spasticity",
+      "rawSynonyms": [
+        "DYT9",
+        "Episodic choreoathetosis/spasticity"
+      ],
+      "parsedLabel": "Paroxysmal dystonic choreathetosis with episodic ataxia and spasticity",
+      "origin": "upstream",
+      "note": "Preferred label uses \"choreathetosis\"; synonym uses \"choreoathetosis\". Raw preferred Name equals our parsed label — form is upstream, not introduced by the parser."
+    },
+    {
+      "orphaCode": "436159",
+      "kind": "misspelling",
+      "suspectedForm": "haploinsuffiency",
+      "rawSourceLabel": "Autoimmune lymphoproliferative syndrome due to CTLA4 haploinsuffiency",
+      "rawSynonyms": [
+        "ALPS due to CTLA4 haploinsuffiency",
+        "CHAI",
+        "CTLA-4 haploinsufficiency with autoimmune infiltration disease"
+      ],
+      "parsedLabel": "Autoimmune lymphoproliferative syndrome due to CTLA4 haploinsuffiency",
+      "origin": "upstream",
+      "note": "Preferred label spelling \"haploinsuffiency\" vs \"haploinsufficiency\". Raw preferred Name equals our parsed label — form is upstream, not introduced by the parser."
+    }
+  ],
+  "corpusScan": {
+    "missingWordBoundary": {
+      "countPreferred": 0,
+      "countAnyLabel": 0,
+      "examples": []
+    },
+    "misspellings": {
+      "gallblader": {
+        "description": "\"gallblader\" (missing second \"d\")",
+        "countPreferred": 1,
+        "countAnyLabel": 2,
+        "examples": [
+          {
+            "orphaCode": "424996",
+            "label": "Squamous cell carcinoma of gallblader and EBT",
+            "field": "Synonym"
+          },
+          {
+            "orphaCode": "693869",
+            "label": "Gallblader arteriovenous malformation",
+            "field": "Name"
+          }
+        ]
+      },
+      "haploinsuffiency": {
+        "description": "\"haploinsuffiency\" (missing \"c\")",
+        "countPreferred": 1,
+        "countAnyLabel": 1,
+        "examples": [
+          {
+            "orphaCode": "436159",
+            "label": "Autoimmune lymphoproliferative syndrome due to CTLA4 haploinsuffiency",
+            "field": "Name"
+          }
+        ]
+      },
+      "choreathetosis-not-choreo": {
+        "description": "\"choreathetosis\" (vs \"choreoathetosis\"; report occurrence, not clinical correctness)",
+        "countPreferred": 1,
+        "countAnyLabel": 2,
+        "examples": [
+          {
+            "orphaCode": "53583",
+            "label": "Paroxysmal dystonic choreathetosis with episodic ataxia and spasticity",
+            "field": "Name"
+          },
+          {
+            "orphaCode": "98809",
+            "label": "Paroxysmal kinesigenic choreathetosis",
+            "field": "Synonym"
+          }
+        ]
+      }
+    }
+  },
+  "publishableDefects": [
+    {
+      "orphaCode": "693869",
+      "kind": "misspelling",
+      "suspectedForm": "Gallblader",
+      "rawSourceLabel": "Gallblader arteriovenous malformation",
+      "rawSynonyms": [
+        "Arteriovenous malformation of gallbladder"
+      ],
+      "parsedLabel": "Gallblader arteriovenous malformation",
+      "origin": "upstream",
+      "note": "Preferred label spelling \"Gallblader\" vs standard \"gallbladder\". Raw preferred Name equals our parsed label — form is upstream, not introduced by the parser."
+    },
+    {
+      "orphaCode": "53583",
+      "kind": "misspelling",
+      "suspectedForm": "choreathetosis",
+      "rawSourceLabel": "Paroxysmal dystonic choreathetosis with episodic ataxia and spasticity",
+      "rawSynonyms": [
+        "DYT9",
+        "Episodic choreoathetosis/spasticity"
+      ],
+      "parsedLabel": "Paroxysmal dystonic choreathetosis with episodic ataxia and spasticity",
+      "origin": "upstream",
+      "note": "Preferred label uses \"choreathetosis\"; synonym uses \"choreoathetosis\". Raw preferred Name equals our parsed label — form is upstream, not introduced by the parser."
+    },
+    {
+      "orphaCode": "436159",
+      "kind": "misspelling",
+      "suspectedForm": "haploinsuffiency",
+      "rawSourceLabel": "Autoimmune lymphoproliferative syndrome due to CTLA4 haploinsuffiency",
+      "rawSynonyms": [
+        "ALPS due to CTLA4 haploinsuffiency",
+        "CHAI",
+        "CTLA-4 haploinsufficiency with autoimmune infiltration disease"
+      ],
+      "parsedLabel": "Autoimmune lymphoproliferative syndrome due to CTLA4 haploinsuffiency",
+      "origin": "upstream",
+      "note": "Preferred label spelling \"haploinsuffiency\" vs \"haploinsufficiency\". Raw preferred Name equals our parsed label — form is upstream, not introduced by the parser."
+    }
+  ]
+}
