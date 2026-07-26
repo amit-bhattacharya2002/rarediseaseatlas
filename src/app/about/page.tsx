@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { diseasesArtifact, getAggregate, indiaNprd } from "@/lib/data";
 import {
   GITHUB_ISSUES_URL,
@@ -56,6 +57,17 @@ export default function AboutPage() {
         >
           Instagram
         </a>
+      </p>
+
+      <p className="mt-4 font-sans text-sm text-mute">
+        Plain definitions for site terms and clinical language:{" "}
+        <Link
+          href="/glossary"
+          className="underline decoration-line underline-offset-2 hover:text-ink"
+        >
+          Glossary
+        </Link>
+        .
       </p>
 
       <section className="mt-12">

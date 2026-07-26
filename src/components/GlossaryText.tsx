@@ -1,11 +1,16 @@
 "use client";
 
+import Link from "next/link";
 import { Fragment, useMemo, useState } from "react";
-import { GLOSSARY, GLOSSARY_TERMS } from "@/lib/glossary";
+import {
+  GLOSSARY,
+  GLOSSARY_TERM_IDS,
+  GLOSSARY_TERMS,
+} from "@/lib/glossary";
 
 type Segment =
   | { type: "text"; value: string }
-  | { type: "term"; value: string; gloss: string };
+  | { type: "term"; value: string; gloss: string; glossaryId?: string };
 
 function segmentText(text: string): Segment[] {
   if (!text) return [];
@@ -45,6 +50,7 @@ function segmentText(text: string): Segment[] {
       type: "term",
       value: text.slice(h.start, h.end),
       gloss: GLOSSARY[h.term],
+      glossaryId: GLOSSARY_TERM_IDS[h.term],
     });
     cursor = h.end;
   }
@@ -54,7 +60,15 @@ function segmentText(text: string): Segment[] {
   return segments;
 }
 
-function TermChip({ value, gloss }: { value: string; gloss: string }) {
+function TermChip({
+  value,
+  gloss,
+  glossaryId,
+}: {
+  value: string;
+  gloss: string;
+  glossaryId?: string;
+}) {
   const [open, setOpen] = useState(false);
   return (
     <span className="relative inline">
@@ -72,6 +86,18 @@ function TermChip({ value, gloss }: { value: string; gloss: string }) {
           className="absolute left-0 top-full z-10 mt-1 w-56 border border-line bg-ground px-3 py-2 font-sans text-xs leading-relaxed text-mute shadow-sm"
         >
           {gloss}
+          {glossaryId ? (
+            <>
+              {" "}
+              <Link
+                href={`/glossary#${glossaryId}`}
+                className="underline decoration-line underline-offset-2 hover:text-ink"
+                onClick={() => setOpen(false)}
+              >
+                Glossary
+              </Link>
+            </>
+          ) : null}
         </span>
       )}
     </span>
@@ -92,7 +118,12 @@ export function GlossaryText({
         s.type === "text" ? (
           <Fragment key={i}>{s.value}</Fragment>
         ) : (
-          <TermChip key={i} value={s.value} gloss={s.gloss} />
+          <TermChip
+            key={i}
+            value={s.value}
+            gloss={s.gloss}
+            glossaryId={s.glossaryId}
+          />
         )
       )}
     </span>

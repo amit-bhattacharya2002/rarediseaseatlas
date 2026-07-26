@@ -61,6 +61,9 @@ export function SiteFooter() {
           >
             Instagram
           </a>
+          <Link href="/glossary" className="hover:text-ink">
+            Glossary
+          </Link>
           <Link href="/about" className="hover:text-ink">
             Methodology & licences
           </Link>

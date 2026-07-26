@@ -67,6 +67,12 @@ export function SiteHeader() {
               Findings
             </Link>
             <Link
+              href="/glossary"
+              className="hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+            >
+              Glossary
+            </Link>
+            <Link
               href="/about"
               className="hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
             >
@@ -113,6 +119,12 @@ export function SiteHeader() {
                 className="min-h-11 px-3 py-3 font-sans text-sm text-mute hover:bg-sand-50 hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-ink"
               >
                 Findings
+              </Link>
+              <Link
+                href="/glossary"
+                className="min-h-11 px-3 py-3 font-sans text-sm text-mute hover:bg-sand-50 hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-ink"
+              >
+                Glossary
               </Link>
               <Link
                 href="/about"
