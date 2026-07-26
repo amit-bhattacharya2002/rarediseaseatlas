@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import { diseasesArtifact, getAggregate, indiaNprd } from "@/lib/data";
-import { GITHUB_ISSUES_URL } from "@/lib/site";
+import {
+  GITHUB_ISSUES_URL,
+  INSTAGRAM_URL,
+  LINKEDIN_URL,
+} from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "About & methodology",
@@ -24,12 +28,21 @@ export default function AboutPage() {
       <p className="mt-4 font-sans text-sm text-mute">
         Author:{" "}
         <a
-          href="https://www.linkedin.com/in/amit-bhattacharya-551aa6202/"
+          href={LINKEDIN_URL}
           target="_blank"
           rel="noopener noreferrer"
           className="underline decoration-line underline-offset-2 hover:text-ink"
         >
           Amit Bhattacharya
+        </a>
+        {" · "}
+        <a
+          href={INSTAGRAM_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline decoration-line underline-offset-2 hover:text-ink"
+        >
+          Instagram
         </a>
       </p>
 
@@ -415,6 +428,48 @@ npm run ingest:full    # entire Orphanet set (hours)
           with the ORPHAcode. Corrections to the India list can also be proposed
           as edits to <span className="font-mono">data/india-nprd.json</span>.
         </p>
+      </section>
+
+      <section id="contact" className="mt-12 scroll-mt-16">
+        <h2 className="font-serif text-title text-ink">Get in touch</h2>
+        <p className="mt-3 font-sans text-sm leading-relaxed text-mute">
+          Questions about the atlas, collaborations, corrections outside a
+          specific disease page, or press: reach the author on LinkedIn or follow
+          the project on Instagram.
+        </p>
+        <ul className="mt-4 space-y-2 font-sans text-sm text-mute">
+          <li>
+            <a
+              href={LINKEDIN_URL}
+              className="underline decoration-line underline-offset-2 hover:text-ink"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Amit Bhattacharya on LinkedIn
+            </a>
+          </li>
+          <li>
+            <a
+              href={INSTAGRAM_URL}
+              className="underline decoration-line underline-offset-2 hover:text-ink"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              @rarediseaseatlas on Instagram
+            </a>
+          </li>
+          <li>
+            <a
+              href={GITHUB_ISSUES_URL}
+              className="underline decoration-line underline-offset-2 hover:text-ink"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              GitHub issues
+            </a>{" "}
+            — data errors and feature requests
+          </li>
+        </ul>
       </section>
 
       <section className="mt-12">

@@ -1,6 +1,7 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import Link from "next/link";
+import { useEffect, useMemo, useState } from "react";
 import { SIGNAL_COLORS, signalLevel } from "@/lib/signals";
 
 export interface LandscapeCell {
@@ -42,11 +43,24 @@ function valueOf(cell: LandscapeCell, metric: Metric): number | null {
   return metric === "trials" ? cell.trials : cell.recent;
 }
 
+function useCoarsePointer(): boolean {
+  const [coarse, setCoarse] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(pointer: coarse)");
+    const sync = () => setCoarse(mq.matches);
+    sync();
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
+  return coarse;
+}
+
 export function LandscapeExplorer({ cells }: { cells: LandscapeCell[] }) {
+  const coarse = useCoarsePointer();
   const [metric, setMetric] = useState<Metric>("trials");
   const [view, setView] = useState<View>("map");
   const [order, setOrder] = useState<Order>("intensity");
-  const [hover, setHover] = useState<number | null>(null);
+  const [active, setActive] = useState<number | null>(null);
 
   const ordered = useMemo(() => {
     const withLevel = cells.map((c) => ({
@@ -58,7 +72,8 @@ export function LandscapeExplorer({ cells }: { cells: LandscapeCell[] }) {
       withLevel.sort((a, b) => a.c.name.localeCompare(b.c.name));
     } else {
       withLevel.sort(
-        (a, b) => b.val - a.val || b.lvl - a.lvl || a.c.name.localeCompare(b.c.name)
+        (a, b) =>
+          b.val - a.val || b.lvl - a.lvl || a.c.name.localeCompare(b.c.name)
       );
     }
     return withLevel;
@@ -82,18 +97,22 @@ export function LandscapeExplorer({ cells }: { cells: LandscapeCell[] }) {
     return { h, broken, unknown };
   }, [ordered, metric]);
 
-  const hovered = hover != null ? ordered[hover]?.c ?? null : null;
+  // Reset selection when the ordering/metric changes so indices stay valid.
+  useEffect(() => {
+    setActive(null);
+  }, [metric, order, view]);
+
+  const selected = active != null ? ordered[active]?.c ?? null : null;
 
   return (
     <div className="mt-8">
-      {/* Controls */}
-      <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
+      <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-6 sm:gap-y-3">
         <Toggle
           label="Colour by"
           value={metric}
           onChange={(v) => setMetric(v as Metric)}
           options={[
-            { id: "trials", label: "Interventional trials" },
+            { id: "trials", label: "Trials" },
             { id: "research", label: "Research" },
           ]}
         />
@@ -111,22 +130,21 @@ export function LandscapeExplorer({ cells }: { cells: LandscapeCell[] }) {
           value={order}
           onChange={(v) => setOrder(v as Order)}
           options={[
-            { id: "intensity", label: "By intensity" },
+            { id: "intensity", label: "Intensity" },
             { id: "alpha", label: "A–Z" },
           ]}
         />
       </div>
 
-      {/* Legend */}
-      <div className="mt-6 flex flex-wrap items-center gap-4">
+      <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
         <span className="font-sans text-xs uppercase tracking-[0.12em] text-mute">
           {METRIC_LABEL[metric]}
         </span>
-        <div className="flex items-center gap-1">
+        <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
           {SIGNAL_COLORS.map((color, i) => (
             <span key={color} className="flex items-center gap-1">
               <span
-                className="inline-block h-3.5 w-3.5 border border-black/10"
+                className="inline-block size-3.5 border border-black/10 sm:size-3.5"
                 style={{ backgroundColor: color }}
                 aria-hidden
               />
@@ -144,52 +162,95 @@ export function LandscapeExplorer({ cells }: { cells: LandscapeCell[] }) {
         </span>
       </div>
 
-      {/* Hover readout — reserved height so layout doesn't jump */}
-      <div className="mt-4 min-h-[2.75rem] font-sans text-sm">
-        {hovered ? (
-          <span className="text-ink">
-            <span className="font-serif text-base">{hovered.name}</span>
-            <span className="ml-2 font-mono text-xs text-mute">
-              ORPHA:{hovered.orphaCode} ·{" "}
-              {hovered.trials == null ? "—" : hovered.trials} interventional
-              trials ·{" "}
-              {hovered.recent == null ? "—" : hovered.recent} papers (10y) ·{" "}
-              {hovered.pubs == null ? "—" : hovered.pubs} total ·{" "}
-              {hovered.confidence} confidence
-              {hovered.broken ? " · broken query (excluded from stats)" : ""}
-            </span>
-          </span>
+      <div className="mt-4 min-h-[4.5rem] rounded border border-line bg-sand-50/40 px-3 py-3 font-sans text-sm sm:min-h-[2.75rem] sm:border-0 sm:bg-transparent sm:px-0 sm:py-0">
+        {selected ? (
+          <div className="flex flex-col gap-2 sm:block">
+            <div className="text-ink">
+              <span className="font-serif text-base leading-snug">
+                {selected.name}
+              </span>
+              <span className="mt-1 block font-mono text-xs text-mute sm:ml-2 sm:mt-0 sm:inline">
+                ORPHA:{selected.orphaCode} ·{" "}
+                {selected.trials == null ? "—" : selected.trials} interventional
+                trials · {selected.recent == null ? "—" : selected.recent}{" "}
+                papers (10y) · {selected.pubs == null ? "—" : selected.pubs}{" "}
+                total · {selected.confidence} confidence
+                {selected.broken ? " · broken query (excluded from stats)" : ""}
+              </span>
+            </div>
+            <Link
+              href={`/disease/${selected.orphaCode}`}
+              className="inline-flex min-h-11 items-center justify-center border border-ink px-4 font-sans text-sm text-ink hover:bg-ink hover:text-ground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink sm:min-h-0 sm:border-0 sm:px-0 sm:underline sm:decoration-line sm:underline-offset-2 sm:hover:bg-transparent sm:hover:text-ink"
+            >
+              Open disease page
+            </Link>
+          </div>
         ) : (
           <span className="text-mute">
-            Hover or focus a cell for its counts. Click to open the disease.
+            {coarse
+              ? "Tap a cell to see its counts, then open the disease page."
+              : "Hover or focus a cell for its counts. Click to open the disease."}
           </span>
         )}
       </div>
 
       {view === "map" ? (
         <div
-          className="mt-2 flex flex-wrap gap-[5px]"
-          onMouseLeave={() => setHover(null)}
+          className="mt-3 grid grid-cols-[repeat(auto-fill,minmax(1.125rem,1fr))] gap-1 p-0.5 sm:grid-cols-[repeat(auto-fill,minmax(1.5rem,1fr))] sm:gap-1.5"
+          onMouseLeave={() => {
+            if (!coarse) setActive(null);
+          }}
         >
           {ordered.map(({ c }, i) => {
             const lvl = levelOf(c, metric);
             const unknown = !c.broken && valueOf(c, metric) == null;
+            const isActive = active === i;
+            const label = `${c.name}, ${
+              valueOf(c, metric) ?? "unknown"
+            } ${
+              metric === "trials"
+                ? "interventional trials"
+                : "papers in last 10 years"
+            }`;
+
+            if (coarse) {
+              return (
+                <button
+                  key={c.orphaCode}
+                  type="button"
+                  data-idx={i}
+                  onClick={() => setActive(i)}
+                  aria-label={label}
+                  aria-pressed={isActive}
+                  className={`aspect-square min-h-[1.125rem] w-full rounded-[2px] outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-1 ${
+                    isActive ? "ring-2 ring-ink ring-offset-1" : ""
+                  }`}
+                  style={{
+                    backgroundColor: SIGNAL_COLORS[lvl],
+                    boxShadow: c.broken
+                      ? "inset 0 0 0 2px rgba(190,60,60,0.85)"
+                      : unknown
+                        ? "inset 0 0 0 1px rgba(0,0,0,0.35)"
+                        : undefined,
+                  }}
+                />
+              );
+            }
+
             return (
               <a
                 key={c.orphaCode}
                 href={`/disease/${c.orphaCode}`}
                 data-idx={i}
-                onMouseEnter={() => setHover(i)}
-                onFocus={() => setHover(i)}
-                aria-label={`${c.name}, ${
-                  valueOf(c, metric) ?? "unknown"
-                } ${metric === "trials" ? "interventional trials" : "papers in last 10 years"}`}
+                onMouseEnter={() => setActive(i)}
+                onFocus={() => setActive(i)}
+                aria-label={label}
                 title={`${c.name} — ${
                   metric === "trials"
                     ? `${c.trials ?? "—"} interventional trials`
                     : `${c.recent ?? "—"} papers (10y)`
                 }`}
-                className="h-[28px] w-[28px] rounded-[3px] outline-none transition-transform duration-75 hover:scale-[1.5] hover:shadow focus-visible:scale-[1.5] focus-visible:ring-2 focus-visible:ring-ink"
+                className="aspect-square min-h-[1.5rem] w-full rounded-[3px] outline-none transition-transform duration-75 hover:z-10 hover:scale-125 hover:shadow focus-visible:z-10 focus-visible:scale-125 focus-visible:ring-2 focus-visible:ring-ink"
                 style={{
                   backgroundColor: SIGNAL_COLORS[lvl],
                   boxShadow: c.broken
@@ -210,22 +271,22 @@ export function LandscapeExplorer({ cells }: { cells: LandscapeCell[] }) {
               <li key={c.orphaCode}>
                 <a
                   href={`/disease/${c.orphaCode}`}
-                  className="flex items-center gap-4 py-3 hover:bg-sand-50/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-ink"
+                  className="flex min-h-14 items-center gap-3 py-3 sm:gap-4 hover:bg-sand-50/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-ink"
                 >
                   <span
-                    className="h-4 w-4 shrink-0 rounded-[2px] border border-black/10"
+                    className="size-4 shrink-0 rounded-[2px] border border-black/10"
                     style={{ backgroundColor: SIGNAL_COLORS[lvl] }}
                     aria-hidden
                   />
                   <span className="min-w-0 flex-1">
-                    <span className="block truncate font-serif text-base text-ink">
+                    <span className="block font-serif text-base leading-snug text-ink sm:truncate">
                       {c.name}
                     </span>
                     <span className="font-mono text-xs text-mute">
                       ORPHA:{c.orphaCode} ·{" "}
-                      {c.trials == null ? "—" : c.trials} interventional trials ·{" "}
-                      {c.recent == null ? "—" : c.recent} papers (10y) ·{" "}
-                      {c.confidence} confidence
+                      {c.trials == null ? "—" : c.trials} interventional
+                      trials · {c.recent == null ? "—" : c.recent} papers (10y)
+                      · {c.confidence} confidence
                       {c.broken ? " · broken query" : ""}
                     </span>
                   </span>
@@ -254,11 +315,11 @@ function Toggle({
   options: { id: string; label: string }[];
 }) {
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex w-full flex-col gap-1.5 sm:w-auto sm:flex-row sm:items-center sm:gap-2">
       <span className="font-sans text-xs uppercase tracking-[0.12em] text-mute">
         {label}
       </span>
-      <div className="flex overflow-hidden rounded border border-line">
+      <div className="flex w-full overflow-hidden rounded border border-line sm:w-auto">
         {options.map((o) => {
           const active = o.id === value;
           return (
@@ -267,7 +328,7 @@ function Toggle({
               type="button"
               onClick={() => onChange(o.id)}
               aria-pressed={active}
-              className={`px-3 py-1.5 font-sans text-sm transition-colors ${
+              className={`min-h-11 flex-1 px-3 py-2 font-sans text-sm transition-colors sm:min-h-0 sm:flex-none sm:py-1.5 ${
                 active
                   ? "bg-ink text-ground"
                   : "bg-ground text-mute hover:text-ink"

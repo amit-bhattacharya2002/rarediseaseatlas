@@ -1,6 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
-import { GITHUB_ISSUES_URL } from "@/lib/site";
+import {
+  GITHUB_ISSUES_URL,
+  INSTAGRAM_URL,
+  LINKEDIN_URL,
+} from "@/lib/site";
 
 export function SiteFooter() {
   return (
@@ -37,7 +41,7 @@ export function SiteFooter() {
         <p className="mt-4 leading-relaxed">
           Author:{" "}
           <a
-            href="https://www.linkedin.com/in/amit-bhattacharya-551aa6202/"
+            href={LINKEDIN_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="underline decoration-line underline-offset-2 hover:text-ink"
@@ -46,6 +50,17 @@ export function SiteFooter() {
           </a>
         </p>
         <p className="mt-4 flex flex-wrap gap-x-4 gap-y-2">
+          <Link href="/about#contact" className="hover:text-ink">
+            Get in touch
+          </Link>
+          <a
+            href={INSTAGRAM_URL}
+            className="hover:text-ink"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Instagram
+          </a>
           <Link href="/about" className="hover:text-ink">
             Methodology & licences
           </Link>

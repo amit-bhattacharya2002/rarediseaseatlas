@@ -4,6 +4,9 @@ import { IngestProgressBanner } from "@/components/IngestProgressBanner";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import {
+  GITHUB_REPO_URL,
+  INSTAGRAM_URL,
+  LINKEDIN_URL,
   SITE_DESCRIPTION,
   SITE_NAME,
   SITE_TAGLINE,
@@ -118,7 +121,7 @@ const jsonLd = {
       name: SITE_NAME,
       url: SITE_URL,
       logo: `${SITE_URL}/RDRA.png`,
-      sameAs: ["https://www.linkedin.com/in/amit-bhattacharya-551aa6202/"],
+      sameAs: [LINKEDIN_URL, INSTAGRAM_URL, GITHUB_REPO_URL],
     },
   ],
 };

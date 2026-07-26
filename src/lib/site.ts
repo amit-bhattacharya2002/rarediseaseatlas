@@ -14,6 +14,11 @@ export const GITHUB_REPO_URL =
 
 export const GITHUB_ISSUES_URL = `${GITHUB_REPO_URL}/issues`;
 
+export const INSTAGRAM_URL = "https://www.instagram.com/rarediseaseatlas/";
+
+export const LINKEDIN_URL =
+  "https://www.linkedin.com/in/amit-bhattacharya-551aa6202/";
+
 export function githubNewIssueUrl(title: string, body: string): string {
   return `${GITHUB_ISSUES_URL}/new?title=${encodeURIComponent(title)}&body=${encodeURIComponent(body)}`;
 }
