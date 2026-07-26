@@ -6,6 +6,17 @@ import {
   LINKEDIN_URL,
 } from "@/lib/site";
 
+function samplingBlurb(): string {
+  const s = diseasesArtifact.sampling;
+  if (s.mode === "sample" && s.n != null) {
+    return `a random sample of ${s.n.toLocaleString("en")} usable Orphanet diseases (seed ${s.seed ?? "—"})`;
+  }
+  if (s.mode === "limit" && s.n != null) {
+    return `the first ${s.n.toLocaleString("en")} usable Orphanet diseases in this build`;
+  }
+  return "every usable Orphanet disease in this build (groups and obsolete / non-rare-in-Europe labels excluded)";
+}
+
 export const metadata: Metadata = {
   title: "About & methodology",
   description:
@@ -20,10 +31,11 @@ export default function AboutPage() {
     <div className="mx-auto max-w-3xl px-5 py-14">
       <h1 className="font-serif text-display-sm text-ink">About</h1>
       <p className="mt-5 font-sans text-lede text-mute">
-        This site answers one question for each rare disease in Orphanet: does
-        anyone appear to be working on it — in the published literature, in
-        interventional trials, observational studies, or in gene–disease
-        curation?
+        This site answers one question for {samplingBlurb()}: does anyone appear
+        to be working on it — in the published literature, in interventional
+        trials, observational studies, or in gene–disease curation? Percentages
+        use that build&apos;s credible denominators, not the full Orphanet
+        product1 row count.
       </p>
       <p className="mt-4 font-sans text-sm text-mute">
         Author:{" "}
@@ -92,13 +104,16 @@ export default function AboutPage() {
           <li>
             <strong className="text-ink">Mondo Disease Ontology</strong> — is_a
             hierarchy for zero-publication naming-artifact detection and India
-            NPRD umbrella (parent) matching, plus cross-references (MeSH, UMLS,
-            OMIM, NCIT) and exact synonyms used for identifier-based matching.
+            NPRD umbrella (parent) matching, plus exact synonyms and
+            cross-references (MeSH, UMLS, OMIM, NCIT). Cross-references are
+            stored on each disease page; only resolved MeSH labels enter search
+            queries today.
           </li>
           <li>
             <strong className="text-ink">NLM MeSH</strong> — descriptor / concept
             labels resolved from Mondo MeSH cross-references, unioned into both
-            the Europe PMC and ClinicalTrials.gov queries.
+            the Europe PMC and ClinicalTrials.gov queries when resolution
+            succeeds.
           </li>
           <li>
             <strong className="text-ink">India NPRD layer</strong> — hand-curated
@@ -117,15 +132,19 @@ export default function AboutPage() {
         <p className="mt-3 font-sans text-sm leading-relaxed text-mute">
           The root cause of most data errors here is matching on disease name
           strings — names are misspelled, differ between databases, or are
-          hyper-specific. We reduce this by matching on structured identifiers as
-          well as names. From Mondo we extract each disease&apos;s MeSH, UMLS,
-          OMIM and NCIT cross-references, resolve MeSH descriptor labels, and
-          union them into the queries. A trial that registers its condition as a
+          hyper-specific. We reduce this by matching on structured MeSH
+          identifiers as well as names. From Mondo we extract MeSH, UMLS, OMIM
+          and NCIT cross-references (shown on disease pages), resolve MeSH
+          descriptor labels when the NLM id service responds, and union those
+          MeSH labels into Europe PMC and ClinicalTrials.gov queries. Trial
+          matching also uses carefully filtered recall-expansion terms (genes,
+          selected Mondo parents). A trial that registers its condition as a
           broader MeSH descriptor (e.g. &ldquo;Fatty Acid Oxidation
-          Disorders&rdquo; for an LCHAD-deficiency study) is then found even
-          though no name phrase would match. Each disease page records whether a
+          Disorders&rdquo; for an LCHAD-deficiency study) can then be found even
+          when no name phrase would match. Each disease page records whether a
           trial matched via <span className="font-mono">phrase</span>,{" "}
-          <span className="font-mono">mesh</span>, or both.
+          <span className="font-mono">mesh</span>,{" "}
+          <span className="font-mono">recall-expansion</span>, or both.
         </p>
         <p className="mt-3 font-sans text-sm leading-relaxed text-mute">
           Each Europe PMC query is the Orphanet preferred label plus Orphanet and
@@ -231,15 +250,20 @@ export default function AboutPage() {
           </p>
         ) : validation ? (
           <p className="mt-3 font-sans text-sm leading-relaxed text-mute">
-            The legacy human-reviewed reference measured trial recall at{" "}
+            Against a {validation.count.toLocaleString("en")}-disease gold set
+            (dual-model adjudication with light human fix of disagreements),
+            trial-matching recall is{" "}
             <span className="font-mono text-ink">
               {Math.round(validation.trialsRecall * 100)}%
             </span>{" "}
-            and precision at{" "}
+            and precision{" "}
             <span className="font-mono text-ink">
               {Math.round(validation.trialsPrecision * 100)}%
             </span>
-            .
+            . Precision is measured only among NCT IDs already labelled relevant
+            or irrelevant in that gold set — not over every trial the pipeline
+            returns. Full unaided human validation of trial relevance is not yet
+            complete.
           </p>
         ) : (
           <p className="mt-3 font-sans text-sm leading-relaxed text-mute">
@@ -271,7 +295,8 @@ export default function AboutPage() {
         </p>
         <p className="mt-3 font-sans text-sm leading-relaxed text-mute">
           This choice matters. In this build, counting only specific-condition
-          matches puts the share of rare diseases with no interventional trial at{" "}
+          matches puts the share of diseases in the trials denominator with no
+          interventional trial at{" "}
           <span className="font-mono text-ink">
             {aggregate.trialsDenominator > 0
               ? (
@@ -397,7 +422,7 @@ export default function AboutPage() {
         <pre className="mt-4 overflow-x-auto border border-line bg-sand-50/40 p-4 font-mono text-xs text-ink">
 {`npm run ingest         # --limit 50 (sorted; reproducible)
 npm run ingest:sample  # --sample 300 (random draw; use for neglect-rate estimates)
-npm run ingest:full    # entire Orphanet set (hours)
+npm run ingest:full    # all usable non-group Orphanet rows (~8k; hours)
 # --resume   skip codes already in data/diseases.checkpoint.json
 # --no-cache ignore .cache/ reads (monthly refresh)`}
         </pre>

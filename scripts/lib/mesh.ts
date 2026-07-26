@@ -2,6 +2,10 @@
  * Resolve MeSH ids (from Mondo xrefs) to descriptor / concept labels.
  * Best-effort: NLM id service, cached by id. Failures return null (matching
  * then falls back to phrase-only and queryHealth records the attempt).
+ *
+ * After ingest, re-run failed lookups with:
+ *   npm run backfill:mesh
+ *   npm run backfill:mesh -- --requery
  */
 
 import { fetchJson } from "./http";

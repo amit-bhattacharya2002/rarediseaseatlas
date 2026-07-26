@@ -35,6 +35,9 @@ function readJson<T>(filePath: string): T | null {
   }
 }
 
+/** Fallback when neither checkpoint nor published artifact carries corpusLevels. */
+const FALLBACK_ATLAS_USABLE = 8171;
+
 function inferTarget(
   sampling: SamplingProvenance,
   corpusUsable: number | null,
@@ -43,7 +46,7 @@ function inferTarget(
   if (sampling.mode === "sample" || sampling.mode === "limit") {
     return sampling.n ?? done;
   }
-  return Math.max(corpusUsable ?? done, done);
+  return Math.max(corpusUsable ?? FALLBACK_ATLAS_USABLE, done);
 }
 
 /**
@@ -63,7 +66,7 @@ export function getIngestStatus(): IngestStatusFile | null {
     const corpusUsable =
       checkpoint.corpusLevels?.atlasUsableEstimate ??
       published.corpusLevels?.atlasUsableEstimate ??
-      null;
+      FALLBACK_ATLAS_USABLE;
     const target = inferTarget(sampling, corpusUsable, done);
     const checkpointNewer =
       Date.parse(checkpoint.generatedAt) > Date.parse(published.generatedAt);

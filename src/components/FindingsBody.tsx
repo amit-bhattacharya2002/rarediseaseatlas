@@ -159,8 +159,11 @@ export function FindingsBody({
           <span className="font-mono text-ink">
             {cl.product1Total.toLocaleString("en")}
           </span>{" "}
-          nomenclature rows, not {cl.product1Total.toLocaleString("en")}{" "}
-          independent clinical diseases. Rows classify as:
+          nomenclature rows, not{" "}
+          <span className="font-mono text-ink">
+            {cl.commonlyCitedDisorderLevel.toLocaleString("en")}
+          </span>{" "}
+          Disorder-level clinical entities. Rows classify as:
         </p>
         <ul className="mt-3 list-disc space-y-1 pl-5 font-sans text-sm text-mute">
           <li>
@@ -212,10 +215,11 @@ export function FindingsBody({
             {s.brokenQueryRows.toLocaleString("en")}
           </span>{" "}
           preferred names ({s.brokenSharePct}%) returned no results in either
-          Europe PMC or ClinicalTrials.gov under phrase, MeSH (when available),
-          and recall-expansion queries. That is not evidence that research is
-          absent; it is evidence that those official strings do not function as
-          search terms in those databases.
+          Europe PMC or ClinicalTrials.gov under phrase and MeSH queries (when
+          MeSH resolved). ClinicalTrials.gov also tried recall-expansion terms;
+          those still returned nothing for this set. That is not evidence that
+          research is absent; it is evidence that those official strings do not
+          function as search terms in those databases.
         </p>
         <p className="mt-3 font-sans text-sm leading-relaxed text-mute">
           Separately, publication metrics use a stricter credibility set:{" "}
@@ -229,9 +233,9 @@ export function FindingsBody({
           </span>{" "}
           ({s.publicationsExcludedPct}%) are excluded because the name does not
           reliably retrieve literature under our rules (including
-          name-collision / neglect flags and queries that return nothing). Roughly
-          a third of sampled entries therefore do not support a clean
-          literature count from the preferred label alone.
+          name-collision / neglect flags and queries that return nothing). About{" "}
+          {s.publicationsExcludedPct}% of sampled entries therefore do not
+          support a clean literature count from the preferred label alone.
         </p>
         <p className="mt-3 font-sans text-sm leading-relaxed text-mute">
           Orphanet&apos;s preferred-label curation is excellent by ordinary

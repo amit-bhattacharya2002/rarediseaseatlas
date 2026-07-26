@@ -155,7 +155,7 @@ export default async function Image({
           }}
         >
           <div style={{ display: "flex", fontSize: 22, color: "#1B1B1A" }}>
-            Is Anyone Working On This?
+            Rare Disease Research Atlas
           </div>
           <div style={{ display: "flex", fontSize: 16, color: "#6B6A66" }}>
             Research landscape · not medical advice

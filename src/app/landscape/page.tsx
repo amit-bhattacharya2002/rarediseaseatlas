@@ -16,14 +16,14 @@ export default function LandscapePage() {
   return (
     <div className="mx-auto max-w-5xl px-5 py-14">
       <h1 className="font-serif text-display-sm text-ink">
-        The whole landscape, one cell each
+        This build, one cell each
       </h1>
       <p className="mt-5 max-w-2xl font-sans text-lede text-mute">
-        Every rare disease in this build is a single square. The colour shows how
-        much is happening — interventional trials testing treatments, or
-        research in the last ten years.
-        The point Google structurally cannot make: how one condition compares to
-        all the others, because they were all queried the same way.
+        Every disease in the published artifact is a single square. The colour
+        shows how much is happening — interventional trials testing treatments,
+        or research in the last ten years. The point Google structurally cannot
+        make: how one condition compares to the others in the same build,
+        because they were all queried the same way.
       </p>
 
       <aside className="mt-8 max-w-2xl border border-line bg-sand-50/50 px-4 py-4 font-sans text-sm leading-relaxed text-mute">

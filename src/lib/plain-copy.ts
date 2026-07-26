@@ -69,13 +69,13 @@ export function trialsComparativeLine(
   }
   const pctZero = Math.round((1000 * zeroCount) / n) / 10;
   if (d.trials.total === 0) {
-    return `No matched interventional trials. This is true for ${pctZero}% of rare diseases in this dataset (${zeroCount} of ${n}). Here are the researchers publishing on it.`;
+    return `No matched interventional trials. This is true for ${pctZero}% of diseases in the trials denominator (${zeroCount} of ${n}). Here are the researchers publishing on it.`;
   }
   const pct = d.trialsPercentile;
   if (pct == null) {
-    return `${d.trials.total.toLocaleString("en")} interventional trial${d.trials.total === 1 ? "" : "s"} — ${pctZero}% of rare diseases in this dataset have none (${zeroCount} of ${n}).`;
+    return `${d.trials.total.toLocaleString("en")} interventional trial${d.trials.total === 1 ? "" : "s"} — ${pctZero}% of diseases in the trials denominator have none (${zeroCount} of ${n}).`;
   }
-  return `${d.trials.total.toLocaleString("en")} interventional trial${d.trials.total === 1 ? "" : "s"} — more than ${pctZero}% of rare diseases, which have none at all (${zeroCount} of ${n}; this disease is at the ${pct}th percentile).`;
+  return `${d.trials.total.toLocaleString("en")} interventional trial${d.trials.total === 1 ? "" : "s"} — more than ${pctZero}% of diseases in the trials denominator have none at all (${zeroCount} of ${n}; this disease is at the ${pct}th percentile).`;
 }
 
 export function prevalencePlain(prevalenceClass: string | null): string | null {
@@ -285,15 +285,15 @@ export function trialsHeadline(
 
   const errorNote =
     validation?.method === "automated-dual-model-consensus"
-      ? ` Against a dual-provider automated benchmark, trial matching recall is ${Math.round(validation.trialsRecall * 100)}% and precision ${Math.round(validation.trialsPrecision * 100)}%; ${Math.round(validation.consensusCoverage * 100)}% of candidates received a consensus verdict. This is model-based evidence, not a human gold standard.`
+      ? ` Against a dual-provider automated benchmark, trial matching recall is ${Math.round(validation.trialsRecall * 100)}% and precision ${Math.round(validation.trialsPrecision * 100)}%; ${Math.round(validation.consensusCoverage * 100)}% of candidates received a consensus verdict. This is model-based evidence, not a full human gold standard.`
       : validation != null
-        ? ` Against the legacy human-reviewed reference, trial matching recall is ${Math.round(validation.trialsRecall * 100)}% and precision ${Math.round(validation.trialsPrecision * 100)}%.`
+        ? ` Against a ${validation.count.toLocaleString("en")}-disease gold set (dual-model adjudication with light human fix of disagreements), trial matching recall is ${Math.round(validation.trialsRecall * 100)}% and precision ${Math.round(validation.trialsPrecision * 100)}%. Precision is among NCT IDs already labelled in that gold set. Full unaided human validation is not yet complete.`
         : " Matching produces errors in both directions — see methodology.";
 
   const rangeNote =
     low === high
-      ? `In this build, ${pct}% of rare diseases have no matched interventional trial under the specific condition name (${aggregate.noTrials.toLocaleString("en")} of ${den.toLocaleString("en")}).`
-      : `Between roughly ${low}% and ${high}% of rare diseases have no interventional clinical trial — depending on whether broader-category registrations count. Counting only the specific condition name gives ${pct}% (${aggregate.noTrials.toLocaleString("en")} of ${den.toLocaleString("en")}); counting parent-category trials as filling a zero gives ${inclusivePct}% (${inclusiveRaw.toLocaleString("en")} of ${den.toLocaleString("en")}). We report the conservative figure and show parent-category trials on each disease page. Prior matching choices in this project landed in the mid-50s to mid-70s — that spread is itself a finding about how poorly disease naming maps between literature and trial registries.`;
+      ? `In this build, ${pct}% of diseases in the trials denominator have no matched interventional trial under the specific condition name (${aggregate.noTrials.toLocaleString("en")} of ${den.toLocaleString("en")}).`
+      : `Between roughly ${low}% and ${high}% of diseases in the trials denominator have no interventional clinical trial — depending on whether broader-category registrations count. Counting only the specific condition name gives ${pct}% (${aggregate.noTrials.toLocaleString("en")} of ${den.toLocaleString("en")}); counting parent-category trials as filling a zero gives ${inclusivePct}% (${inclusiveRaw.toLocaleString("en")} of ${den.toLocaleString("en")}). We report the conservative figure and show parent-category trials on each disease page. Prior matching choices in this project landed in the mid-50s to mid-70s — that spread is itself a finding about how poorly disease naming maps between literature and trial registries.`;
 
   return {
     pct,

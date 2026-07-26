@@ -285,6 +285,9 @@ async function main(): Promise<void> {
 
   const summary: ValidationSummary = {
     runAt: new Date().toISOString(),
+    // Gold set is dual-model adjudication with light human fix of disagreements —
+    // not unaided full human review. Keep this label for artifact continuity;
+    // site copy explains the actual provenance.
     method: "legacy-human-review",
     benchmarkVersion: "legacy-gold-standard",
     trialsRecall,

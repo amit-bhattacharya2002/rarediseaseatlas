@@ -15,6 +15,7 @@
     "ingest:full": "tsx scripts/ingest.ts --full",
     "ingest:test": "tsx scripts/ingest.ts --limit 20",
     "refresh:zero-trials": "tsx scripts/refresh-zero-trials.ts",
+    "backfill:mesh": "tsx scripts/backfill-mesh-labels.ts",
     "assert:refresh-guards": "tsx scripts/assert-refresh-guards.ts",
     "assert:findings-isolation": "tsx scripts/assert-findings-isolation.ts",
     "derive": "tsx scripts/derive.ts",

@@ -129,25 +129,25 @@ export default function HomePage() {
             </p>
           )}
           <p className="mt-4 max-w-2xl font-sans text-sm leading-relaxed text-mute">
-            Of these no-trial diseases,{" "}
+            Among those with no specific-condition trial,{" "}
             <span className="font-mono">
               {aggregate.noTrialsWithSubstantialLiterature.toLocaleString("en")}
             </span>{" "}
-            have substantial published literature — a name that demonstrably
-            matches papers, making the trial zero far likelier to be real than a
-            search artifact.{" "}
-            {aggregate.brokenQueryRows > 0 ? (
-              <>
-                A further{" "}
-                <span className="font-mono">
-                  {aggregate.brokenQueryRows.toLocaleString("en")}
-                </span>{" "}
-                records returned nothing on either database and are excluded from
-                every percentage as probable broken queries, not measured
-                absence.
-              </>
-            ) : null}
+            still have substantial published literature — a name that
+            demonstrably matches papers, making the trial zero far likelier to be
+            real than a search artifact.
           </p>
+          {aggregate.brokenQueryRows > 0 ? (
+            <p className="mt-3 max-w-2xl font-sans text-sm leading-relaxed text-mute">
+              Separately,{" "}
+              <span className="font-mono">
+                {aggregate.brokenQueryRows.toLocaleString("en")}
+              </span>{" "}
+              of {total.toLocaleString("en")} records in this build returned
+              nothing on either database and are excluded from every percentage
+              as probable broken queries, not measured absence.
+            </p>
+          ) : null}
 
           <p className="mt-8 max-w-2xl font-sans text-sm leading-relaxed text-mute">
             Secondary finding: {thin.toLocaleString("en")} of{" "}
@@ -180,7 +180,7 @@ export default function HomePage() {
               href="/landscape"
               className="underline decoration-line underline-offset-2 hover:text-ink"
             >
-              see the whole landscape as a heat map
+              see this build as a heat map
             </Link>
             .
           </p>

@@ -20,7 +20,7 @@ export default function FindingsPage() {
   );
   const liveHeadline =
     trials.pct != null
-      ? `${trials.pct}% of rare diseases currently have no matched interventional trial`
+      ? `${trials.pct}% of diseases in the live trials denominator currently have no matched interventional trial`
       : null;
 
   return (

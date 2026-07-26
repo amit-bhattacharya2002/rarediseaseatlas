@@ -124,7 +124,7 @@ export default function DiseasePage({
           </div>
         </div>
         <ShareButton
-          title={`${d.name} — Is Anyone Working On This?`}
+          title={`${d.name} — ${SITE_NAME}`}
           path={`/disease/${d.orphaCode}`}
         />
       </div>
@@ -330,30 +330,48 @@ export default function DiseasePage({
             publishedQuery={d.trials.query}
             publishedAsOf={publishedAsOf}
           />
-          {d.trials.parentCategory &&
-            (d.trials.parentCategory.total ?? 0) > 0 && (
+          {d.trials.parentCategory && (
               <div className="mt-4 border-t border-line pt-4">
                 <p className="font-mono text-2xl tabular-nums text-ink">
                   {formatCount(d.trials.parentCategory.total)}
                 </p>
                 <p className="mt-1 font-sans text-sm leading-relaxed text-ink/90">
-                  trials for{" "}
+                  {(d.trials.parentCategory.total ?? 0) === 0
+                    ? "no matched trials for "
+                    : "trials for "}
                   <span className="text-ink">{d.trials.parentCategory.label}</span>
                   , the broader category this belongs to
+                  {(d.trials.parentCategory.total ?? 0) === 0
+                    ? " either"
+                    : ""}
                 </p>
-                <p className="mt-2 font-sans text-sm leading-relaxed text-mute">
-                  Trials registered for a broader category may or may not enrol
-                  people with this specific subtype — eligibility criteria vary,
-                  and the trial record often doesn&apos;t say. Worth raising with
-                  a clinician.{" "}
-                  <a
-                    href="/about#how-we-count-trials"
-                    className="underline decoration-line underline-offset-2 hover:text-ink"
-                  >
-                    How we count trials
-                  </a>
-                  .
-                </p>
+                {(d.trials.parentCategory.total ?? 0) > 0 ? (
+                  <p className="mt-2 font-sans text-sm leading-relaxed text-mute">
+                    Trials registered for a broader category may or may not enrol
+                    people with this specific subtype — eligibility criteria vary,
+                    and the trial record often doesn&apos;t say. Worth raising with
+                    a clinician.{" "}
+                    <a
+                      href="/about#how-we-count-trials"
+                      className="underline decoration-line underline-offset-2 hover:text-ink"
+                    >
+                      How we count trials
+                    </a>
+                    .
+                  </p>
+                ) : (
+                  <p className="mt-2 font-sans text-sm leading-relaxed text-mute">
+                    Parent-category matching found a broader label but no
+                    interventional trials under it.{" "}
+                    <a
+                      href="/about#how-we-count-trials"
+                      className="underline decoration-line underline-offset-2 hover:text-ink"
+                    >
+                      How we count trials
+                    </a>
+                    .
+                  </p>
+                )}
               </div>
             )}
           {trialsCompare && (
@@ -426,6 +444,14 @@ export default function DiseasePage({
                 {d.trials.parentCategory.label}, the broader category — see the
                 summary above. Those studies are not counted in the
                 condition-specific total.
+              </p>
+            ) : d.trials.parentCategory ? (
+              <p className="mt-3 font-sans text-sm leading-relaxed text-ink/90">
+                Broader category{" "}
+                <span className="text-ink">{d.trials.parentCategory.label}</span>{" "}
+                also has no matched interventional trial. See who&apos;s working
+                on it above — people publishing on this disease are often the
+                practical next contact when no trial is listed.
               </p>
             ) : (
               <p className="mt-3 font-sans text-sm leading-relaxed text-ink/90">
@@ -704,8 +730,9 @@ export default function DiseasePage({
         <div className="mt-4 space-y-4 font-sans text-sm leading-relaxed text-mute">
           <p>
             Europe PMC query (preferred label + any corrected label + Orphanet
-            and Mondo exact synonyms, stoplisted; unioned with MeSH where a
-            cross-reference exists):
+            and Mondo exact synonyms, stoplisted; unioned with resolved MeSH
+            labels when available). UMLS / OMIM / NCIT cross-references are
+            stored below but are not added to the query string.
           </p>
           <pre className="overflow-x-auto whitespace-pre-wrap border border-line bg-ground p-3 font-mono text-xs text-ink">
             {d.query}
@@ -726,7 +753,10 @@ export default function DiseasePage({
               <span className="font-mono text-ink">{d.meshLabels.join("; ")}</span>
             </p>
           )}
-          <p>ClinicalTrials.gov query (quoted phrases + MeSH via query.cond):</p>
+          <p>
+            ClinicalTrials.gov query (quoted phrases + MeSH via query.cond, plus
+            recall-expansion terms when used):
+          </p>
           <pre className="overflow-x-auto whitespace-pre-wrap border border-line bg-ground p-3 font-mono text-xs text-ink">
             {d.trials.query || "(empty)"}
           </pre>
@@ -736,8 +766,9 @@ export default function DiseasePage({
               <span className="font-mono text-ink">
                 {d.trials.matchedVia.join(", ")}
               </span>{" "}
-              (mesh = a trial registered its condition under a MeSH descriptor no
-              name phrase would catch).
+              (mesh = registered under a MeSH descriptor no name phrase would
+              catch; recall-expansion = gene / selected parent terms used only
+              for trials).
             </p>
           )}
           {d.trials.registeredStudiesTotal != null && (
