@@ -31,6 +31,7 @@ import {
   trialsPlain,
 } from "@/lib/plain-copy";
 import { diseaseSignals } from "@/lib/signals";
+import { SITE_NAME } from "@/lib/site";
 
 export function generateStaticParams() {
   return getAllDiseases().map((d) => ({ orphacode: d.orphaCode }));
@@ -42,13 +43,23 @@ export function generateMetadata({
   params: { orphacode: string };
 }): Metadata {
   const d = getDisease(params.orphacode);
-  if (!d) return { title: "Disease not found" };
+  if (!d) return { title: "Disease not found", robots: { index: false } };
+  const description = `Research attention for ${d.name} (ORPHA:${d.orphaCode}): ${formatCount(d.publications.total)} publications, ${formatCount(d.researchers.distinctCount)} researchers, ${formatCount(d.trials.total)} interventional trials — ${SITE_NAME}.`;
+  const path = `/disease/${d.orphaCode}`;
   return {
     title: d.name,
-    description: `Is anyone working on ${d.name}? Publications, researchers, interventional trials, observational studies, and what is known about the cause.`,
+    description,
+    alternates: { canonical: path },
     openGraph: {
-      title: d.name,
-      description: `${formatCount(d.publications.total)} publications · ${formatCount(d.researchers.distinctCount)} researchers · ${formatCount(d.trials.total)} interventional trials`,
+      title: `${d.name} · ${SITE_NAME}`,
+      description,
+      url: path,
+      type: "article",
+    },
+    twitter: {
+      card: "summary",
+      title: `${d.name} · ${SITE_NAME}`,
+      description,
     },
   };
 }

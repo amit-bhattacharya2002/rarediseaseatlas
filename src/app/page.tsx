@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { SearchBox } from "@/components/SearchBox";
 import {
@@ -8,6 +9,20 @@ import {
 } from "@/lib/data";
 import { dataAsOfLabel } from "@/lib/dates";
 import { trialsHeadline } from "@/lib/plain-copy";
+import { SITE_DESCRIPTION, SITE_NAME, SITE_TAGLINE } from "@/lib/site";
+
+export const metadata: Metadata = {
+  title: {
+    absolute: SITE_NAME,
+  },
+  description: SITE_DESCRIPTION,
+  alternates: { canonical: "/" },
+  openGraph: {
+    title: SITE_NAME,
+    description: SITE_DESCRIPTION,
+    url: "/",
+  },
+};
 
 export default function HomePage() {
   const aggregate = getAggregate();
@@ -35,9 +50,12 @@ export default function HomePage() {
           An open rare disease research landscape
         </p>
         <h1 className="animate-rise mt-4 max-w-3xl font-serif text-display-sm text-ink sm:text-display">
-          Is Anyone Working On This?
+          {SITE_NAME}
         </h1>
-        <p className="animate-rise mt-5 max-w-xl font-sans text-lede text-mute [animation-delay:80ms]">
+        <p className="animate-rise mt-5 max-w-xl font-serif text-title text-ink [animation-delay:60ms]">
+          {SITE_TAGLINE}
+        </p>
+        <p className="animate-rise mt-4 max-w-xl font-sans text-lede text-mute [animation-delay:80ms]">
           For families facing a name they have never heard — and for anyone who
           needs a defensible picture of research attention.
         </p>

@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   title: "Findings — nomenclature, searchability, and trial measurement",
   description:
     "Dated methods-and-findings note from a 300-disease Orphanet sample: how official rare-disease names map to literature and trial registries.",
+  alternates: { canonical: "/findings" },
 };
 
 export default function FindingsPage() {

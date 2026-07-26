@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   title: "Where research attention is thinnest",
   description:
     "Rare diseases ranked by weakest research signals — a view for researchers and funders, not a ranking of patients or prognosis.",
+  alternates: { canonical: "/neglected" },
 };
 
 export default function NeglectedPage() {

@@ -4,7 +4,8 @@ import { diseasesArtifact, getAggregate, indiaNprd } from "@/lib/data";
 export const metadata: Metadata = {
   title: "About & methodology",
   description:
-    "Methodology, data sources, licences, and how to report errors for Is Anyone Working On This?",
+    "Methodology, data sources, licences, and how to report errors for the Rare Disease Research Atlas.",
+  alternates: { canonical: "/about" },
 };
 
 export default function AboutPage() {

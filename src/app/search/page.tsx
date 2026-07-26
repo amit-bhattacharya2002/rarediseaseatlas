@@ -5,7 +5,8 @@ import { getSearchIndex } from "@/lib/data";
 export const metadata: Metadata = {
   title: "Search rare diseases",
   description:
-    "Search rare diseases by preferred name, synonym, or ORPHA code.",
+    "Search rare diseases by Orphanet preferred name, synonym, or ORPHA code on the Rare Disease Research Atlas.",
+  alternates: { canonical: "/search" },
 };
 
 export default function SearchPage() {

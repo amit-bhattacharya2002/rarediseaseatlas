@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   title: "The rare disease landscape",
   description:
     "Every rare disease in this build as one cell, coloured by how many interventional trials or recent papers it has — with a sortable list toggle.",
+  alternates: { canonical: "/landscape" },
 };
 
 export default function LandscapePage() {
