@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { GITHUB_ISSUES_URL } from "@/lib/site";
 
 export function SiteFooter() {
   return (
@@ -52,8 +53,10 @@ export function SiteFooter() {
             Ingest status
           </Link>
           <a
-            href="https://github.com/is-anyone-working-on-this/atlas/issues"
+            href={GITHUB_ISSUES_URL}
             className="hover:text-ink"
+            target="_blank"
+            rel="noopener noreferrer"
           >
             Report an error
           </a>

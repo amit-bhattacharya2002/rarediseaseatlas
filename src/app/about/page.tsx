@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { diseasesArtifact, getAggregate, indiaNprd } from "@/lib/data";
+import { GITHUB_ISSUES_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "About & methodology",
@@ -402,9 +403,17 @@ npm run ingest:full    # entire Orphanet set (hours)
       <section className="mt-12">
         <h2 className="font-serif text-title text-ink">Report an error</h2>
         <p className="mt-3 font-sans text-sm leading-relaxed text-mute">
-          Every disease page links to a prefilled GitHub issue with the ORPHAcode.
-          Corrections to the India list can also be proposed as edits to{" "}
-          <span className="font-mono">data/india-nprd.json</span>.
+          Every disease page links to a prefilled{" "}
+          <a
+            href={GITHUB_ISSUES_URL}
+            className="underline decoration-line underline-offset-2 hover:text-ink"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            GitHub issue
+          </a>{" "}
+          with the ORPHAcode. Corrections to the India list can also be proposed
+          as edits to <span className="font-mono">data/india-nprd.json</span>.
         </p>
       </section>
 

@@ -1,5 +1,6 @@
 import diseasesJson from "../../data/diseases.json";
 import indiaJson from "../../data/india-nprd.json";
+import { githubNewIssueUrl } from "./site";
 import { signalLevel } from "./signals";
 import type {
   DiseaseRecord,
@@ -198,8 +199,8 @@ export const UMBRELLA_ORGS = [
 ] as const;
 
 export function reportErrorUrl(orphaCode: string, name: string): string {
-  const title = encodeURIComponent(`Data error: ORPHA:${orphaCode} — ${name}`);
-  const body = encodeURIComponent(
+  return githubNewIssueUrl(
+    `Data error: ORPHA:${orphaCode} — ${name}`,
     [
       `**ORPHAcode:** ${orphaCode}`,
       `**Disease name:** ${name}`,
@@ -212,5 +213,4 @@ export function reportErrorUrl(orphaCode: string, name: string): string {
       "**Page URL:**",
     ].join("\n")
   );
-  return `https://github.com/is-anyone-working-on-this/atlas/issues/new?title=${title}&body=${body}`;
 }
