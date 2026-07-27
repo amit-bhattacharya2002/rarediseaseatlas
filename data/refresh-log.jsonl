@@ -9,3 +9,4 @@
 {"kind":"live-check","ranAt":"2026-07-27T11:23:06.279Z","orphaCode":"2612","publishedTotal":369,"liveTotal":300,"publishedAsOf":"27 July 2026"}
 {"kind":"live-check","ranAt":"2026-07-27T11:23:34.453Z","orphaCode":"2612","publishedTotal":369,"liveTotal":300,"publishedAsOf":"27 July 2026"}
 {"kind":"nightly-zero-trials","ranAt":"2026-07-27T11:34:20.860Z","diseasesChecked":178,"transitionsToNonZero":[],"durationMs":162082,"errors":[]}
+{"kind":"nightly-zero-trials","ranAt":"2026-07-27T04:31:39.394Z","diseasesChecked":174,"transitionsToNonZero":[],"durationMs":131485,"errors":[]}
