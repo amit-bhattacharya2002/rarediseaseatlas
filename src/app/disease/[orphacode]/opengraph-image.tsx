@@ -1,13 +1,12 @@
 import { ImageResponse } from "next/og";
-import { getAllDiseases, getDisease } from "@/lib/data";
+import { getDisease } from "@/lib/data";
 import { diseaseSignals, SIGNAL_COLORS } from "@/lib/signals";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-export function generateStaticParams() {
-  return getAllDiseases().map((d) => ({ orphacode: d.orphaCode }));
-}
+// On-demand only — prebuilding 8k OG images dominated deploy time.
+export const dynamic = "force-dynamic";
 
 export default async function Image({
   params,

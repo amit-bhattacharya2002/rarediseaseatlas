@@ -15,7 +15,6 @@ import { ReadinessRail } from "@/components/ReadinessRail";
 import {
   diseasesArtifact,
   getAggregate,
-  getAllDiseases,
   getDisease,
   getDistributions,
 } from "@/lib/data";
@@ -24,8 +23,17 @@ import { formatCount, trialsComparativeLine } from "@/lib/plain-copy";
 import { SITE_NAME } from "@/lib/site";
 import { ReportProblem } from "@/components/ReportProblem";
 
+/**
+ * Do not prebuild all ~8k disease URLs at deploy time — that doubled build
+ * cost with OG images (~16k outputs). Pages render on first request and are
+ * cached via ISR (revalidate).
+ */
+export const dynamicParams = true;
+export const revalidate = 86400; // 24h
+
 export function generateStaticParams() {
-  return getAllDiseases().map((d) => ({ orphacode: d.orphaCode }));
+  // Empty = no disease HTML at build; still allows /disease/[code] on demand.
+  return [];
 }
 
 export function generateMetadata({
