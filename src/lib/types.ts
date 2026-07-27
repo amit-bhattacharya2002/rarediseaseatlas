@@ -76,6 +76,75 @@ export interface TrialRecord {
   studyType?: string | null;
   /** Per-study strategy match (aggregate is also stored on trials.matchedVia). */
   matchedVia?: "mesh" | "phrase" | "both" | "recall-expansion";
+  /** Dual-model relevance annotation — does not change trials.total. */
+  relevance?: TrialRelevance;
+}
+
+export type RegistrySource =
+  | "ictrp"
+  | "ctis"
+  | "isrctn"
+  | "ctgov"
+  | "ctri"
+  | "jrct"
+  | "anzctr"
+  | "drks"
+  | "chictr"
+  | "euctr"
+  | "other";
+
+export type RelevanceVerdict =
+  | true
+  | false
+  | "uncertain"
+  | "relevant-to-parent-category";
+
+export type RelevanceConsensus =
+  | "relevant"
+  | "parent-category"
+  | "irrelevant"
+  | "uncertain"
+  | "skipped";
+
+export interface TrialRelevanceModelVote {
+  relevant: RelevanceVerdict;
+  reason: string;
+  model: string;
+}
+
+export interface TrialRelevance {
+  consensus: RelevanceConsensus;
+  reason: string;
+  openai?: TrialRelevanceModelVote;
+  anthropic?: TrialRelevanceModelVote;
+  promptVersion: string;
+  reviewedAt: string;
+}
+
+export interface RegistryTrialRecord {
+  id: string;
+  nctId: string | null;
+  secondaryIds: string[];
+  title: string;
+  status: string | null;
+  registry: RegistrySource;
+  url: string;
+  conditions: string[];
+  studyType: string | null;
+  relevance?: TrialRelevance;
+}
+
+export interface SecondaryRegistriesBlock {
+  fetchedAt: string;
+  queryTerms: string[];
+  rawFetched: number;
+  afterDedupe: number;
+  alreadyOnCtgov: number;
+  kept: RegistryTrialRecord[];
+  parentCategory: RegistryTrialRecord[];
+  uncertain: RegistryTrialRecord[];
+  droppedCount: number;
+  sourceErrors?: Partial<Record<RegistrySource, string>>;
 }
 
 export interface YearCount {
@@ -173,6 +242,11 @@ export interface DiseaseRecord {
       query: string;
       fullyScanned: boolean;
     } | null;
+    /**
+     * Multi-registry secondary net (ICTRP / CTIS / ISRCTN, …).
+     * Never merged into `total` — CT.gov remains the headline denominator.
+     */
+    secondaryRegistries?: SecondaryRegistriesBlock | null;
   };
   /** ISO timestamp of the last ClinicalTrials.gov re-check for this disease. */
   lastTrialCheck?: string;
@@ -202,7 +276,59 @@ export interface DiseaseRecord {
   publicationsPercentile: number | null;
   trialsPercentile: number | null;
 
+  /**
+   * Optional Monarch / Alliance enrichment (Mondo ID joins only).
+   * Filled by `npm run enrich:monarch` — not required for ingest.
+   */
+  monarch?: {
+    fetchedAt: string;
+    phenotypeCount: number | null;
+    phenotypeSample: string[];
+    modelCount: number;
+    models: Array<{
+      id: string;
+      label: string;
+      taxonLabel: string | null;
+    }>;
+  } | null;
+
+  /** Derived research-stage checklist — recomputed by derive. */
+  trialReadiness?: TrialReadiness;
+
   ingestedAt: string;
+}
+
+export type ReadinessStageId =
+  | "gene"
+  | "literature"
+  | "phenotype"
+  | "animal-model"
+  | "orphan-designation"
+  | "interventional-trial";
+
+export type ReadinessStageStatus =
+  | "met"
+  | "partial"
+  | "absent"
+  | "unknown"
+  | "not-applicable";
+
+export interface ReadinessStage {
+  id: ReadinessStageId;
+  status: ReadinessStageStatus;
+  label: string;
+  detail: string;
+  evidenceUrl?: string | null;
+}
+
+export interface TrialReadiness {
+  /** Plain one-liner for families / advocates. */
+  summary: string;
+  /** Stages that are met or partial (excludes unknown / n/a). */
+  filledCount: number;
+  /** Stages we attempt to score (excludes not-applicable). */
+  scoredCount: number;
+  stages: ReadinessStage[];
 }
 
 export interface SamplingProvenance {
@@ -247,6 +373,9 @@ export interface DiseasesArtifact {
     gencc: string;
     genccFetchedAt: string;
     mondo?: string;
+    /** Monarch API host when enrich:monarch has been run */
+    monarchApi?: string;
+    monarchEnrichedAt?: string;
   };
   /** Orphanet product1 taxonomy breakdown — denominators for narrative counts. */
   corpusLevels?: CorpusLevels;

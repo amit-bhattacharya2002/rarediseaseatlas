@@ -5,6 +5,7 @@ import {
   GITHUB_ISSUES_URL,
   INSTAGRAM_URL,
   LINKEDIN_URL,
+  REPORT_EMAIL,
 } from "@/lib/site";
 
 function samplingBlurb(): string {
@@ -451,9 +452,17 @@ npm run ingest:full    # all usable non-group Orphanet rows (~8k; hours)
       </section>
 
       <section className="mt-12">
-        <h2 className="font-serif text-title text-ink">Report an error</h2>
+        <h2 className="font-serif text-title text-ink">Report a problem</h2>
         <p className="mt-3 font-sans text-sm leading-relaxed text-mute">
-          Every disease page links to a prefilled{" "}
+          No GitHub account needed. Email{" "}
+          <a
+            href={`mailto:${REPORT_EMAIL}`}
+            className="underline decoration-line underline-offset-2 hover:text-ink"
+          >
+            {REPORT_EMAIL}
+          </a>{" "}
+          with the ORPHAcode and what looks wrong. Technical contributors can
+          also open a prefilled{" "}
           <a
             href={GITHUB_ISSUES_URL}
             className="underline decoration-line underline-offset-2 hover:text-ink"
@@ -461,9 +470,10 @@ npm run ingest:full    # all usable non-group Orphanet rows (~8k; hours)
             rel="noopener noreferrer"
           >
             GitHub issue
-          </a>{" "}
-          with the ORPHAcode. Corrections to the India list can also be proposed
-          as edits to <span className="font-mono">data/india-nprd.json</span>.
+          </a>
+          . Every disease page has both actions. Corrections to the India list
+          can also be proposed as edits to{" "}
+          <span className="font-mono">data/india-nprd.json</span>.
         </p>
       </section>
 
@@ -471,8 +481,14 @@ npm run ingest:full    # all usable non-group Orphanet rows (~8k; hours)
         <h2 className="font-serif text-title text-ink">Get in touch</h2>
         <p className="mt-3 font-sans text-sm leading-relaxed text-mute">
           Questions about the atlas, collaborations, corrections outside a
-          specific disease page, or press: reach the author on LinkedIn or follow
-          the project on Instagram.
+          specific disease page, or press: email{" "}
+          <a
+            href={`mailto:${REPORT_EMAIL}`}
+            className="underline decoration-line underline-offset-2 hover:text-ink"
+          >
+            {REPORT_EMAIL}
+          </a>
+          , reach the author on LinkedIn, or follow the project on Instagram.
         </p>
         <ul className="mt-4 space-y-2 font-sans text-sm text-mute">
           <li>

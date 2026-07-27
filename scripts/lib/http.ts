@@ -22,6 +22,11 @@ export interface FetchJsonOptions {
   headers?: Record<string, string>;
 }
 
+export interface FetchJsonPostOptions extends FetchJsonOptions {
+  body?: unknown;
+  method?: "POST" | "PUT";
+}
+
 export async function fetchText(
   url: string,
   options: FetchJsonOptions = {}
@@ -46,20 +51,20 @@ export async function fetchText(
         signal: controller.signal,
         headers: {
           Accept: "*/*",
-          "User-Agent": "IsAnyoneWorkingOnThis/0.1 (research-landscape; contact via GitHub issues)",
+          "User-Agent":
+            "IsAnyoneWorkingOnThis/0.1 (research-landscape; contact via GitHub issues)",
           ...headers,
         },
       });
       clearTimeout(timer);
 
       if (res.status === 429 || res.status >= 500) {
-        const backoff = Math.min(30_000, 500 * 2 ** attempt) + Math.random() * 200;
+        const backoff =
+          Math.min(30_000, 500 * 2 ** attempt) + Math.random() * 200;
         await new Promise((r) => setTimeout(r, backoff));
         continue;
       }
 
-      // Client errors (incl. 400 over-long query) must not become silent zeros
-      // via retry-then-collapse. Fail fast so callers can null the field.
       if (res.status >= 400 && res.status < 500) {
         throw new Error(`HTTP ${res.status} for ${url}`);
       }
@@ -69,22 +74,25 @@ export async function fetchText(
       }
 
       const body = await res.text();
-      if (cacheKey) writeCache(cacheKey, { body, fetchedAt: new Date().toISOString(), url });
+      if (cacheKey)
+        writeCache(cacheKey, { body, fetchedAt: new Date().toISOString(), url });
       return body;
     } catch (err) {
       clearTimeout(timer);
       lastError = err;
       const msg = String(err);
-      // Do not retry permanent client errors (especially HTTP 400).
       if (/\bHTTP 4\d\d\b/.test(msg)) {
         throw err instanceof Error ? err : new Error(msg);
       }
-      const backoff = Math.min(30_000, 500 * 2 ** attempt) + Math.random() * 200;
+      const backoff =
+        Math.min(30_000, 500 * 2 ** attempt) + Math.random() * 200;
       await new Promise((r) => setTimeout(r, backoff));
     }
   }
 
-  throw new Error(`Failed after ${maxRetries} retries: ${url} — ${String(lastError)}`);
+  throw new Error(
+    `Failed after ${maxRetries} retries: ${url} — ${String(lastError)}`
+  );
 }
 
 export async function fetchJson<T>(
@@ -93,4 +101,86 @@ export async function fetchJson<T>(
 ): Promise<T> {
   const text = await fetchText(url, options);
   return JSON.parse(text) as T;
+}
+
+/** POST/PUT JSON helper (CTIS search, etc.). Honors the shared rate limiter. */
+export async function fetchJsonPost<T>(
+  url: string,
+  options: FetchJsonPostOptions = {}
+): Promise<T> {
+  const {
+    cacheKey,
+    maxRetries = 5,
+    timeoutMs = 60_000,
+    headers = {},
+    body = {},
+    method = "POST",
+  } = options;
+
+  if (cacheKey) {
+    const cached = readCache<{ body: string }>(cacheKey);
+    if (cached?.body != null) return JSON.parse(cached.body) as T;
+  }
+
+  let attempt = 0;
+  let lastError: unknown;
+  const payload = JSON.stringify(body);
+
+  while (attempt < maxRetries) {
+    attempt += 1;
+    await rateLimit();
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), timeoutMs);
+    try {
+      const res = await fetch(url, {
+        method,
+        signal: controller.signal,
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "User-Agent":
+            "IsAnyoneWorkingOnThis/0.1 (research-landscape; contact via GitHub issues)",
+          ...headers,
+        },
+        body: payload,
+      });
+      clearTimeout(timer);
+
+      if (res.status === 429 || res.status >= 500) {
+        const backoff =
+          Math.min(30_000, 500 * 2 ** attempt) + Math.random() * 200;
+        await new Promise((r) => setTimeout(r, backoff));
+        continue;
+      }
+      if (res.status >= 400 && res.status < 500) {
+        throw new Error(`HTTP ${res.status} for ${url}: ${await res.text()}`);
+      }
+      if (!res.ok) {
+        throw new Error(`HTTP ${res.status} for ${url}`);
+      }
+      const text = await res.text();
+      if (cacheKey) {
+        writeCache(cacheKey, {
+          body: text,
+          fetchedAt: new Date().toISOString(),
+          url,
+        });
+      }
+      return JSON.parse(text) as T;
+    } catch (err) {
+      clearTimeout(timer);
+      lastError = err;
+      const msg = String(err);
+      if (/\bHTTP 4\d\d\b/.test(msg)) {
+        throw err instanceof Error ? err : new Error(msg);
+      }
+      const backoff =
+        Math.min(30_000, 500 * 2 ** attempt) + Math.random() * 200;
+      await new Promise((r) => setTimeout(r, backoff));
+    }
+  }
+
+  throw new Error(
+    `Failed after ${maxRetries} retries: ${url} — ${String(lastError)}`
+  );
 }

@@ -184,6 +184,15 @@ const SITE_ENTRIES: GlossaryEntry[] = [
     category: "how-we-measure",
   },
   {
+    id: "trial-readiness",
+    term: "Trial readiness",
+    definition:
+      "A checklist of open-data research stages for a disease — gene, literature, phenotype, animal model, orphan designation, interventional trial — not a prediction that a treatment is near.",
+    detail:
+      "Built from GenCC, Europe PMC, ClinicalTrials.gov, and optional Monarch/Alliance enrichment joined on Mondo IDs. Missing stages often mean “not in these sources under this ID,” not “impossible.”",
+    category: "how-we-measure",
+  },
+  {
     id: "orphanet",
     term: "Orphanet",
     definition:
@@ -225,8 +234,17 @@ const SITE_ENTRIES: GlossaryEntry[] = [
     definition:
       "The U.S. National Library of Medicine registry of clinical studies (API v2).",
     detail:
-      "We query the condition field with quoted phrases and MeSH, plus recall-expansion when applicable. Study-type filters separate interventional, observational, and expanded-access records.",
+      "We query the condition field with quoted phrases and MeSH, plus recall-expansion when applicable. Study-type filters separate interventional, observational, and expanded-access records. Other registries appear only as a secondary, deduped layer and never change the interventional headline.",
     category: "data-sources",
+  },
+  {
+    id: "secondary-registries",
+    term: "Secondary registries",
+    definition:
+      "Non–ClinicalTrials.gov trial records (EU CTIS, ISRCTN, ICTRP when available) shown after cross-ID dedupe and dual-model relevance review.",
+    detail:
+      "Hits already present as NCT IDs in the CT.gov match set count as duplicates, not new evidence. Dual-model consensus classifies each candidate as relevant, parent-category, irrelevant, or uncertain. Kept rows do not change trials.total or site-wide neglect metrics.",
+    category: "how-we-measure",
   },
   {
     id: "gencc",

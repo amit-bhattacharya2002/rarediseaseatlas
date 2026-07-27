@@ -20,8 +20,11 @@ import type {
   MatchStrategy,
   QueryHealth,
 } from "../../src/lib/types";
+import { computeTrialReadiness } from "./readiness";
 
 const PARENT_PUBS_SUBSTANTIAL = 50;
+/** Bytes that appear when Orphanet UTF-8 is mis-decoded as CP850 (e.g. TomÚ-…). */
+const CP850_CORRUPT = /[ÚÞÛÙÓßÔõÕþÝ´±¾¶÷·³°]/;
 
 /**
  * Backfill fields added after an artifact was first written, so derive runs on
@@ -193,6 +196,26 @@ function recomputeConfidence(
     );
   }
 
+  // Broken queries cannot be high/medium confidence — structural contradiction.
+  if (d.queryHealth?.status === "broken" && confidence !== "low") {
+    confidence = "low";
+    reasons = [
+      "Query health is broken (no hits on either database) — confidence forced low",
+      ...reasons,
+    ];
+  }
+
+  // Preferred-label encoding corruption (CP850 double-decode) is a source defect.
+  if (CP850_CORRUPT.test(d.name)) {
+    confidence = "low";
+    reasons = [
+      d.nameCorrected
+        ? `Preferred label still contains encoding artifacts; queries use nameCorrected (${d.nameCorrected})`
+        : "Preferred label contains encoding artifacts (CP850/UTF-8 mojibake) — treat counts with caution",
+      ...reasons.filter((r) => !r.includes("encoding")),
+    ];
+  }
+
   d.confidence = confidence;
   d.confidenceReasons = reasons;
   d.excludeFromNeglect = excludeFromNeglect;
@@ -309,6 +332,11 @@ export function deriveArtifact(artifact: DiseasesArtifact): DiseasesArtifact {
     }))
   );
   for (const d of diseases) recomputeConfidence(d, reverseIndex);
+
+  // 2b) Trial-readiness stages from existing signals + optional Monarch enrichments
+  for (const d of diseases) {
+    d.trialReadiness = computeTrialReadiness(d);
+  }
 
   // 3) aggregate (needs pub median for Part 7 diagnostic)
   const pubValues: number[] = [];

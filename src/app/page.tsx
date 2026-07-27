@@ -3,7 +3,6 @@ import Link from "next/link";
 import { SearchBox } from "@/components/SearchBox";
 import {
   getAggregate,
-  getAllDiseases,
   getSearchIndex,
   diseasesArtifact,
 } from "@/lib/data";
@@ -26,7 +25,6 @@ export const metadata: Metadata = {
 
 export default function HomePage() {
   const aggregate = getAggregate();
-  const diseases = getAllDiseases();
   const searchIndex = getSearchIndex();
   const trials = trialsHeadline(aggregate, diseasesArtifact.validation);
   const noStudyPct =

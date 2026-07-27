@@ -1,6 +1,7 @@
-import diseasesJson from "../../data/diseases.json";
+import fs from "node:fs";
+import path from "node:path";
 import indiaJson from "../../data/india-nprd.json";
-import { githubNewIssueUrl } from "./site";
+import { reportProblemGithubUrl } from "./site";
 import { signalLevel } from "./signals";
 import type {
   DiseaseRecord,
@@ -11,8 +12,25 @@ import type {
 
 export type { SearchIndexEntry };
 
-export const diseasesArtifact = diseasesJson as DiseasesArtifact;
+/**
+ * Load the artifact once via fs (not a webpack JSON module). Importing a 4MB+
+ * diseases.json through the bundler makes every `next dev` compile and navigation
+ * pay a large parse/transform cost.
+ */
+function loadDiseasesArtifact(): DiseasesArtifact {
+  const filePath = path.join(process.cwd(), "data", "diseases.json");
+  return JSON.parse(fs.readFileSync(filePath, "utf8")) as DiseasesArtifact;
+}
+
+export const diseasesArtifact = loadDiseasesArtifact();
 export const indiaNprd = indiaJson as IndiaNprdData;
+
+const diseaseByCode = new Map(
+  diseasesArtifact.diseases.map((d) => [d.orphaCode, d])
+);
+
+let searchIndexCache: SearchIndexEntry[] | null = null;
+let landscapeCache: ReturnType<typeof buildLandscapeCells> | null = null;
 
 /** Fail the build if India NPRD verification is older than 12 months. */
 function assertIndiaBuildFreshness(): void {
@@ -116,7 +134,8 @@ export function getAllDiseases(): DiseaseRecord[] {
 }
 
 export function getSearchIndex(): SearchIndexEntry[] {
-  return diseasesArtifact.diseases.map((d) => ({
+  if (searchIndexCache) return searchIndexCache;
+  searchIndexCache = diseasesArtifact.diseases.map((d) => ({
     orphaCode: d.orphaCode,
     name: d.name,
     synonyms: d.synonyms,
@@ -124,10 +143,11 @@ export function getSearchIndex(): SearchIndexEntry[] {
     researchers: signalLevel(d.researchers.distinctCount ?? 0, "people"),
     trials: signalLevel(d.trials.total ?? 0, "trials"),
   }));
+  return searchIndexCache;
 }
 
 export function getDisease(orphaCode: string): DiseaseRecord | undefined {
-  return diseasesArtifact.diseases.find((d) => d.orphaCode === orphaCode);
+  return diseaseByCode.get(orphaCode);
 }
 
 export function getAggregate() {
@@ -138,8 +158,7 @@ export function getDistributions() {
   return diseasesArtifact.distributions;
 }
 
-/** Slim per-disease shape for the landscape heat map (keeps the client payload small). */
-export function getLandscapeCells() {
+function buildLandscapeCells() {
   return diseasesArtifact.diseases.map((d) => ({
     orphaCode: d.orphaCode,
     name: d.name,
@@ -150,6 +169,12 @@ export function getLandscapeCells() {
     confidence: d.confidence,
     broken: d.queryHealth?.status === "broken",
   }));
+}
+
+/** Slim per-disease shape for the landscape heat map (keeps the client payload small). */
+export function getLandscapeCells() {
+  if (!landscapeCache) landscapeCache = buildLandscapeCells();
+  return landscapeCache;
 }
 
 /** Neglect score: lower research attention → higher score. */
@@ -199,18 +224,5 @@ export const UMBRELLA_ORGS = [
 ] as const;
 
 export function reportErrorUrl(orphaCode: string, name: string): string {
-  return githubNewIssueUrl(
-    `Data error: ORPHA:${orphaCode} — ${name}`,
-    [
-      `**ORPHAcode:** ${orphaCode}`,
-      `**Disease name:** ${name}`,
-      "",
-      "**What looks wrong?**",
-      "<!-- e.g. publication count, trials, researchers, India panel, definition -->",
-      "",
-      "**Suggested correction / source:**",
-      "",
-      "**Page URL:**",
-    ].join("\n")
-  );
+  return reportProblemGithubUrl(orphaCode, name);
 }

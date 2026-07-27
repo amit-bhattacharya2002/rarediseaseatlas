@@ -4,3 +4,8 @@
 {"kind":"live-check","ranAt":"2026-07-27T01:12:00.442Z","orphaCode":"100020","publishedTotal":1238,"liveTotal":193,"publishedAsOf":"26 July 2026"}
 {"kind":"live-check","ranAt":"2026-07-27T01:16:22.035Z","orphaCode":"268114","publishedTotal":449,"liveTotal":15,"publishedAsOf":"26 July 2026"}
 {"kind":"live-check","ranAt":"2026-07-27T01:16:46.838Z","orphaCode":"2612","publishedTotal":369,"liveTotal":300,"publishedAsOf":"26 July 2026"}
+{"kind":"live-check","ranAt":"2026-07-27T02:31:26.829Z","orphaCode":"2612","publishedTotal":369,"liveTotal":300,"publishedAsOf":"26 July 2026"}
+{"kind":"live-check","ranAt":"2026-07-27T11:16:20.274Z","orphaCode":"2612","publishedTotal":369,"liveTotal":300,"publishedAsOf":"27 July 2026"}
+{"kind":"live-check","ranAt":"2026-07-27T11:23:06.279Z","orphaCode":"2612","publishedTotal":369,"liveTotal":300,"publishedAsOf":"27 July 2026"}
+{"kind":"live-check","ranAt":"2026-07-27T11:23:34.453Z","orphaCode":"2612","publishedTotal":369,"liveTotal":300,"publishedAsOf":"27 July 2026"}
+{"kind":"nightly-zero-trials","ranAt":"2026-07-27T11:34:20.860Z","diseasesChecked":178,"transitionsToNonZero":[],"durationMs":162082,"errors":[]}

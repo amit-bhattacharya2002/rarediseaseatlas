@@ -282,21 +282,92 @@ function parentSharesDiseaseSignal(diseaseName: string, parentLabel: string): bo
  */
 export const MAX_RECALL_GENES = 3;
 
+/**
+ * Gene symbols that alone match huge interventional trial populations on
+ * ClinicalTrials.gov. Kept out of specific-tier recall; disease-name phrases
+ * and the parent-category tier still apply. GenCC continues to list them on
+ * the disease record for biology UI.
+ *
+ * Must stay aligned with HIGH_FREQUENCY_ONCOGENES in scripts/audit-artifact.ts.
+ */
+export const HIGH_FREQUENCY_ONCOGENES = new Set([
+  "KRAS",
+  "NRAS",
+  "HRAS",
+  "BRAF",
+  "TP53",
+  "EGFR",
+  "PIK3CA",
+  "ALK",
+  "MYC",
+  "PTEN",
+  "RB1",
+  "BRCA1",
+  "BRCA2",
+  "KIT",
+  "MET",
+  "RET",
+  "ROS1",
+  "IDH1",
+  "IDH2",
+  "FLT3",
+  "JAK2",
+  "ABL1",
+  "BCR",
+  "NF1",
+  "NF2",
+  "VHL",
+  "APC",
+  "SMAD4",
+  "CDKN2A",
+  "ERBB2",
+  "AKT1",
+  "CTNNB1",
+  "NOTCH1",
+  "FGFR1",
+  "FGFR2",
+  "FGFR3",
+  "FGFR4",
+  "PDGFRA",
+  "SF3B1",
+  "TET2",
+  "DNMT3A",
+  "ASXL1",
+  "RUNX1",
+  "WT1",
+  "NPM1",
+  "CEBPA",
+  "STK11",
+  "MLH1",
+  "MSH2",
+  "ATM",
+  "CDH1",
+  "SDHB",
+  "TSC1",
+  "TSC2",
+]);
+
 /** Stable, capped gene list for trial recall / incomplete-scan retries. */
 export function capRecallGenes(genes: string[]): string[] {
   return uniqueTerms(
-    genes.map((g) => g.trim()).filter((g) => g.length >= 2)
+    genes
+      .map((g) => g.trim())
+      .filter(
+        (g) =>
+          g.length >= 2 && !HIGH_FREQUENCY_ONCOGENES.has(g.toUpperCase())
+      )
   ).slice(0, MAX_RECALL_GENES);
 }
 
 /**
  * Recall terms allowed into production CT.gov queries.
- * Genes always pass. Non-gene terms need real content-token specificity —
- * including eponymous "<Name> disease|syndrome" forms.
+ * Capped non-oncogene genes pass. Non-gene terms need real content-token
+ * specificity — including eponymous "<Name> disease|syndrome" forms.
  */
 export function isSafeRecallTerm(term: string, genes: string[]): boolean {
   const trimmed = term.trim();
   if (!trimmed) return false;
+  if (HIGH_FREQUENCY_ONCOGENES.has(trimmed.toUpperCase())) return false;
   const geneSet = new Set(genes.map((g) => g.toUpperCase()));
   if (geneSet.has(trimmed.toUpperCase())) return true;
   if (isOntologySpeak(trimmed) || isGenericParentLabel(trimmed)) return false;

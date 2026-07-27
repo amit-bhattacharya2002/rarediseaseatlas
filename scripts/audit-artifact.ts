@@ -73,12 +73,16 @@ for (const d of diseases) {
   }
 
   // Encoding corruption silently manufactures false zeros. See
-  // docs/orphanet-encoding-corruption.md.
+  // preferred-label mojibake (CP850). If nameCorrected is set, queries can
+  // still be usable — warn rather than fail the build.
   if (CP850_CORRUPT.test(d?.name ?? "")) {
     issues.push({
-      level: "ASSERT", code: "label-encoding-corrupt",
+      level: d?.nameCorrected ? "WARN" : "ASSERT",
+      code: "label-encoding-corrupt",
       orphaCode: d.orphaCode,
-      detail: `name contains CP850 double-decode artifact: ${d.name}`,
+      detail: d?.nameCorrected
+        ? `name still corrupt (${d.name}); nameCorrected=${d.nameCorrected}`
+        : `name contains CP850 double-decode artifact: ${d.name}`,
     });
   }
 
@@ -184,6 +188,23 @@ for (const d of diseases) {
       level: "WARN", code: "no-parent-tier-despite-mondo-ancestry",
       orphaCode: d.orphaCode, detail: "zero specific trials, has Mondo ancestry, no parent tier",
     });
+  }
+
+  const sec = d?.trials?.secondaryRegistries;
+  if (sec?.sourceErrors && Object.keys(sec.sourceErrors).length > 0) {
+    const sources = Object.keys(sec.sourceErrors);
+    const allErrored =
+      sources.includes("ctis") &&
+      sources.includes("isrctn") &&
+      (sec.rawFetched ?? 0) === 0;
+    if (allErrored) {
+      issues.push({
+        level: "WARN",
+        code: "secondary-registries-all-sources-failed",
+        orphaCode: d.orphaCode,
+        detail: `secondary fetch errors: ${sources.join(", ")}`,
+      });
+    }
   }
 }
 

@@ -1,4 +1,4 @@
-import { reportErrorUrl } from "@/lib/data";
+import { ReportProblem } from "@/components/ReportProblem";
 
 export function LimitationsNote({
   orphaCode,
@@ -20,13 +20,8 @@ export function LimitationsNote({
           Orphanet
         </a>
         , and{" "}
-        <a
-          href={reportErrorUrl(orphaCode, name)}
-          className="underline decoration-line underline-offset-2 hover:text-ink"
-        >
-          report an error
-        </a>{" "}
-        if something looks off.
+        <ReportProblem orphaCode={orphaCode} name={name} variant="inline" /> if
+        something looks off.
       </p>
     </aside>
   );

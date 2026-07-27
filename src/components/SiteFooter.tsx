@@ -4,6 +4,7 @@ import {
   GITHUB_ISSUES_URL,
   INSTAGRAM_URL,
   LINKEDIN_URL,
+  REPORT_EMAIL,
 } from "@/lib/site";
 
 export function SiteFooter() {
@@ -70,13 +71,16 @@ export function SiteFooter() {
           <Link href="/status" className="hover:text-ink">
             Ingest status
           </Link>
+          <a href={`mailto:${REPORT_EMAIL}`} className="hover:text-ink">
+            Email a correction
+          </a>
           <a
             href={GITHUB_ISSUES_URL}
             className="hover:text-ink"
             target="_blank"
             rel="noopener noreferrer"
           >
-            Report an error
+            GitHub issues
           </a>
         </p>
       </div>
