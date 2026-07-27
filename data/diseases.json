@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-26T11:33:37.668Z",
+  "generatedAt": "2026-07-27T04:31:39.785Z",
   "ingestLimit": 300,
   "sampling": {
     "mode": "sample",
@@ -245,7 +245,8 @@
       },
       "publicationsPercentile": 54.1,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:14:44.864Z"
+      "ingestedAt": "2026-07-26T02:14:44.864Z",
+      "lastTrialCheck": "2026-07-27T04:29:32.067Z"
     },
     {
       "orphaCode": "46",
@@ -1890,7 +1891,8 @@
       },
       "publicationsPercentile": 31.1,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:52:05.467Z"
+      "ingestedAt": "2026-07-26T01:52:05.467Z",
+      "lastTrialCheck": "2026-07-27T04:29:32.229Z"
     },
     {
       "orphaCode": "280",
@@ -2502,7 +2504,8 @@
       },
       "publicationsPercentile": 94.9,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:26:35.330Z"
+      "ingestedAt": "2026-07-26T02:26:35.330Z",
+      "lastTrialCheck": "2026-07-27T04:29:32.877Z"
     },
     {
       "orphaCode": "316",
@@ -2728,7 +2731,8 @@
       },
       "publicationsPercentile": null,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:31:57.196Z"
+      "ingestedAt": "2026-07-26T02:31:57.196Z",
+      "lastTrialCheck": "2026-07-27T04:29:33.175Z"
     },
     {
       "orphaCode": "365",
@@ -3677,7 +3681,8 @@
       },
       "publicationsPercentile": 67.6,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:43:27.997Z"
+      "ingestedAt": "2026-07-26T01:43:27.997Z",
+      "lastTrialCheck": "2026-07-27T04:29:33.514Z"
     },
     {
       "orphaCode": "380",
@@ -3930,7 +3935,8 @@
       },
       "publicationsPercentile": 81.6,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:14:33.869Z"
+      "ingestedAt": "2026-07-26T02:14:33.869Z",
+      "lastTrialCheck": "2026-07-27T04:29:33.855Z"
     },
     {
       "orphaCode": "390",
@@ -4897,7 +4903,8 @@
       },
       "publicationsPercentile": 10,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:38:24.612Z"
+      "ingestedAt": "2026-07-26T01:38:24.612Z",
+      "lastTrialCheck": "2026-07-27T04:29:34.199Z"
     },
     {
       "orphaCode": "709",
@@ -5148,7 +5155,8 @@
       },
       "publicationsPercentile": 73.8,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:55:40.246Z"
+      "ingestedAt": "2026-07-26T01:55:40.246Z",
+      "lastTrialCheck": "2026-07-27T04:29:34.986Z"
     },
     {
       "orphaCode": "757",
@@ -5654,7 +5662,8 @@
       },
       "publicationsPercentile": null,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:33:59.204Z"
+      "ingestedAt": "2026-07-26T01:33:59.204Z",
+      "lastTrialCheck": "2026-07-27T04:29:35.208Z"
     },
     {
       "orphaCode": "867",
@@ -5883,7 +5892,8 @@
       },
       "publicationsPercentile": 10,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:14:34.930Z"
+      "ingestedAt": "2026-07-26T02:14:34.930Z",
+      "lastTrialCheck": "2026-07-27T04:29:35.556Z"
     },
     {
       "orphaCode": "869",
@@ -6739,7 +6749,8 @@
       },
       "publicationsPercentile": null,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:29:04.480Z"
+      "ingestedAt": "2026-07-26T02:29:04.480Z",
+      "lastTrialCheck": "2026-07-27T04:29:35.911Z"
     },
     {
       "orphaCode": "977",
@@ -6976,7 +6987,8 @@
       },
       "publicationsPercentile": 10,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:11:56.132Z"
+      "ingestedAt": "2026-07-26T02:11:56.132Z",
+      "lastTrialCheck": "2026-07-27T04:29:36.251Z"
     },
     {
       "orphaCode": "1060",
@@ -7200,7 +7212,8 @@
       },
       "publicationsPercentile": null,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:14:34.579Z"
+      "ingestedAt": "2026-07-26T02:14:34.579Z",
+      "lastTrialCheck": "2026-07-27T04:29:36.572Z"
     },
     {
       "orphaCode": "1129",
@@ -7855,7 +7868,8 @@
       },
       "publicationsPercentile": 78.6,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:31:55.482Z"
+      "ingestedAt": "2026-07-26T02:31:55.482Z",
+      "lastTrialCheck": "2026-07-27T04:29:36.943Z"
     },
     {
       "orphaCode": "1174",
@@ -8603,7 +8617,8 @@
       },
       "publicationsPercentile": null,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:59:10.952Z"
+      "ingestedAt": "2026-07-26T01:59:10.952Z",
+      "lastTrialCheck": "2026-07-27T04:29:37.253Z"
     },
     {
       "orphaCode": "1332",
@@ -9613,7 +9628,8 @@
       },
       "publicationsPercentile": null,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:11:30.744Z"
+      "ingestedAt": "2026-07-26T02:11:30.744Z",
+      "lastTrialCheck": "2026-07-27T04:29:37.593Z"
     },
     {
       "orphaCode": "1450",
@@ -9859,7 +9875,8 @@
       },
       "publicationsPercentile": null,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:05:06.530Z"
+      "ingestedAt": "2026-07-26T02:05:06.530Z",
+      "lastTrialCheck": "2026-07-27T04:29:37.938Z"
     },
     {
       "orphaCode": "1515",
@@ -10097,7 +10114,8 @@
       },
       "publicationsPercentile": 83.5,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:16:22.416Z"
+      "ingestedAt": "2026-07-26T02:16:22.416Z",
+      "lastTrialCheck": "2026-07-27T04:29:38.287Z"
     },
     {
       "orphaCode": "1519",
@@ -10335,7 +10353,8 @@
       },
       "publicationsPercentile": 59.2,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:51:31.567Z"
+      "ingestedAt": "2026-07-26T01:51:31.567Z",
+      "lastTrialCheck": "2026-07-27T04:29:38.621Z"
     },
     {
       "orphaCode": "1548",
@@ -10566,7 +10585,8 @@
       },
       "publicationsPercentile": 10,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:37:54.773Z"
+      "ingestedAt": "2026-07-26T01:37:54.773Z",
+      "lastTrialCheck": "2026-07-27T04:29:38.992Z"
     },
     {
       "orphaCode": "1564",
@@ -10969,7 +10989,8 @@
       },
       "publicationsPercentile": null,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:36:12.191Z"
+      "ingestedAt": "2026-07-26T01:36:12.191Z",
+      "lastTrialCheck": "2026-07-27T04:29:39.289Z"
     },
     {
       "orphaCode": "1767",
@@ -11191,7 +11212,8 @@
       },
       "publicationsPercentile": null,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:51:00.283Z"
+      "ingestedAt": "2026-07-26T01:51:00.283Z",
+      "lastTrialCheck": "2026-07-27T04:29:39.885Z"
     },
     {
       "orphaCode": "1782",
@@ -11445,7 +11467,8 @@
       },
       "publicationsPercentile": 66.8,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:29:04.862Z"
+      "ingestedAt": "2026-07-26T02:29:04.862Z",
+      "lastTrialCheck": "2026-07-27T04:29:40.293Z"
     },
     {
       "orphaCode": "1851",
@@ -12398,7 +12421,8 @@
       },
       "publicationsPercentile": 67.6,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:29:58.469Z"
+      "ingestedAt": "2026-07-26T02:29:58.469Z",
+      "lastTrialCheck": "2026-07-27T04:29:40.375Z"
     },
     {
       "orphaCode": "1945",
@@ -13196,7 +13220,8 @@
       },
       "publicationsPercentile": 18.9,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:19:13.966Z"
+      "ingestedAt": "2026-07-26T02:19:13.966Z",
+      "lastTrialCheck": "2026-07-27T04:29:41.249Z"
     },
     {
       "orphaCode": "2077",
@@ -13420,7 +13445,8 @@
       },
       "publicationsPercentile": 2.4,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:30:30.110Z"
+      "ingestedAt": "2026-07-26T02:30:30.110Z",
+      "lastTrialCheck": "2026-07-27T04:29:41.430Z"
     },
     {
       "orphaCode": "2086",
@@ -14800,7 +14826,8 @@
       },
       "publicationsPercentile": 23.2,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:37:08.956Z"
+      "ingestedAt": "2026-07-26T01:37:08.956Z",
+      "lastTrialCheck": "2026-07-27T04:29:41.737Z"
     },
     {
       "orphaCode": "2342",
@@ -15048,7 +15075,8 @@
       },
       "publicationsPercentile": 60.8,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:37:13.150Z"
+      "ingestedAt": "2026-07-26T01:37:13.150Z",
+      "lastTrialCheck": "2026-07-27T04:29:42.072Z"
     },
     {
       "orphaCode": "2408",
@@ -15500,7 +15528,8 @@
       },
       "publicationsPercentile": 88.9,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:55:43.473Z"
+      "ingestedAt": "2026-07-26T01:55:43.473Z",
+      "lastTrialCheck": "2026-07-27T04:29:42.420Z"
     },
     {
       "orphaCode": "2519",
@@ -15900,7 +15929,8 @@
       },
       "publicationsPercentile": 59.2,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:51:07.105Z"
+      "ingestedAt": "2026-07-26T01:51:07.105Z",
+      "lastTrialCheck": "2026-07-27T04:29:43.278Z"
     },
     {
       "orphaCode": "2612",
@@ -16680,7 +16710,8 @@
       },
       "publicationsPercentile": 27,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:07:21.267Z"
+      "ingestedAt": "2026-07-26T02:07:21.267Z",
+      "lastTrialCheck": "2026-07-27T04:29:43.438Z"
     },
     {
       "orphaCode": "2783",
@@ -16944,7 +16975,8 @@
       },
       "publicationsPercentile": 41.9,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:29:22.788Z"
+      "ingestedAt": "2026-07-26T02:29:22.788Z",
+      "lastTrialCheck": "2026-07-27T04:29:43.787Z"
     },
     {
       "orphaCode": "2821",
@@ -17182,7 +17214,8 @@
       },
       "publicationsPercentile": 2.4,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:37:32.464Z"
+      "ingestedAt": "2026-07-26T01:37:32.464Z",
+      "lastTrialCheck": "2026-07-27T04:29:44.452Z"
     },
     {
       "orphaCode": "2892",
@@ -17422,7 +17455,8 @@
       },
       "publicationsPercentile": 10,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:19:04.958Z"
+      "ingestedAt": "2026-07-26T02:19:04.958Z",
+      "lastTrialCheck": "2026-07-27T04:29:44.790Z"
     },
     {
       "orphaCode": "2970",
@@ -18201,7 +18235,8 @@
       },
       "publicationsPercentile": 80,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:05:31.106Z"
+      "ingestedAt": "2026-07-26T02:05:31.106Z",
+      "lastTrialCheck": "2026-07-27T04:29:45.143Z"
     },
     {
       "orphaCode": "3132",
@@ -18439,7 +18474,8 @@
       },
       "publicationsPercentile": 2.4,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:29:13.549Z"
+      "ingestedAt": "2026-07-26T02:29:13.549Z",
+      "lastTrialCheck": "2026-07-27T04:29:45.478Z"
     },
     {
       "orphaCode": "3156",
@@ -19372,7 +19408,8 @@
       },
       "publicationsPercentile": 10,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:14:47.577Z"
+      "ingestedAt": "2026-07-26T02:14:47.577Z",
+      "lastTrialCheck": "2026-07-27T04:29:45.810Z"
     },
     {
       "orphaCode": "3224",
@@ -19989,7 +20026,8 @@
       },
       "publicationsPercentile": 10,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:43:27.179Z"
+      "ingestedAt": "2026-07-26T01:43:27.179Z",
+      "lastTrialCheck": "2026-07-27T04:29:46.153Z"
     },
     {
       "orphaCode": "3332",
@@ -20214,7 +20252,8 @@
       },
       "publicationsPercentile": null,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:19:41.829Z"
+      "ingestedAt": "2026-07-26T02:19:41.829Z",
+      "lastTrialCheck": "2026-07-27T04:29:46.495Z"
     },
     {
       "orphaCode": "3336",
@@ -20759,7 +20798,8 @@
       },
       "publicationsPercentile": 10,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:37:48.066Z"
+      "ingestedAt": "2026-07-26T01:37:48.066Z",
+      "lastTrialCheck": "2026-07-27T04:29:46.840Z"
     },
     {
       "orphaCode": "3433",
@@ -22306,7 +22346,8 @@
       },
       "publicationsPercentile": 70.5,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:33:08.737Z"
+      "ingestedAt": "2026-07-26T01:33:08.737Z",
+      "lastTrialCheck": "2026-07-27T04:29:47.186Z"
     },
     {
       "orphaCode": "51084",
@@ -22716,7 +22757,8 @@
       },
       "publicationsPercentile": 50,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:59:57.738Z"
+      "ingestedAt": "2026-07-26T01:59:57.738Z",
+      "lastTrialCheck": "2026-07-27T04:29:47.515Z"
     },
     {
       "orphaCode": "52047",
@@ -23523,7 +23565,8 @@
       },
       "publicationsPercentile": null,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:35:34.041Z"
+      "ingestedAt": "2026-07-26T01:35:34.041Z",
+      "lastTrialCheck": "2026-07-27T04:29:47.859Z"
     },
     {
       "orphaCode": "59303",
@@ -24221,7 +24264,8 @@
       },
       "publicationsPercentile": 25.1,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:34:42.395Z"
+      "ingestedAt": "2026-07-26T02:34:42.395Z",
+      "lastTrialCheck": "2026-07-27T04:29:48.258Z"
     },
     {
       "orphaCode": "65285",
@@ -24992,7 +25036,8 @@
       },
       "publicationsPercentile": null,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:45:47.940Z"
+      "ingestedAt": "2026-07-26T01:45:47.940Z",
+      "lastTrialCheck": "2026-07-27T04:29:48.534Z"
     },
     {
       "orphaCode": "69665",
@@ -25568,7 +25613,8 @@
       },
       "publicationsPercentile": null,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:51:27.596Z"
+      "ingestedAt": "2026-07-26T01:51:27.596Z",
+      "lastTrialCheck": "2026-07-27T04:29:48.870Z"
     },
     {
       "orphaCode": "79101",
@@ -25824,7 +25870,8 @@
       },
       "publicationsPercentile": 34.1,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:59:57.354Z"
+      "ingestedAt": "2026-07-26T01:59:57.354Z",
+      "lastTrialCheck": "2026-07-27T04:29:49.211Z"
     },
     {
       "orphaCode": "79136",
@@ -26419,7 +26466,8 @@
       },
       "publicationsPercentile": 35.7,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:11:02.466Z"
+      "ingestedAt": "2026-07-26T02:11:02.466Z",
+      "lastTrialCheck": "2026-07-27T04:29:49.891Z"
     },
     {
       "orphaCode": "79330",
@@ -26676,7 +26724,8 @@
       },
       "publicationsPercentile": 63.5,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:16:22.785Z"
+      "ingestedAt": "2026-07-26T02:16:22.785Z",
+      "lastTrialCheck": "2026-07-27T04:29:50.254Z"
     },
     {
       "orphaCode": "79452",
@@ -26900,7 +26949,8 @@
       },
       "publicationsPercentile": 78.1,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:05:30.701Z"
+      "ingestedAt": "2026-07-26T02:05:30.701Z",
+      "lastTrialCheck": "2026-07-27T04:29:50.581Z"
     },
     {
       "orphaCode": "79479",
@@ -27250,7 +27300,8 @@
       },
       "publicationsPercentile": 85.7,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:52:05.071Z"
+      "ingestedAt": "2026-07-26T01:52:05.071Z",
+      "lastTrialCheck": "2026-07-27T04:29:50.979Z"
     },
     {
       "orphaCode": "79501",
@@ -27745,7 +27796,8 @@
       },
       "publicationsPercentile": 56.5,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:00:55.919Z"
+      "ingestedAt": "2026-07-26T02:00:55.919Z",
+      "lastTrialCheck": "2026-07-27T04:29:51.812Z"
     },
     {
       "orphaCode": "85170",
@@ -27994,7 +28046,8 @@
       },
       "publicationsPercentile": 18.9,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:05:12.583Z"
+      "ingestedAt": "2026-07-26T02:05:12.583Z",
+      "lastTrialCheck": "2026-07-27T04:29:51.936Z"
     },
     {
       "orphaCode": "85200",
@@ -28227,7 +28280,8 @@
       },
       "publicationsPercentile": 59.2,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:37:12.406Z"
+      "ingestedAt": "2026-07-26T01:37:12.406Z",
+      "lastTrialCheck": "2026-07-27T04:29:52.613Z"
     },
     {
       "orphaCode": "85286",
@@ -28477,7 +28531,8 @@
       },
       "publicationsPercentile": 27,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:26:40.224Z"
+      "ingestedAt": "2026-07-26T02:26:40.224Z",
+      "lastTrialCheck": "2026-07-27T04:29:52.952Z"
     },
     {
       "orphaCode": "85297",
@@ -29072,7 +29127,8 @@
       },
       "publicationsPercentile": 16.2,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:43:24.245Z"
+      "ingestedAt": "2026-07-26T01:43:24.245Z",
+      "lastTrialCheck": "2026-07-27T04:29:53.310Z"
     },
     {
       "orphaCode": "85328",
@@ -29294,7 +29350,8 @@
       },
       "publicationsPercentile": null,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:39:18.910Z"
+      "ingestedAt": "2026-07-26T01:39:18.910Z",
+      "lastTrialCheck": "2026-07-27T04:29:53.639Z"
     },
     {
       "orphaCode": "85448",
@@ -29728,7 +29785,8 @@
       },
       "publicationsPercentile": 77,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:35:45.560Z"
+      "ingestedAt": "2026-07-26T01:35:45.560Z",
+      "lastTrialCheck": "2026-07-27T04:29:53.966Z"
     },
     {
       "orphaCode": "86849",
@@ -30386,7 +30444,7 @@
               "ITSN1"
             ],
             "studyType": "OBSERVATIONAL",
-            "matchedVia": "phrase"
+            "matchedVia": "recall-expansion"
           }
         ],
         "expandedAccessTotal": 0,
@@ -30416,7 +30474,8 @@
       },
       "publicationsPercentile": 92.2,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:32:52.629Z"
+      "ingestedAt": "2026-07-26T02:32:52.629Z",
+      "lastTrialCheck": "2026-07-27T04:29:59.562Z"
     },
     {
       "orphaCode": "90033",
@@ -31387,7 +31446,8 @@
       },
       "publicationsPercentile": 61.4,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:45:42.346Z"
+      "ingestedAt": "2026-07-26T01:45:42.346Z",
+      "lastTrialCheck": "2026-07-27T04:30:00.278Z"
     },
     {
       "orphaCode": "90060",
@@ -32731,7 +32791,8 @@
       },
       "publicationsPercentile": 74.9,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:37:47.700Z"
+      "ingestedAt": "2026-07-26T01:37:47.700Z",
+      "lastTrialCheck": "2026-07-27T04:30:01.260Z"
     },
     {
       "orphaCode": "93406",
@@ -32986,7 +33047,8 @@
       },
       "publicationsPercentile": 18.9,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:45:25.365Z"
+      "ingestedAt": "2026-07-26T01:45:25.365Z",
+      "lastTrialCheck": "2026-07-27T04:30:01.932Z"
     },
     {
       "orphaCode": "93958",
@@ -33457,7 +33519,8 @@
       },
       "publicationsPercentile": null,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:45:06.782Z"
+      "ingestedAt": "2026-07-26T01:45:06.782Z",
+      "lastTrialCheck": "2026-07-27T04:30:03.604Z"
     },
     {
       "orphaCode": "96094",
@@ -33693,7 +33756,8 @@
       },
       "publicationsPercentile": 16.2,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:36:11.694Z"
+      "ingestedAt": "2026-07-26T01:36:11.694Z",
+      "lastTrialCheck": "2026-07-27T04:30:07.066Z"
     },
     {
       "orphaCode": "96095",
@@ -33929,7 +33993,8 @@
       },
       "publicationsPercentile": 43.8,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:29:23.202Z"
+      "ingestedAt": "2026-07-26T02:29:23.202Z",
+      "lastTrialCheck": "2026-07-27T04:30:07.150Z"
     },
     {
       "orphaCode": "96186",
@@ -34172,7 +34237,8 @@
       },
       "publicationsPercentile": 60.3,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:19:38.153Z"
+      "ingestedAt": "2026-07-26T02:19:38.153Z",
+      "lastTrialCheck": "2026-07-27T04:30:07.543Z"
     },
     {
       "orphaCode": "97280",
@@ -34650,7 +34716,8 @@
       },
       "publicationsPercentile": 35.7,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:11:43.787Z"
+      "ingestedAt": "2026-07-26T02:11:43.787Z",
+      "lastTrialCheck": "2026-07-27T04:30:08.171Z"
     },
     {
       "orphaCode": "97363",
@@ -34910,7 +34977,8 @@
       },
       "publicationsPercentile": 75.9,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:12:26.820Z"
+      "ingestedAt": "2026-07-26T02:12:26.820Z",
+      "lastTrialCheck": "2026-07-27T04:30:08.863Z"
     },
     {
       "orphaCode": "97369",
@@ -35095,12 +35163,11 @@
         "observational": [],
         "expandedAccessTotal": 0,
         "generalRegistries": [],
-        "query": "\"Renal tubular dysgenesis of genetic origin\" OR \"Renal tubular dysgenesis of the genetic origin\" OR \"genetic renal tubular dysgenesis\" OR \"ACE\" OR \"AGT\" OR \"AGTR1\" OR \"REN\"",
+        "query": "\"Renal tubular dysgenesis of genetic origin\" OR \"Renal tubular dysgenesis of the genetic origin\" OR \"genetic renal tubular dysgenesis\" OR \"ACE\" OR \"AGT\" OR \"AGTR1\"",
         "recallTerms": [
           "ACE",
           "AGT",
-          "AGTR1",
-          "REN"
+          "AGTR1"
         ],
         "fullyScanned": true,
         "matchedVia": [],
@@ -35133,7 +35200,8 @@
       },
       "publicationsPercentile": 18.9,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:14:32.878Z"
+      "ingestedAt": "2026-07-26T02:14:32.878Z",
+      "lastTrialCheck": "2026-07-27T04:30:09.563Z"
     },
     {
       "orphaCode": "97560",
@@ -36189,7 +36257,8 @@
       },
       "publicationsPercentile": 77.6,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:37:55.530Z"
+      "ingestedAt": "2026-07-26T01:37:55.530Z",
+      "lastTrialCheck": "2026-07-27T04:30:13.324Z"
     },
     {
       "orphaCode": "98808",
@@ -36429,7 +36498,8 @@
       },
       "publicationsPercentile": 57.8,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:37:09.422Z"
+      "ingestedAt": "2026-07-26T01:37:09.422Z",
+      "lastTrialCheck": "2026-07-27T04:30:13.664Z"
     },
     {
       "orphaCode": "98811",
@@ -36656,7 +36726,8 @@
       },
       "publicationsPercentile": 80,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:11:16.918Z"
+      "ingestedAt": "2026-07-26T02:11:16.918Z",
+      "lastTrialCheck": "2026-07-27T04:30:14.347Z"
     },
     {
       "orphaCode": "98812",
@@ -36883,7 +36954,8 @@
       },
       "publicationsPercentile": null,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:30:42.092Z"
+      "ingestedAt": "2026-07-26T02:30:42.092Z",
+      "lastTrialCheck": "2026-07-27T04:30:14.689Z"
     },
     {
       "orphaCode": "98833",
@@ -38523,7 +38595,8 @@
       },
       "publicationsPercentile": 10,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:07:24.669Z"
+      "ingestedAt": "2026-07-26T02:07:24.669Z",
+      "lastTrialCheck": "2026-07-27T04:30:15.015Z"
     },
     {
       "orphaCode": "98992",
@@ -39097,7 +39170,8 @@
       },
       "publicationsPercentile": 25.1,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:37:12.784Z"
+      "ingestedAt": "2026-07-26T01:37:12.784Z",
+      "lastTrialCheck": "2026-07-27T04:30:15.365Z"
     },
     {
       "orphaCode": "99138",
@@ -39716,7 +39790,8 @@
       },
       "publicationsPercentile": 54.1,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:04:26.764Z"
+      "ingestedAt": "2026-07-26T02:04:26.764Z",
+      "lastTrialCheck": "2026-07-27T04:30:15.739Z"
     },
     {
       "orphaCode": "99329",
@@ -39936,7 +40011,8 @@
       },
       "publicationsPercentile": 18.9,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:19:15.894Z"
+      "ingestedAt": "2026-07-26T02:19:15.894Z",
+      "lastTrialCheck": "2026-07-27T04:30:16.046Z"
     },
     {
       "orphaCode": "99824",
@@ -43768,7 +43844,8 @@
       },
       "publicationsPercentile": 40.8,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:43:26.825Z"
+      "ingestedAt": "2026-07-26T01:43:26.825Z",
+      "lastTrialCheck": "2026-07-27T04:30:16.379Z"
     },
     {
       "orphaCode": "141074",
@@ -43997,7 +44074,8 @@
       },
       "publicationsPercentile": 23.2,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:47:41.324Z"
+      "ingestedAt": "2026-07-26T01:47:41.324Z",
+      "lastTrialCheck": "2026-07-27T04:30:16.721Z"
     },
     {
       "orphaCode": "141115",
@@ -44200,7 +44278,8 @@
       },
       "publicationsPercentile": 2.4,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:19:42.702Z"
+      "ingestedAt": "2026-07-26T02:19:42.702Z",
+      "lastTrialCheck": "2026-07-27T04:30:17.069Z"
     },
     {
       "orphaCode": "141261",
@@ -44434,7 +44513,8 @@
       },
       "publicationsPercentile": 10,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:33:25.954Z"
+      "ingestedAt": "2026-07-26T01:33:25.954Z",
+      "lastTrialCheck": "2026-07-27T04:30:17.766Z"
     },
     {
       "orphaCode": "157788",
@@ -45243,7 +45323,8 @@
       },
       "publicationsPercentile": 10,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:43:24.989Z"
+      "ingestedAt": "2026-07-26T01:43:24.989Z",
+      "lastTrialCheck": "2026-07-27T04:30:18.428Z"
     },
     {
       "orphaCode": "166011",
@@ -45494,7 +45575,8 @@
       },
       "publicationsPercentile": 27,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:45:08.957Z"
+      "ingestedAt": "2026-07-26T01:45:08.957Z",
+      "lastTrialCheck": "2026-07-27T04:30:19.100Z"
     },
     {
       "orphaCode": "168984",
@@ -45731,7 +45813,8 @@
       },
       "publicationsPercentile": 57.8,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:16:12.362Z"
+      "ingestedAt": "2026-07-26T02:16:12.362Z",
+      "lastTrialCheck": "2026-07-27T04:30:19.792Z"
     },
     {
       "orphaCode": "169799",
@@ -46150,7 +46233,8 @@
       },
       "publicationsPercentile": 64.6,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:29:13.193Z"
+      "ingestedAt": "2026-07-26T02:29:13.193Z",
+      "lastTrialCheck": "2026-07-27T04:30:20.130Z"
     },
     {
       "orphaCode": "180142",
@@ -46336,7 +46420,8 @@
       },
       "publicationsPercentile": 2.4,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:16:12.724Z"
+      "ingestedAt": "2026-07-26T02:16:12.724Z",
+      "lastTrialCheck": "2026-07-27T04:30:21.579Z"
     },
     {
       "orphaCode": "180237",
@@ -46580,7 +46665,8 @@
       },
       "publicationsPercentile": 35.7,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:05:20.785Z"
+      "ingestedAt": "2026-07-26T02:05:20.785Z",
+      "lastTrialCheck": "2026-07-27T04:30:21.820Z"
     },
     {
       "orphaCode": "199326",
@@ -46995,7 +47081,8 @@
       },
       "publicationsPercentile": 87.6,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:29:05.343Z"
+      "ingestedAt": "2026-07-26T02:29:05.343Z",
+      "lastTrialCheck": "2026-07-27T04:30:22.167Z"
     },
     {
       "orphaCode": "206448",
@@ -47231,7 +47318,8 @@
       },
       "publicationsPercentile": 31.1,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:16:19.236Z"
+      "ingestedAt": "2026-07-26T02:16:19.236Z",
+      "lastTrialCheck": "2026-07-27T04:30:22.903Z"
     },
     {
       "orphaCode": "209341",
@@ -47646,7 +47734,7 @@
               "ITSN1"
             ],
             "studyType": "OBSERVATIONAL",
-            "matchedVia": "phrase"
+            "matchedVia": "recall-expansion"
           }
         ],
         "expandedAccessTotal": 0,
@@ -47693,7 +47781,8 @@
       },
       "publicationsPercentile": 43.8,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:07:25.057Z"
+      "ingestedAt": "2026-07-26T02:07:25.057Z",
+      "lastTrialCheck": "2026-07-27T04:30:23.547Z"
     },
     {
       "orphaCode": "209919",
@@ -47896,7 +47985,8 @@
       },
       "publicationsPercentile": 2.4,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:39:18.475Z"
+      "ingestedAt": "2026-07-26T01:39:18.475Z",
+      "lastTrialCheck": "2026-07-27T04:30:24.201Z"
     },
     {
       "orphaCode": "216445",
@@ -48122,7 +48212,8 @@
       },
       "publicationsPercentile": null,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:19:37.369Z"
+      "ingestedAt": "2026-07-26T02:19:37.369Z",
+      "lastTrialCheck": "2026-07-27T04:30:24.547Z"
     },
     {
       "orphaCode": "216873",
@@ -48364,7 +48455,8 @@
       },
       "publicationsPercentile": 39.7,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:26:39.861Z"
+      "ingestedAt": "2026-07-26T02:26:39.861Z",
+      "lastTrialCheck": "2026-07-27T04:30:24.882Z"
     },
     {
       "orphaCode": "217467",
@@ -48615,7 +48707,8 @@
       },
       "publicationsPercentile": 10,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:37:15.760Z"
+      "ingestedAt": "2026-07-26T01:37:15.760Z",
+      "lastTrialCheck": "2026-07-27T04:30:25.590Z"
     },
     {
       "orphaCode": "217560",
@@ -49315,7 +49408,8 @@
       },
       "publicationsPercentile": 21.4,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:12:16.143Z"
+      "ingestedAt": "2026-07-26T02:12:16.143Z",
+      "lastTrialCheck": "2026-07-27T04:30:26.969Z"
     },
     {
       "orphaCode": "228390",
@@ -49566,7 +49660,8 @@
       },
       "publicationsPercentile": 27,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:11:55.742Z"
+      "ingestedAt": "2026-07-26T02:11:55.742Z",
+      "lastTrialCheck": "2026-07-27T04:30:27.260Z"
     },
     {
       "orphaCode": "228396",
@@ -49953,7 +50048,8 @@
       },
       "publicationsPercentile": null,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:11:28.320Z"
+      "ingestedAt": "2026-07-26T02:11:28.320Z",
+      "lastTrialCheck": "2026-07-27T04:30:27.944Z"
     },
     {
       "orphaCode": "231137",
@@ -50371,7 +50467,8 @@
       },
       "publicationsPercentile": 81.6,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:38:21.520Z"
+      "ingestedAt": "2026-07-26T01:38:21.520Z",
+      "lastTrialCheck": "2026-07-27T04:30:28.284Z"
     },
     {
       "orphaCode": "231531",
@@ -51375,7 +51472,8 @@
       },
       "publicationsPercentile": 55.7,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:05:30.262Z"
+      "ingestedAt": "2026-07-26T02:05:30.262Z",
+      "lastTrialCheck": "2026-07-27T04:30:28.629Z"
     },
     {
       "orphaCode": "251295",
@@ -51972,7 +52070,8 @@
       },
       "publicationsPercentile": 65.4,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:23:43.700Z"
+      "ingestedAt": "2026-07-26T02:23:43.700Z",
+      "lastTrialCheck": "2026-07-27T04:30:32.709Z"
     },
     {
       "orphaCode": "251636",
@@ -53045,7 +53144,7 @@
               "ITSN1"
             ],
             "studyType": "OBSERVATIONAL",
-            "matchedVia": "phrase"
+            "matchedVia": "recall-expansion"
           }
         ],
         "expandedAccessTotal": 0,
@@ -53075,7 +53174,8 @@
       },
       "publicationsPercentile": null,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:19:37.775Z"
+      "ingestedAt": "2026-07-26T02:19:37.775Z",
+      "lastTrialCheck": "2026-07-27T04:30:33.085Z"
     },
     {
       "orphaCode": "268114",
@@ -53850,7 +53950,8 @@
       },
       "publicationsPercentile": null,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:04:22.243Z"
+      "ingestedAt": "2026-07-26T02:04:22.243Z",
+      "lastTrialCheck": "2026-07-27T04:30:33.401Z"
     },
     {
       "orphaCode": "269229",
@@ -54086,7 +54187,8 @@
       },
       "publicationsPercentile": 57,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:14:35.298Z"
+      "ingestedAt": "2026-07-26T02:14:35.298Z",
+      "lastTrialCheck": "2026-07-27T04:30:34.072Z"
     },
     {
       "orphaCode": "275864",
@@ -55044,7 +55146,8 @@
       },
       "publicationsPercentile": null,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:40:00.854Z"
+      "ingestedAt": "2026-07-26T01:40:00.854Z",
+      "lastTrialCheck": "2026-07-27T04:30:34.414Z"
     },
     {
       "orphaCode": "276241",
@@ -56122,7 +56225,8 @@
       },
       "publicationsPercentile": 10,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:59:12.140Z"
+      "ingestedAt": "2026-07-26T01:59:12.140Z",
+      "lastTrialCheck": "2026-07-27T04:30:57.592Z"
     },
     {
       "orphaCode": "276435",
@@ -56647,7 +56751,8 @@
       },
       "publicationsPercentile": null,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:11:43.422Z"
+      "ingestedAt": "2026-07-26T02:11:43.422Z",
+      "lastTrialCheck": "2026-07-27T04:30:58.260Z"
     },
     {
       "orphaCode": "280671",
@@ -56930,7 +57035,7 @@
               "LGMDR24 - POMGnT2 Related"
             ],
             "studyType": "OBSERVATIONAL",
-            "matchedVia": "phrase"
+            "matchedVia": "recall-expansion"
           }
         ],
         "expandedAccessTotal": 0,
@@ -56998,7 +57103,8 @@
       },
       "publicationsPercentile": 52.7,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:19:13.600Z"
+      "ingestedAt": "2026-07-26T02:19:13.600Z",
+      "lastTrialCheck": "2026-07-27T04:30:58.921Z"
     },
     {
       "orphaCode": "281127",
@@ -57229,7 +57335,8 @@
       },
       "publicationsPercentile": 32.7,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:33:09.118Z"
+      "ingestedAt": "2026-07-26T01:33:09.118Z",
+      "lastTrialCheck": "2026-07-27T04:30:59.626Z"
     },
     {
       "orphaCode": "293202",
@@ -58147,7 +58254,8 @@
       },
       "publicationsPercentile": 37.8,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:11:31.363Z"
+      "ingestedAt": "2026-07-26T02:11:31.363Z",
+      "lastTrialCheck": "2026-07-27T04:30:59.935Z"
     },
     {
       "orphaCode": "294415",
@@ -58380,7 +58488,8 @@
       },
       "publicationsPercentile": 61.9,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:43:23.752Z"
+      "ingestedAt": "2026-07-26T01:43:23.752Z",
+      "lastTrialCheck": "2026-07-27T04:31:01.036Z"
     },
     {
       "orphaCode": "295022",
@@ -58611,7 +58720,8 @@
       },
       "publicationsPercentile": 29.7,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:11:55.381Z"
+      "ingestedAt": "2026-07-26T02:11:55.381Z",
+      "lastTrialCheck": "2026-07-27T04:31:01.293Z"
     },
     {
       "orphaCode": "300493",
@@ -58838,7 +58948,8 @@
       },
       "publicationsPercentile": 45.9,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:11:31.106Z"
+      "ingestedAt": "2026-07-26T02:11:31.106Z",
+      "lastTrialCheck": "2026-07-27T04:31:01.644Z"
     },
     {
       "orphaCode": "300576",
@@ -59086,7 +59197,8 @@
       },
       "publicationsPercentile": 48.4,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:45:06.424Z"
+      "ingestedAt": "2026-07-26T01:45:06.424Z",
+      "lastTrialCheck": "2026-07-27T04:31:01.980Z"
     },
     {
       "orphaCode": "308400",
@@ -59341,7 +59453,8 @@
       },
       "publicationsPercentile": 29.7,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:47:34.914Z"
+      "ingestedAt": "2026-07-26T01:47:34.914Z",
+      "lastTrialCheck": "2026-07-27T04:31:02.322Z"
     },
     {
       "orphaCode": "308621",
@@ -60208,7 +60321,8 @@
       },
       "publicationsPercentile": 28.6,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:55:41.170Z"
+      "ingestedAt": "2026-07-26T01:55:41.170Z",
+      "lastTrialCheck": "2026-07-27T04:31:03.004Z"
     },
     {
       "orphaCode": "314432",
@@ -60414,7 +60528,8 @@
       },
       "publicationsPercentile": 16.2,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:45:46.762Z"
+      "ingestedAt": "2026-07-26T01:45:46.762Z",
+      "lastTrialCheck": "2026-07-27T04:31:03.346Z"
     },
     {
       "orphaCode": "314485",
@@ -60674,7 +60789,8 @@
       },
       "publicationsPercentile": 37.8,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:51:30.161Z"
+      "ingestedAt": "2026-07-26T01:51:30.161Z",
+      "lastTrialCheck": "2026-07-27T04:31:03.683Z"
     },
     {
       "orphaCode": "319266",
@@ -60956,7 +61072,8 @@
       },
       "publicationsPercentile": 90,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:53:06.853Z"
+      "ingestedAt": "2026-07-26T01:53:06.853Z",
+      "lastTrialCheck": "2026-07-27T04:31:04.382Z"
     },
     {
       "orphaCode": "319509",
@@ -61197,7 +61314,8 @@
       },
       "publicationsPercentile": 23.2,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:59:11.710Z"
+      "ingestedAt": "2026-07-26T01:59:11.710Z",
+      "lastTrialCheck": "2026-07-27T04:31:06.491Z"
     },
     {
       "orphaCode": "320370",
@@ -61439,7 +61557,8 @@
       },
       "publicationsPercentile": 53.2,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:19:36.965Z"
+      "ingestedAt": "2026-07-26T02:19:36.965Z",
+      "lastTrialCheck": "2026-07-27T04:31:06.733Z"
     },
     {
       "orphaCode": "329469",
@@ -61678,7 +61797,8 @@
       },
       "publicationsPercentile": 68.6,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:32:55.840Z"
+      "ingestedAt": "2026-07-26T02:32:55.840Z",
+      "lastTrialCheck": "2026-07-27T04:31:07.078Z"
     },
     {
       "orphaCode": "330001",
@@ -62361,7 +62481,8 @@
       },
       "publicationsPercentile": 21.4,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:12:27.268Z"
+      "ingestedAt": "2026-07-26T02:12:27.268Z",
+      "lastTrialCheck": "2026-07-27T04:31:08.252Z"
     },
     {
       "orphaCode": "352487",
@@ -62745,7 +62866,8 @@
       },
       "publicationsPercentile": 16.2,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:59:56.969Z"
+      "ingestedAt": "2026-07-26T01:59:56.969Z",
+      "lastTrialCheck": "2026-07-27T04:31:08.439Z"
     },
     {
       "orphaCode": "352629",
@@ -62915,7 +63037,8 @@
       },
       "publicationsPercentile": 2.4,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:37:32.843Z"
+      "ingestedAt": "2026-07-26T01:37:32.843Z",
+      "lastTrialCheck": "2026-07-27T04:31:08.781Z"
     },
     {
       "orphaCode": "352670",
@@ -63140,7 +63263,7 @@
               "Hepatocellular Carcinoma Recurrent"
             ],
             "studyType": "OBSERVATIONAL",
-            "matchedVia": "phrase"
+            "matchedVia": "recall-expansion"
           }
         ],
         "expandedAccessTotal": 0,
@@ -63177,7 +63300,8 @@
       },
       "publicationsPercentile": 32.7,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:55:43.014Z"
+      "ingestedAt": "2026-07-26T01:55:43.014Z",
+      "lastTrialCheck": "2026-07-27T04:31:09.120Z"
     },
     {
       "orphaCode": "357074",
@@ -63442,7 +63566,8 @@
       },
       "publicationsPercentile": 2.4,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:16:13.937Z"
+      "ingestedAt": "2026-07-26T02:16:13.937Z",
+      "lastTrialCheck": "2026-07-27T04:31:09.834Z"
     },
     {
       "orphaCode": "363444",
@@ -63684,7 +63809,8 @@
       },
       "publicationsPercentile": 45.9,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:19:39.070Z"
+      "ingestedAt": "2026-07-26T02:19:39.070Z",
+      "lastTrialCheck": "2026-07-27T04:31:10.888Z"
     },
     {
       "orphaCode": "363478",
@@ -63916,7 +64042,8 @@
       },
       "publicationsPercentile": 43,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:19:05.378Z"
+      "ingestedAt": "2026-07-26T02:19:05.378Z",
+      "lastTrialCheck": "2026-07-27T04:31:13.717Z"
     },
     {
       "orphaCode": "363992",
@@ -64166,7 +64293,8 @@
       },
       "publicationsPercentile": 49.2,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:09:30.949Z"
+      "ingestedAt": "2026-07-26T02:09:30.949Z",
+      "lastTrialCheck": "2026-07-27T04:31:13.794Z"
     },
     {
       "orphaCode": "363999",
@@ -64683,7 +64811,8 @@
       },
       "publicationsPercentile": 65.4,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:12:11.788Z"
+      "ingestedAt": "2026-07-26T02:12:11.788Z",
+      "lastTrialCheck": "2026-07-27T04:31:14.137Z"
     },
     {
       "orphaCode": "369999",
@@ -65745,7 +65874,8 @@
       },
       "publicationsPercentile": 83,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:29:15.110Z"
+      "ingestedAt": "2026-07-26T02:29:15.110Z",
+      "lastTrialCheck": "2026-07-27T04:31:14.473Z"
     },
     {
       "orphaCode": "399805",
@@ -65988,7 +66118,8 @@
       },
       "publicationsPercentile": 10,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:51:55.148Z"
+      "ingestedAt": "2026-07-26T01:51:55.148Z",
+      "lastTrialCheck": "2026-07-27T04:31:14.837Z"
     },
     {
       "orphaCode": "401800",
@@ -66219,7 +66350,8 @@
       },
       "publicationsPercentile": 25.1,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:07:20.909Z"
+      "ingestedAt": "2026-07-26T02:07:20.909Z",
+      "lastTrialCheck": "2026-07-27T04:31:15.175Z"
     },
     {
       "orphaCode": "411629",
@@ -66478,7 +66610,8 @@
       },
       "publicationsPercentile": 74.3,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:45:43.046Z"
+      "ingestedAt": "2026-07-26T01:45:43.046Z",
+      "lastTrialCheck": "2026-07-27T04:31:15.495Z"
     },
     {
       "orphaCode": "411709",
@@ -67486,7 +67619,8 @@
       },
       "publicationsPercentile": 51.9,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:33:41.641Z"
+      "ingestedAt": "2026-07-26T01:33:41.641Z",
+      "lastTrialCheck": "2026-07-27T04:31:16.208Z"
     },
     {
       "orphaCode": "436159",
@@ -68094,7 +68228,8 @@
       },
       "publicationsPercentile": 40.8,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:38:24.622Z"
+      "ingestedAt": "2026-07-26T01:38:24.622Z",
+      "lastTrialCheck": "2026-07-27T04:31:19.506Z"
     },
     {
       "orphaCode": "439755",
@@ -68349,7 +68484,8 @@
       },
       "publicationsPercentile": 21.4,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:51:30.571Z"
+      "ingestedAt": "2026-07-26T01:51:30.571Z",
+      "lastTrialCheck": "2026-07-27T04:31:19.839Z"
     },
     {
       "orphaCode": "443159",
@@ -69301,7 +69437,8 @@
       },
       "publicationsPercentile": 66.2,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:26:40.601Z"
+      "ingestedAt": "2026-07-26T02:26:40.601Z",
+      "lastTrialCheck": "2026-07-27T04:31:20.537Z"
     },
     {
       "orphaCode": "465508",
@@ -69872,7 +70009,8 @@
       },
       "publicationsPercentile": 88.4,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:14:48.952Z"
+      "ingestedAt": "2026-07-26T02:14:48.952Z",
+      "lastTrialCheck": "2026-07-27T04:31:20.858Z"
     },
     {
       "orphaCode": "480898",
@@ -70273,7 +70411,8 @@
       },
       "publicationsPercentile": 84.6,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:11:02.979Z"
+      "ingestedAt": "2026-07-26T02:11:02.979Z",
+      "lastTrialCheck": "2026-07-27T04:31:21.204Z"
     },
     {
       "orphaCode": "485275",
@@ -70488,7 +70627,8 @@
       },
       "publicationsPercentile": 10,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:43:26.456Z"
+      "ingestedAt": "2026-07-26T01:43:26.456Z",
+      "lastTrialCheck": "2026-07-27T04:31:21.874Z"
     },
     {
       "orphaCode": "493342",
@@ -70975,7 +71115,8 @@
       },
       "publicationsPercentile": 87.6,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:07:24.248Z"
+      "ingestedAt": "2026-07-26T02:07:24.248Z",
+      "lastTrialCheck": "2026-07-27T04:31:22.565Z"
     },
     {
       "orphaCode": "500180",
@@ -72285,7 +72426,8 @@
       },
       "publicationsPercentile": 10,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:12:09.220Z"
+      "ingestedAt": "2026-07-26T02:12:09.220Z",
+      "lastTrialCheck": "2026-07-27T04:31:22.904Z"
     },
     {
       "orphaCode": "528091",
@@ -72523,7 +72665,8 @@
       },
       "publicationsPercentile": 47.3,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:33:25.583Z"
+      "ingestedAt": "2026-07-26T01:33:25.583Z",
+      "lastTrialCheck": "2026-07-27T04:31:23.239Z"
     },
     {
       "orphaCode": "555407",
@@ -72761,7 +72904,8 @@
       },
       "publicationsPercentile": 23.2,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:05:09.439Z"
+      "ingestedAt": "2026-07-26T02:05:09.439Z",
+      "lastTrialCheck": "2026-07-27T04:31:23.578Z"
     },
     {
       "orphaCode": "556037",
@@ -72966,7 +73110,8 @@
       },
       "publicationsPercentile": 10,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:07:20.388Z"
+      "ingestedAt": "2026-07-26T02:07:20.388Z",
+      "lastTrialCheck": "2026-07-27T04:31:23.915Z"
     },
     {
       "orphaCode": "557064",
@@ -73213,7 +73358,8 @@
       },
       "publicationsPercentile": 34.1,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:16:19.953Z"
+      "ingestedAt": "2026-07-26T02:16:19.953Z",
+      "lastTrialCheck": "2026-07-27T04:31:24.593Z"
     },
     {
       "orphaCode": "563576",
@@ -73551,7 +73697,8 @@
       },
       "publicationsPercentile": null,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:59:56.516Z"
+      "ingestedAt": "2026-07-26T01:59:56.516Z",
+      "lastTrialCheck": "2026-07-27T04:31:25.278Z"
     },
     {
       "orphaCode": "572543",
@@ -73807,7 +73954,8 @@
       },
       "publicationsPercentile": 38.9,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:32:58.482Z"
+      "ingestedAt": "2026-07-26T01:32:58.482Z",
+      "lastTrialCheck": "2026-07-27T04:31:26.031Z"
     },
     {
       "orphaCode": "580933",
@@ -74198,7 +74346,8 @@
       },
       "publicationsPercentile": 38.9,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:11:31.763Z"
+      "ingestedAt": "2026-07-26T02:11:31.763Z",
+      "lastTrialCheck": "2026-07-27T04:31:26.646Z"
     },
     {
       "orphaCode": "598216",
@@ -74940,7 +75089,8 @@
       },
       "publicationsPercentile": null,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:59:03.943Z"
+      "ingestedAt": "2026-07-26T01:59:03.943Z",
+      "lastTrialCheck": "2026-07-27T04:31:27.013Z"
     },
     {
       "orphaCode": "610573",
@@ -75177,7 +75327,8 @@
       },
       "publicationsPercentile": 10,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:06:55.268Z"
+      "ingestedAt": "2026-07-26T02:06:55.268Z",
+      "lastTrialCheck": "2026-07-27T04:31:27.325Z"
     },
     {
       "orphaCode": "615970",
@@ -75410,7 +75561,8 @@
       },
       "publicationsPercentile": 50.8,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:30:26.272Z"
+      "ingestedAt": "2026-07-26T02:30:26.272Z",
+      "lastTrialCheck": "2026-07-27T04:31:27.662Z"
     },
     {
       "orphaCode": "617297",
@@ -76219,7 +76371,8 @@
       },
       "publicationsPercentile": 37,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:05:12.959Z"
+      "ingestedAt": "2026-07-26T02:05:12.959Z",
+      "lastTrialCheck": "2026-07-27T04:31:27.993Z"
     },
     {
       "orphaCode": "642763",
@@ -76460,7 +76613,8 @@
       },
       "publicationsPercentile": 86.2,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:20:08.156Z"
+      "ingestedAt": "2026-07-26T02:20:08.156Z",
+      "lastTrialCheck": "2026-07-27T04:31:28.346Z"
     },
     {
       "orphaCode": "642788",
@@ -76852,7 +77006,8 @@
       },
       "publicationsPercentile": 28.6,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:58:59.626Z"
+      "ingestedAt": "2026-07-26T01:58:59.626Z",
+      "lastTrialCheck": "2026-07-27T04:31:28.676Z"
     },
     {
       "orphaCode": "645793",
@@ -77096,7 +77251,8 @@
       },
       "publicationsPercentile": null,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:47:34.034Z"
+      "ingestedAt": "2026-07-26T01:47:34.034Z",
+      "lastTrialCheck": "2026-07-27T04:31:29.018Z"
     },
     {
       "orphaCode": "645814",
@@ -77511,7 +77667,8 @@
       },
       "publicationsPercentile": 75.4,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:38:51.359Z"
+      "ingestedAt": "2026-07-26T01:38:51.359Z",
+      "lastTrialCheck": "2026-07-27T04:31:30.778Z"
     },
     {
       "orphaCode": "653725",
@@ -78463,7 +78620,8 @@
       },
       "publicationsPercentile": 62.7,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:26:39.460Z"
+      "ingestedAt": "2026-07-26T02:26:39.460Z",
+      "lastTrialCheck": "2026-07-27T04:31:33.258Z"
     },
     {
       "orphaCode": "659975",
@@ -79393,7 +79551,8 @@
       },
       "publicationsPercentile": 45.9,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:21:24.783Z"
+      "ingestedAt": "2026-07-26T02:21:24.783Z",
+      "lastTrialCheck": "2026-07-27T04:31:33.596Z"
     },
     {
       "orphaCode": "664511",
@@ -79878,7 +80037,8 @@
       },
       "publicationsPercentile": 31.1,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:20:07.779Z"
+      "ingestedAt": "2026-07-26T02:20:07.779Z",
+      "lastTrialCheck": "2026-07-27T04:31:33.926Z"
     },
     {
       "orphaCode": "667662",
@@ -80518,7 +80678,8 @@
       },
       "publicationsPercentile": null,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:52:16.202Z"
+      "ingestedAt": "2026-07-26T01:52:16.202Z",
+      "lastTrialCheck": "2026-07-27T04:31:34.261Z"
     },
     {
       "orphaCode": "674653",
@@ -80956,7 +81117,8 @@
       },
       "publicationsPercentile": 35.7,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:51:31.027Z"
+      "ingestedAt": "2026-07-26T01:51:31.027Z",
+      "lastTrialCheck": "2026-07-27T04:31:34.605Z"
     },
     {
       "orphaCode": "675380",
@@ -81248,7 +81410,8 @@
       },
       "publicationsPercentile": 32.7,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:26:39.059Z"
+      "ingestedAt": "2026-07-26T02:26:39.059Z",
+      "lastTrialCheck": "2026-07-27T04:31:34.943Z"
     },
     {
       "orphaCode": "686999",
@@ -81413,7 +81576,8 @@
       },
       "publicationsPercentile": 10,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:31:55.074Z"
+      "ingestedAt": "2026-07-26T02:31:55.074Z",
+      "lastTrialCheck": "2026-07-27T04:31:36.040Z"
     },
     {
       "orphaCode": "687733",
@@ -82037,7 +82201,8 @@
       },
       "publicationsPercentile": 62.7,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:07:25.422Z"
+      "ingestedAt": "2026-07-26T02:07:25.422Z",
+      "lastTrialCheck": "2026-07-27T04:31:36.305Z"
     },
     {
       "orphaCode": "693869",
@@ -82211,7 +82376,8 @@
       },
       "publicationsPercentile": 2.4,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:51:27.601Z"
+      "ingestedAt": "2026-07-26T01:51:27.601Z",
+      "lastTrialCheck": "2026-07-27T04:31:36.642Z"
     },
     {
       "orphaCode": "698043",
@@ -82693,7 +82859,8 @@
       },
       "publicationsPercentile": null,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:45:06.052Z"
+      "ingestedAt": "2026-07-26T01:45:06.052Z",
+      "lastTrialCheck": "2026-07-27T04:31:36.978Z"
     },
     {
       "orphaCode": "698260",
@@ -83327,7 +83494,8 @@
       },
       "publicationsPercentile": null,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:37:55.130Z"
+      "ingestedAt": "2026-07-26T01:37:55.130Z",
+      "lastTrialCheck": "2026-07-27T04:31:37.324Z"
     },
     {
       "orphaCode": "700139",
@@ -83549,7 +83717,8 @@
       },
       "publicationsPercentile": null,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:37:53.860Z"
+      "ingestedAt": "2026-07-26T01:37:53.860Z",
+      "lastTrialCheck": "2026-07-27T04:31:37.663Z"
     },
     {
       "orphaCode": "714070",
@@ -83774,7 +83943,8 @@
       },
       "publicationsPercentile": null,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:46:14.970Z"
+      "ingestedAt": "2026-07-26T01:46:14.970Z",
+      "lastTrialCheck": "2026-07-27T04:31:38.009Z"
     },
     {
       "orphaCode": "714164",
@@ -83998,7 +84168,8 @@
       },
       "publicationsPercentile": null,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:12:15.677Z"
+      "ingestedAt": "2026-07-26T02:12:15.677Z",
+      "lastTrialCheck": "2026-07-27T04:31:38.335Z"
     },
     {
       "orphaCode": "714477",
@@ -84855,7 +85026,8 @@
       },
       "publicationsPercentile": null,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T01:45:58.302Z"
+      "ingestedAt": "2026-07-26T01:45:58.302Z",
+      "lastTrialCheck": "2026-07-27T04:31:38.684Z"
     },
     {
       "orphaCode": "726053",
@@ -85611,7 +85783,8 @@
       },
       "publicationsPercentile": null,
       "trialsPercentile": 34.5,
-      "ingestedAt": "2026-07-26T02:11:03.379Z"
+      "ingestedAt": "2026-07-26T02:11:03.379Z",
+      "lastTrialCheck": "2026-07-27T04:31:39.027Z"
     }
   ],
   "aggregate": {
@@ -85706,5 +85879,6 @@
     "atlasUsableEstimate": 8171,
     "commonlyCitedDisorderLevel": 7515,
     "reconciliationNote": "Orphanet product1 lists every nomenclature row: Disorder, Subtype of disorder, and Group of disorders. The figure 11,645 is that full row count. The commonly cited “about 7,000 rare diseases” aligns with the Disorder level alone (clinical disease entities), not with groups or every subtype. This atlas samples from usable non-group rows after dropping OBSOLETE: and NON RARE IN EUROPE: preferred names."
-  }
+  },
+  "lastRefresh": "2026-07-27T04:31:39.365Z"
 }
