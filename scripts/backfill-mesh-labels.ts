@@ -28,6 +28,7 @@ import { collectExactSynonyms } from "./lib/identifiers";
 import {
   buildPhraseTerms,
   buildRecallExpansionTerms,
+  capRecallGenes,
   novelRecallTerms,
   parentCategoryLabelForTrials,
   parentLabelsForRecall,
@@ -163,9 +164,10 @@ async function requerySignals(
   try {
     let trials = await fetchTrialSignals(phraseTerms, meshLabels, recallTerms);
     if (!trials.fullyScanned) {
-      const safe = novelRecallTerms(phraseTerms, [
-        ...d.geneDiseaseValidity.genes,
-      ]);
+      const safe = novelRecallTerms(
+        phraseTerms,
+        capRecallGenes(d.geneDiseaseValidity.genes)
+      );
       trials = await fetchTrialSignals(phraseTerms, meshLabels, safe);
       recallTerms = safe;
       if (!trials.fullyScanned) {

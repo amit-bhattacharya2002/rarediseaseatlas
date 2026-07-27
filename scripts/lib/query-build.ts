@@ -276,6 +276,20 @@ function parentSharesDiseaseSignal(diseaseName: string, parentLabel: string): bo
 }
 
 /**
+ * Max gene symbols allowed in the specific-tier trial recall expansion.
+ * Uncapped gene lists (and common oncogenes) flood CT.gov; papers may still
+ * use more genes via the separate Europe PMC path later.
+ */
+export const MAX_RECALL_GENES = 3;
+
+/** Stable, capped gene list for trial recall / incomplete-scan retries. */
+export function capRecallGenes(genes: string[]): string[] {
+  return uniqueTerms(
+    genes.map((g) => g.trim()).filter((g) => g.length >= 2)
+  ).slice(0, MAX_RECALL_GENES);
+}
+
+/**
  * Recall terms allowed into production CT.gov queries.
  * Genes always pass. Non-gene terms need real content-token specificity —
  * including eponymous "<Name> disease|syndrome" forms.
@@ -311,13 +325,15 @@ export function isSafeRecallTerm(term: string, genes: string[]): boolean {
 }
 
 /**
- * Production recall expansions: genes, carefully filtered Mondo parents, and a
- * safe shortest synonym. Qualifier-stripped aliases are intentionally omitted —
- * they collapse child entities onto parent diseases and belong only in the
- * benchmark's broad candidate list.
+ * Production recall expansions for the *specific-tier* trial query: capped
+ * genes + a safe shortest synonym (+ manual aliases). Qualifier-stripped
+ * aliases are intentionally omitted.
  *
- * Mondo parents that are proper name-parents of the disease (subtype collapse)
- * are excluded. Eponymous forms remain allowed as same-entity synonyms.
+ * Mondo parent labels are NOT included here — they belong only in the
+ * parent-category tier (`parentCategoryLabelForTrials`). Putting them in
+ * specific-tier recall contaminated trial counts (parent-term bug).
+ *
+ * `parentLabels` is accepted for call-site compatibility but ignored.
  */
 export function buildRecallExpansionTerms(args: {
   name: string;
@@ -327,7 +343,7 @@ export function buildRecallExpansionTerms(args: {
   genes: string[];
   manualAliases?: string[];
 }): string[] {
-  const genes = args.genes.filter((gene) => gene.trim().length >= 2);
+  const genes = capRecallGenes(args.genes);
   const allSynonyms = [...args.synonyms, ...args.mondoSynonyms]
     .map((value) => value.trim())
     .filter(
@@ -342,19 +358,12 @@ export function buildRecallExpansionTerms(args: {
     )
     .sort((a, b) => a.length - b.length);
   const shortestSynonym = allSynonyms[0] ?? "";
-  const parents = args.parentLabels.filter(
-    (label) =>
-      !isGenericParentLabel(label) &&
-      !isNameParentCollapse(args.name, label) &&
-      parentSharesDiseaseSignal(args.name, label)
-  );
 
   const candidates = uniqueTerms([
     ...(args.manualAliases ?? []).filter(
       (alias) => !isNameParentCollapse(args.name, alias)
     ),
     ...genes,
-    ...parents,
     shortestSynonym,
   ]);
 

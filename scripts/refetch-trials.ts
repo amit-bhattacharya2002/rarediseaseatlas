@@ -5,12 +5,15 @@
  *
  *   npx tsx scripts/refetch-trials.ts
  *   npx tsx scripts/refetch-trials.ts --limit 20
+ *   npx tsx scripts/refetch-trials.ts --codes-from data/analysis/remediation-manifest.json
+ *   npx tsx scripts/refetch-trials.ts --codes 100020,2612
  */
 import fs from "node:fs";
 import path from "node:path";
 import {
   buildPhraseTerms,
   buildRecallExpansionTerms,
+  capRecallGenes,
   novelRecallTerms,
   parentCategoryLabelForTrials,
   parentLabelsForRecall,
@@ -25,12 +28,56 @@ import { deriveArtifact } from "./lib/derive";
 import { log } from "./lib/logger";
 import type { DiseasesArtifact, MatchStrategy } from "../src/lib/types";
 
-function parseLimit(argv: string[]): number | null {
-  const i = argv.indexOf("--limit");
-  if (i < 0) return null;
-  const n = Number(argv[i + 1]);
-  if (!Number.isInteger(n) || n <= 0) throw new Error("--limit requires a positive integer");
-  return n;
+function parseArgs(argv: string[]): {
+  limit: number | null;
+  codes: Set<string> | null;
+} {
+  let limit: number | null = null;
+  const codes = new Set<string>();
+
+  for (let i = 0; i < argv.length; i += 1) {
+    const a = argv[i];
+    if (a === "--limit") {
+      const n = Number(argv[i + 1]);
+      if (!Number.isInteger(n) || n <= 0) {
+        throw new Error("--limit requires a positive integer");
+      }
+      limit = n;
+      i += 1;
+    } else if (a === "--codes") {
+      const raw = argv[i + 1];
+      if (!raw) throw new Error("--codes requires a comma-separated ORPHA list");
+      for (const part of raw.split(",")) {
+        const c = part.trim();
+        if (c) codes.add(c);
+      }
+      i += 1;
+    } else if (a === "--codes-from") {
+      const file = argv[i + 1];
+      if (!file) throw new Error("--codes-from requires a JSON path");
+      const abs = path.isAbsolute(file)
+        ? file
+        : path.join(process.cwd(), file);
+      const raw = JSON.parse(fs.readFileSync(abs, "utf8")) as {
+        refetchTrials?: { orphaCode: string }[];
+        codes?: string[];
+      };
+      if (Array.isArray(raw.refetchTrials)) {
+        for (const row of raw.refetchTrials) {
+          if (row?.orphaCode) codes.add(String(row.orphaCode));
+        }
+      } else if (Array.isArray(raw.codes)) {
+        for (const c of raw.codes) codes.add(String(c));
+      } else {
+        throw new Error(
+          `--codes-from ${file}: expected { refetchTrials: [{ orphaCode }] } or { codes: string[] }`
+        );
+      }
+      i += 1;
+    }
+  }
+
+  return { limit, codes: codes.size > 0 ? codes : null };
 }
 
 function writeAtomic(file: string, value: unknown): void {
@@ -40,7 +87,7 @@ function writeAtomic(file: string, value: unknown): void {
 }
 
 async function main(): Promise<void> {
-  const limit = parseLimit(process.argv.slice(2));
+  const args = parseArgs(process.argv.slice(2));
   const artifactPath = path.join(process.cwd(), "data", "diseases.json");
   const artifact = JSON.parse(
     fs.readFileSync(artifactPath, "utf8")
@@ -48,7 +95,21 @@ async function main(): Promise<void> {
 
   const mondo = await loadMondoHierarchy();
 
-  const targets = limit ? artifact.diseases.slice(0, limit) : artifact.diseases;
+  let targets = artifact.diseases;
+  if (args.codes) {
+    const byCode = new Map(artifact.diseases.map((d) => [d.orphaCode, d]));
+    const missing: string[] = [];
+    targets = [];
+    for (const code of args.codes) {
+      const d = byCode.get(code);
+      if (!d) missing.push(code);
+      else targets.push(d);
+    }
+    if (missing.length) {
+      log.warn(`--codes-from/--codes: ${missing.length} ORPHA not in artifact: ${missing.slice(0, 10).join(", ")}${missing.length > 10 ? "…" : ""}`);
+    }
+  }
+  if (args.limit) targets = targets.slice(0, args.limit);
   log.info(`Re-fetching trials for ${targets.length}/${artifact.diseases.length} diseases`);
 
   let changed = 0;
@@ -83,9 +144,10 @@ async function main(): Promise<void> {
 
       let trials = await fetchTrialSignals(phraseTerms, d.meshLabels, recallTerms);
       if (!trials.fullyScanned) {
-        const safe = novelRecallTerms(phraseTerms, [
-          ...d.geneDiseaseValidity.genes,
-        ]);
+        const safe = novelRecallTerms(
+          phraseTerms,
+          capRecallGenes(d.geneDiseaseValidity.genes)
+        );
         log.warn(
           `  incomplete scan; retrying gene-only recall [${safe.join(" | ")}]`
         );

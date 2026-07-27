@@ -39,6 +39,7 @@ import { buildIndiaMatcher } from "./lib/india";
 import {
   buildPhraseTerms,
   buildRecallExpansionTerms,
+  capRecallGenes,
   novelRecallTerms,
   parentCategoryLabelForTrials,
   parentLabelsForRecall,
@@ -509,8 +510,11 @@ async function main(): Promise<void> {
         trials = await fetchTrialSignals(phraseTerms, meshLabels, recallTerms);
         if (trials && !trials.fullyScanned) {
           // Broad parents can exceed the page ceiling. Fall back to genes only.
-          const safeRecall = novelRecallTerms(phraseTerms, [...gene.genes]);
-          log.warn(
+        const safeRecall = novelRecallTerms(
+          phraseTerms,
+          capRecallGenes(gene.genes)
+        );
+        log.warn(
             `  ORPHA:${od.orphaCode}: incomplete scan with full recall; retrying with gene-only recall [${safeRecall.join(" | ")}]`
           );
           trials = await fetchTrialSignals(phraseTerms, meshLabels, safeRecall);

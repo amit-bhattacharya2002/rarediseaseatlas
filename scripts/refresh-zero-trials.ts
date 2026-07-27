@@ -14,6 +14,7 @@ import { setCacheReadsDisabled } from "./lib/cache";
 import {
   buildPhraseTerms,
   buildRecallExpansionTerms,
+  capRecallGenes,
   novelRecallTerms,
   parentCategoryLabelForTrials,
   parentLabelsForRecall,
@@ -139,9 +140,10 @@ async function refreshOne(
 
     let trials = await fetchTrialSignals(phraseTerms, d.meshLabels, recallTerms);
     if (!trials.fullyScanned) {
-      const safe = novelRecallTerms(phraseTerms, [
-        ...d.geneDiseaseValidity.genes,
-      ]);
+      const safe = novelRecallTerms(
+        phraseTerms,
+        capRecallGenes(d.geneDiseaseValidity.genes)
+      );
       log.warn(
         `  incomplete scan; retrying gene-only recall [${safe.join(" | ")}]`
       );

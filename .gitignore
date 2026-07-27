@@ -39,5 +39,9 @@ ingest.log
 data/diseases.checkpoint.json
 data/diseases.checkpoint.json.tmp
 data/diseases.derived-backup.json
+data/diseases.json.pre-remediation.bak
 data/ingest-status.json
 data/*.tmp
+
+# Offline quality audits — not publishable; never serve from public/
+data/analysis/
