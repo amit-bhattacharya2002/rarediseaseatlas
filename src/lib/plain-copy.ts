@@ -292,8 +292,8 @@ export function trialsHeadline(
 
   const rangeNote =
     low === high
-      ? `In this build, ${pct}% of diseases in the trials denominator have no matched interventional trial under the specific condition name (${aggregate.noTrials.toLocaleString("en")} of ${den.toLocaleString("en")}).`
-      : `Between roughly ${low}% and ${high}% of diseases in the trials denominator have no interventional clinical trial — depending on whether broader-category registrations count. Counting only the specific condition name gives ${pct}% (${aggregate.noTrials.toLocaleString("en")} of ${den.toLocaleString("en")}); counting parent-category trials as filling a zero gives ${inclusivePct}% (${inclusiveRaw.toLocaleString("en")} of ${den.toLocaleString("en")}). We report the conservative figure and show parent-category trials on each disease page. Prior matching choices in this project landed in the mid-50s to mid-70s — that spread is itself a finding about how poorly disease naming maps between literature and trial registries.`;
+      ? `Using exact disease-name matching, ${pct}% (${aggregate.noTrials.toLocaleString("en")} of ${den.toLocaleString("en")}) have no matched interventional trial.`
+      : `Using exact disease-name matching, ${pct}% (${aggregate.noTrials.toLocaleString("en")} of ${den.toLocaleString("en")}) have no matched interventional trial. When trials registered under broader parent conditions are counted as evidence, the estimate falls to ${inclusivePct}% (${inclusiveRaw.toLocaleString("en")} of ${den.toLocaleString("en")}). We report the conservative figure and show parent-category trials on each disease page. Prior matching choices in this project landed in the mid-50s to mid-70s — that spread is itself a finding about how poorly disease naming maps between literature and trial registries.`;
 
   return {
     pct,

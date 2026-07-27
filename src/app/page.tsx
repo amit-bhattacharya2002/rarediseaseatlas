@@ -71,7 +71,8 @@ export default function HomePage() {
             {aggregate.noTrials.toLocaleString("en")}
           </p>
           <p className="mt-5 max-w-2xl font-serif text-title text-ink">
-            have no interventional trial under their specific condition name
+            have no registered interventional clinical trial matched directly to
+            their specific disease name
             {trials.pct != null ? (
               <>
                 {" "}
@@ -81,11 +82,11 @@ export default function HomePage() {
                 trials.inclusivePct !== trials.pct ? (
                   <>
                     {" "}
-                    conservative; about{" "}
+                    . Including broader parent-disease registrations reduces this
+                    estimate to about{" "}
                     <span className="font-mono text-[0.85em]">
                       {trials.inclusivePct}%
-                    </span>{" "}
-                    if broader-category registrations count
+                    </span>
                   </>
                 ) : null}
               </>
@@ -97,11 +98,16 @@ export default function HomePage() {
             tense.
           </p>
           <p className="mt-4 max-w-2xl font-sans text-sm leading-relaxed text-mute">
-            {trials.text} Observational and natural-history studies are shown
-            separately on disease pages because they are meaningful research and
-            may be open to families, but they are not counted as interventional
-            trials. Publication name-collision flags do not remove diseases from
-            this trials denominator.
+            {trials.text}{" "}
+            <span className="text-ink/80">
+              Interventional trials are studies in which participants receive an
+              intervention (drug, device, procedure, etc.).
+            </span>{" "}
+            Observational and natural-history studies are shown separately on
+            disease pages because they are meaningful research and may be open to
+            families, but they are not counted as interventional trials.
+            Publication name-collision flags do not remove diseases from this
+            trials denominator.
           </p>
           <p className="mt-3 max-w-2xl font-sans text-sm leading-relaxed text-mute">
             A fixed historical sample measurement (past tense) is on{" "}
