@@ -1,9 +1,19 @@
-name: Nightly zero-trial refresh
+name: Nightly artifact refresh
 
 on:
   schedule:
     - cron: "15 3 * * *" # 03:15 UTC
   workflow_dispatch:
+    inputs:
+      accuracy_batch:
+        description: "Allow up to 15% noTrials move (contamination remediation)"
+        required: false
+        default: "false"
+        type: boolean
+      limit:
+        description: "Max priority refetch codes (queue + contamination)"
+        required: false
+        default: "150"
 
 permissions:
   contents: write
@@ -28,29 +38,35 @@ jobs:
         run: npm ci
 
       - name: Snapshot before
-        run: cp data/diseases.json /tmp/diseases.before.json
+        run: |
+          npm run artifact:ensure
+          cp data/diseases.json /tmp/diseases.before.json
 
-      - name: Refresh zero-trial diseases
-        run: npm run refresh:zero-trials
-
-      - name: Derive
-        run: npm run derive
+      - name: Nightly orchestrator
+        run: |
+          LIMIT="${{ github.event.inputs.limit || '150' }}"
+          npm run refresh:nightly -- --limit "$LIMIT"
 
       - name: Guards
         run: |
+          EXTRA=""
+          if [[ "${{ github.event.inputs.accuracy_batch }}" == "true" ]]; then
+            EXTRA="--accuracy-batch"
+          fi
           npm run assert:refresh-guards -- \
             --mode nightly \
             --before /tmp/diseases.before.json \
-            --after data/diseases.json
+            --after data/diseases.json \
+            $EXTRA
 
       - name: Commit if changed
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/diseases.json data/refresh-log.jsonl
+          git add data/diseases.json.gz data/refresh-log.jsonl || true
           if git diff --staged --quiet; then
             echo "No changes to commit"
           else
-            git commit -m "data: nightly zero-trial refresh"
+            git commit -m "data: nightly artifact refresh"
             git push
           fi

@@ -53,6 +53,12 @@ import {
 } from "./lib/validate-india";
 import { log } from "./lib/logger";
 import { ensureCacheDir, setCacheReadsDisabled } from "./lib/cache";
+import {
+  ARTIFACT_GZ,
+  ARTIFACT_JSON,
+  readArtifact,
+  writeArtifact,
+} from "./lib/artifact-io";
 import type { IngestStatusFile } from "../src/lib/ingest-status";
 import type {
   DiseaseRecord,
@@ -66,7 +72,7 @@ const CHECKPOINT_EVERY = 25;
 const EXCLUDED_PREFIXES = ["OBSOLETE:", "NON RARE IN EUROPE:"];
 const PARENT_ANCESTOR_CHECK_LIMIT = 8;
 
-const PUBLISH_PATH = path.join(process.cwd(), "data", "diseases.json");
+const PUBLISH_PATH = ARTIFACT_JSON;
 const CHECKPOINT_PATH = path.join(
   process.cwd(),
   "data",
@@ -84,11 +90,16 @@ function writeIngestStatus(status: IngestStatusFile): void {
 
 function publishCount(): number {
   try {
-    if (!fs.existsSync(PUBLISH_PATH)) return 0;
-    const pub = JSON.parse(fs.readFileSync(PUBLISH_PATH, "utf8")) as {
-      diseases?: unknown[];
-    };
-    return pub.diseases?.length ?? 0;
+    if (fs.existsSync(ARTIFACT_JSON)) {
+      const pub = JSON.parse(fs.readFileSync(ARTIFACT_JSON, "utf8")) as {
+        diseases?: unknown[];
+      };
+      return pub.diseases?.length ?? 0;
+    }
+    if (fs.existsSync(ARTIFACT_GZ)) {
+      return readArtifact(ARTIFACT_GZ).diseases.length;
+    }
+    return 0;
   } catch {
     return 0;
   }
@@ -100,6 +111,8 @@ interface CliArgs {
   resume: boolean;
   noCache: boolean;
   seed: number;
+  /** Skip ClinicalTrials.gov entirely; trials.total stays null with sourceErrors. */
+  skipTrials: boolean;
 }
 
 function parseArgs(argv: string[]): CliArgs {
@@ -108,6 +121,7 @@ function parseArgs(argv: string[]): CliArgs {
   let resume = false;
   let noCache = false;
   let seed = 42;
+  let skipTrials = false;
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     if (a === "--full") {
@@ -131,6 +145,8 @@ function parseArgs(argv: string[]): CliArgs {
       resume = true;
     } else if (a === "--no-cache") {
       noCache = true;
+    } else if (a === "--skip-trials") {
+      skipTrials = true;
     } else if (a === "--help" || a === "-h") {
       console.log(`Usage: tsx scripts/ingest.ts [options]
   --limit N     First N usable diseases after sort (default 50). 0 = all.
@@ -138,11 +154,13 @@ function parseArgs(argv: string[]): CliArgs {
   --sample N    Random sample of N (overrides --limit).
   --seed N      PRNG seed for --sample (default 42).
   --resume      Resume from data/diseases.checkpoint.json (same sampling mode).
+  --skip-trials Soft-null trials (skip CT.gov) — use to unblock publish for
+                ultra-broad names that exceed the page ceiling.
   --no-cache    Ignore .cache/ reads`);
       process.exit(0);
     }
   }
-  return { limit, sample, resume, noCache, seed };
+  return { limit, sample, resume, noCache, seed, skipTrials };
 }
 
 function mulberry32(seed: number): () => number {
@@ -196,11 +214,11 @@ function loadResumeArtifact(): DiseasesArtifact | null {
     log.info(`Resume: loading ${CHECKPOINT_PATH}`);
     return loadArtifact(CHECKPOINT_PATH);
   }
-  if (fs.existsSync(PUBLISH_PATH)) {
+  if (fs.existsSync(ARTIFACT_JSON) || fs.existsSync(ARTIFACT_GZ)) {
     log.info(
-      `Resume: no checkpoint; loading published ${PUBLISH_PATH} (legacy fallback)`
+      `Resume: no checkpoint; loading published artifact (legacy fallback)`
     );
-    return loadArtifact(PUBLISH_PATH);
+    return readArtifact();
   }
   return null;
 }
@@ -507,24 +525,47 @@ async function main(): Promise<void> {
       let effectiveRecallTerms = recallTerms;
       let parentCategory: DiseaseRecord["trials"]["parentCategory"] = null;
       try {
+        if (args.skipTrials) {
+          sourceErrors.trials =
+            "skipped ClinicalTrials.gov (--skip-trials; typically page-ceiling unmeasurable)";
+          log.warn(
+            `  ORPHA:${od.orphaCode}: --skip-trials; leaving trials.total null`
+          );
+        } else {
         trials = await fetchTrialSignals(phraseTerms, meshLabels, recallTerms);
         if (trials && !trials.fullyScanned) {
-          // Broad parents can exceed the page ceiling. Fall back to genes only.
-        const safeRecall = novelRecallTerms(
-          phraseTerms,
-          capRecallGenes(gene.genes)
-        );
-        log.warn(
+          // Broad parents / synonym OR-chains can exceed the page ceiling.
+          // Fall back to genes only, then preferred-name-only, then soft-fail.
+          const safeRecall = novelRecallTerms(
+            phraseTerms,
+            capRecallGenes(gene.genes)
+          );
+          log.warn(
             `  ORPHA:${od.orphaCode}: incomplete scan with full recall; retrying with gene-only recall [${safeRecall.join(" | ")}]`
           );
           trials = await fetchTrialSignals(phraseTerms, meshLabels, safeRecall);
           effectiveRecallTerms = safeRecall;
           if (trials && !trials.fullyScanned) {
-            throw new Error(
-              `incomplete ClinicalTrials.gov scan (query returned more pages than the safety ceiling)`
+            const nameOnly = [corrected ?? od.name];
+            log.warn(
+              `  ORPHA:${od.orphaCode}: still incomplete; retrying preferred-name-only`
             );
+            trials = await fetchTrialSignals(nameOnly, meshLabels, []);
+            effectiveRecallTerms = [];
+          }
+          if (trials && !trials.fullyScanned) {
+            // Honest unmeasured row — never publish a truncated partial total.
+            // null total + sourceErrors is allowed by assertPublishable;
+            // throwing here blocked the entire full-corpus publish for 2 diseases.
+            sourceErrors.trials =
+              "incomplete ClinicalTrials.gov scan after name-only retry (page ceiling)";
+            log.warn(
+              `  ORPHA:${od.orphaCode}: soft-failing trials to null (unmeasurable under safety ceiling)`
+            );
+            trials = null;
           }
         }
+        } // end !args.skipTrials
         const parentLabel = parentCategoryLabelForTrials(
           od.mondoIds,
           (id, maxDepth) => mondo.ancestors(id, maxDepth),
@@ -557,10 +598,8 @@ async function main(): Promise<void> {
       } catch (err) {
         sourceErrors.trials = String(err);
         log.warn(`  ORPHA:${od.orphaCode}: trials fetch failed: ${String(err)}`);
-        // Incomplete scans must fail the disease — never publish a truncated zero/partial.
-        if (String(err).includes("incomplete ClinicalTrials.gov scan")) {
-          throw err;
-        }
+        // Hard incomplete throws were removed above; other fetch errors soft-fail.
+        trials = null;
       }
 
       let parentLiteratureProbe: ParentLiteratureProbe | null = null;
@@ -693,7 +732,7 @@ async function main(): Promise<void> {
 
   assertPublishable(artifact, target.length, failed);
   artifact.lastFullIngest = new Date().toISOString();
-  writeJsonAtomic(PUBLISH_PATH, artifact);
+  writeArtifact(artifact);
   writeIngestStatus({
     status: "complete",
     done: artifact.diseases.length,
@@ -707,7 +746,9 @@ async function main(): Promise<void> {
     updatedAt: new Date().toISOString(),
     message: "Ingest finished and published.",
   });
-  log.info(`Published ${artifact.diseases.length} diseases → ${PUBLISH_PATH}`);
+  log.info(
+    `Published ${artifact.diseases.length} diseases → ${ARTIFACT_JSON} + ${ARTIFACT_GZ}`
+  );
 
   const a = artifact.aggregate;
   const trialPct =

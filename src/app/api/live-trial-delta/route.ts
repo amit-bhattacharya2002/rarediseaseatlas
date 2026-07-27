@@ -1,6 +1,5 @@
-import fs from "node:fs";
-import path from "node:path";
 import { NextResponse } from "next/server";
+import { appendRefreshQueue } from "@/lib/refresh-queue";
 
 export const runtime = "nodejs";
 
@@ -14,8 +13,7 @@ interface DeltaBody {
 }
 
 /**
- * Log live-check deltas. Never writes diseases.json.
- * Locally appends to data/refresh-log.jsonl; on Vercel logs structured JSON.
+ * Log live-check deltas and queue for nightly merge. Never writes diseases.json.
  */
 export async function POST(request: Request): Promise<NextResponse> {
   let body: DeltaBody;
@@ -35,25 +33,27 @@ export async function POST(request: Request): Promise<NextResponse> {
     return NextResponse.json({ ok: false }, { status: 400 });
   }
 
-  const entry = {
-    kind: "live-check",
-    ranAt: body.at ?? new Date().toISOString(),
+  const queued = appendRefreshQueue({
     orphaCode: body.orphaCode,
+    reason: "live-delta",
     publishedTotal: body.publishedTotal,
     liveTotal: body.liveTotal,
     publishedAsOf: body.publishedAsOf ?? null,
-  };
+    ranAt: body.at,
+  });
 
-  console.info("LIVE_TRIAL_DELTA", JSON.stringify(entry));
+  console.info(
+    "LIVE_TRIAL_DELTA",
+    JSON.stringify({
+      kind: "live-check",
+      ranAt: body.at ?? new Date().toISOString(),
+      orphaCode: body.orphaCode,
+      publishedTotal: body.publishedTotal,
+      liveTotal: body.liveTotal,
+      publishedAsOf: body.publishedAsOf ?? null,
+      queued,
+    })
+  );
 
-  if (!process.env.VERCEL) {
-    try {
-      const logPath = path.join(process.cwd(), "data", "refresh-log.jsonl");
-      fs.appendFileSync(logPath, `${JSON.stringify(entry)}\n`, "utf8");
-    } catch (err) {
-      console.warn("live-trial-delta append failed", String(err));
-    }
-  }
-
-  return NextResponse.json({ ok: true });
+  return NextResponse.json({ ok: true, queued });
 }

@@ -28,6 +28,7 @@ import { collectExactSynonyms } from "./lib/identifiers";
 import { deriveArtifact } from "./lib/derive";
 import { appendRefreshLog } from "./lib/refresh-log";
 import { log } from "./lib/logger";
+import { readArtifact, writeArtifact } from "./lib/artifact-io";
 import type { DiseaseRecord, DiseasesArtifact, MatchStrategy } from "../src/lib/types";
 
 function parseLimit(argv: string[]): number | null {
@@ -40,10 +41,8 @@ function parseLimit(argv: string[]): number | null {
   return n;
 }
 
-function writeAtomic(file: string, value: unknown): void {
-  const tmp = `${file}.tmp`;
-  fs.writeFileSync(tmp, `${JSON.stringify(value, null, 2)}\n`, "utf8");
-  fs.renameSync(tmp, file);
+function writeAtomic(_file: string, value: unknown): void {
+  writeArtifact(value as DiseasesArtifact);
 }
 
 function deepClone<T>(value: T): T {
@@ -251,10 +250,7 @@ async function main(): Promise<void> {
   const limit = parseLimit(process.argv.slice(2));
   setCacheReadsDisabled(true);
 
-  const artifactPath = path.join(process.cwd(), "data", "diseases.json");
-  const before = JSON.parse(
-    fs.readFileSync(artifactPath, "utf8")
-  ) as DiseasesArtifact;
+  const before = readArtifact();
   const artifact = deepClone(before);
 
   let targets = artifact.diseases.filter(
@@ -280,7 +276,7 @@ async function main(): Promise<void> {
     if (result.error) errors.push({ orphaCode: d.orphaCode, error: result.error });
 
     if ((i + 1) % 25 === 0) {
-      writeAtomic(artifactPath, deriveArtifact(deepClone(artifact)));
+      writeAtomic("", deriveArtifact(deepClone(artifact)));
       log.info(`  checkpoint wrote through ${i + 1}`);
     }
   }
@@ -288,7 +284,7 @@ async function main(): Promise<void> {
   artifact.lastRefresh = new Date().toISOString();
   const derived = deriveArtifact(artifact);
   assertNightlyFieldDiscipline(before, derived, touchedCodes);
-  writeAtomic(artifactPath, derived);
+  writeAtomic("", derived);
 
   const durationMs = Date.now() - started;
   const logEntry = {

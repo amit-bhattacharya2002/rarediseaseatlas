@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import zlib from "node:zlib";
 import type { SamplingProvenance } from "./types";
 
 /** Shared ingest progress file — written by ingest, read by the site. */
@@ -25,6 +26,7 @@ const CHECKPOINT_PATH = path.join(
   "diseases.checkpoint.json"
 );
 const PUBLISH_PATH = path.join(process.cwd(), "data", "diseases.json");
+const PUBLISH_GZ_PATH = path.join(process.cwd(), "data", "diseases.json.gz");
 
 /** Fallback when neither checkpoint nor published artifact carries corpusLevels. */
 const FALLBACK_ATLAS_USABLE = 8171;
@@ -42,6 +44,19 @@ function readJson<T>(filePath: string): T | null {
   }
 }
 
+function countOrphaCodesInBuffer(buf: Buffer): number {
+  const needle = Buffer.from('"orphaCode"');
+  let count = 0;
+  let from = 0;
+  while (from < buf.length) {
+    const idx = buf.indexOf(needle, from);
+    if (idx === -1) break;
+    count += 1;
+    from = idx + needle.length;
+  }
+  return count;
+}
+
 /**
  * Cheap disease count for huge checkpoints — do NOT JSON.parse the whole file.
  * Counts top-level `"orphaCode"` keys (one per disease record in our schema).
@@ -49,17 +64,20 @@ function readJson<T>(filePath: string): T | null {
 function countOrphaCodesInFile(filePath: string): number | null {
   try {
     if (!fs.existsSync(filePath)) return null;
-    const buf = fs.readFileSync(filePath);
-    const needle = Buffer.from('"orphaCode"');
-    let count = 0;
-    let from = 0;
-    while (from < buf.length) {
-      const idx = buf.indexOf(needle, from);
-      if (idx === -1) break;
-      count += 1;
-      from = idx + needle.length;
-    }
-    return count;
+    return countOrphaCodesInBuffer(fs.readFileSync(filePath));
+  } catch {
+    return null;
+  }
+}
+
+function publishedDiseaseCount(): number | null {
+  const fromJson = countOrphaCodesInFile(PUBLISH_PATH);
+  if (fromJson != null) return fromJson;
+  try {
+    if (!fs.existsSync(PUBLISH_GZ_PATH)) return null;
+    return countOrphaCodesInBuffer(
+      zlib.gunzipSync(fs.readFileSync(PUBLISH_GZ_PATH))
+    );
   } catch {
     return null;
   }
@@ -129,7 +147,7 @@ function fromCheckpointLight(): IngestStatusFile | null {
   if (!ckMeta.generatedAt || !ckMeta.sampling) return null;
 
   const done = countOrphaCodesInFile(CHECKPOINT_PATH);
-  const pubN = countOrphaCodesInFile(PUBLISH_PATH);
+  const pubN = publishedDiseaseCount();
   if (done == null || pubN == null) return null;
 
   const sampling = ckMeta.sampling;

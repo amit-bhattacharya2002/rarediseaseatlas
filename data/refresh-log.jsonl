@@ -10,3 +10,7 @@
 {"kind":"live-check","ranAt":"2026-07-27T11:23:34.453Z","orphaCode":"2612","publishedTotal":369,"liveTotal":300,"publishedAsOf":"27 July 2026"}
 {"kind":"nightly-zero-trials","ranAt":"2026-07-27T11:34:20.860Z","diseasesChecked":178,"transitionsToNonZero":[],"durationMs":162082,"errors":[]}
 {"kind":"nightly-zero-trials","ranAt":"2026-07-27T04:31:39.394Z","diseasesChecked":174,"transitionsToNonZero":[],"durationMs":131485,"errors":[]}
+{"kind":"live-check","ranAt":"2026-07-27T21:52:18.107Z","orphaCode":"70573","publishedTotal":6611,"liveTotal":367,"publishedAsOf":"27 July 2026"}
+{"kind":"refresh-queue","ranAt":"2026-07-27T22:14:56.641Z","orphaCode":"324","reason":"manual","publishedTotal":1,"liveTotal":69,"publishedAsOf":null}
+{"kind":"nightly-refresh","ranAt":"2026-07-27T22:14:57.395Z","startedAt":"2026-07-27T22:14:56.942Z","priorityCount":5,"fromQueue":5,"fromContamination":0,"zeroLimit":null,"skipZero":true}
+{"kind":"refresh-queue","ranAt":"2026-07-27T22:15:04.919Z","orphaCode":"324","reason":"missing-last-check","publishedTotal":114,"liveTotal":114,"publishedAsOf":"27 July 2026"}

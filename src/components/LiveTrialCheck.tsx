@@ -2,63 +2,21 @@
 
 import { useEffect, useState } from "react";
 
-interface CtStudy {
-  protocolSection?: {
-    identificationModule?: { briefTitle?: string; officialTitle?: string };
-    conditionsModule?: { conditions?: string[] };
-    designModule?: { studyType?: string };
-  };
-}
-
-interface CtResponse {
-  totalCount?: number;
-  studies?: CtStudy[];
-  nextPageToken?: string;
-}
-
-function normalize(s: string): string {
-  return s.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
-}
-
-/** Count interventional studies whose conditions/title match a published query phrase. */
-function countMatchingInterventional(
-  studies: CtStudy[],
-  query: string
-): number {
-  const phrases = query
-    .split(/\s+OR\s+/i)
-    .map((p) => normalize(p.replace(/"/g, "")))
-    .filter((p) => p.length >= 4);
-  if (phrases.length === 0) return 0;
-  let n = 0;
-  for (const s of studies) {
-    if (s.protocolSection?.designModule?.studyType !== "INTERVENTIONAL") {
-      continue;
-    }
-    const conditions = (
-      s.protocolSection?.conditionsModule?.conditions ?? []
-    ).map(normalize);
-    const title = normalize(
-      s.protocolSection?.identificationModule?.briefTitle ||
-        s.protocolSection?.identificationModule?.officialTitle ||
-        ""
-    );
-    const hit = phrases.some((phrase) => {
-      const padded = ` ${phrase} `;
-      return (
-        conditions.some((c) => ` ${c} `.includes(padded)) ||
-        ` ${title} `.includes(padded)
-      );
-    });
-    if (hit) n += 1;
-  }
-  return n;
+interface LiveTrialsResponse {
+  ok: boolean;
+  publishedTotal?: number | null;
+  liveTotal?: number | null;
+  query?: string;
+  asOf?: string;
+  queued?: boolean;
+  fullyScanned?: boolean | null;
+  skipped?: string;
+  error?: string;
 }
 
 /**
- * Background CORS check against ClinicalTrials.gov. Renders nothing unless the
- * live interventional count differs from the published figure. Failures are silent.
- * Never writes back to diseases.json. Does not alter percentile / comparative copy.
+ * Server-proxied CT.gov check. Renders when live total differs from published.
+ * Queues ORPHA for nightly artifact merge; never writes diseases.json itself.
  */
 export function LiveTrialCheck({
   orphaCode,
@@ -72,6 +30,8 @@ export function LiveTrialCheck({
   publishedAsOf: string;
 }) {
   const [liveTotal, setLiveTotal] = useState<number | null>(null);
+  const [asOf, setAsOf] = useState(publishedAsOf);
+  const [query, setQuery] = useState(publishedQuery);
 
   useEffect(() => {
     if (!publishedQuery || publishedTotal == null) return;
@@ -79,48 +39,16 @@ export function LiveTrialCheck({
 
     (async () => {
       try {
-        // Auto-fire for published zeros (highest value); still run elsewhere
-        // but only render on delta.
-        const collected: CtStudy[] = [];
-        let token: string | undefined;
-        let pages = 0;
-        do {
-          pages += 1;
-          const base =
-            `https://clinicaltrials.gov/api/v2/studies?query.cond=${encodeURIComponent(publishedQuery)}` +
-            `&format=json&pageSize=100&countTotal=true`;
-          const url = token
-            ? `${base}&pageToken=${encodeURIComponent(token)}`
-            : base;
-          const res = await fetch(url);
-          if (!res.ok) return;
-          const data = (await res.json()) as CtResponse;
-          collected.push(...(data.studies ?? []));
-          token = data.nextPageToken;
-          // Cap client scan — silent if truncated; prefer under-count to noise.
-          if (pages >= 5) break;
-        } while (token);
-
-        if (cancelled) return;
-        const total = countMatchingInterventional(collected, publishedQuery);
-        setLiveTotal(total);
-
-        if (total !== publishedTotal) {
-          void fetch("/api/live-trial-delta", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              kind: "live-check",
-              orphaCode,
-              publishedTotal,
-              liveTotal: total,
-              publishedAsOf,
-              at: new Date().toISOString(),
-            }),
-          }).catch(() => {
-            /* silent */
-          });
-        }
+        const res = await fetch(
+          `/api/live-trials?orphaCode=${encodeURIComponent(orphaCode)}`,
+          { cache: "no-store" }
+        );
+        if (!res.ok) return;
+        const data = (await res.json()) as LiveTrialsResponse;
+        if (cancelled || !data.ok || typeof data.liveTotal !== "number") return;
+        setLiveTotal(data.liveTotal);
+        if (data.asOf) setAsOf(data.asOf);
+        if (data.query) setQuery(data.query);
       } catch {
         /* silent — page is complete without the live result */
       }
@@ -129,7 +57,7 @@ export function LiveTrialCheck({
     return () => {
       cancelled = true;
     };
-  }, [orphaCode, publishedQuery, publishedTotal, publishedAsOf]);
+  }, [orphaCode, publishedQuery, publishedTotal]);
 
   if (
     liveTotal == null ||
@@ -139,24 +67,25 @@ export function LiveTrialCheck({
     return null;
   }
 
-  const searchUrl = `https://clinicaltrials.gov/search?cond=${encodeURIComponent(publishedQuery)}`;
+  const searchUrl = `https://clinicaltrials.gov/search?cond=${encodeURIComponent(query)}`;
 
   if (publishedTotal === 0 && liveTotal > 0) {
     return (
       <p className="mt-3 font-sans text-sm italic leading-relaxed text-ink/90">
-        {liveTotal.toLocaleString("en")} trial
-        {liveTotal === 1 ? "" : "s"}{" "}
-        {liveTotal === 1 ? "has" : "have"} been registered since this page&apos;s
-        data was published on {publishedAsOf} —{" "}
+        Live ClinicalTrials.gov now shows about{" "}
+        {liveTotal.toLocaleString("en")} interventional trial
+        {liveTotal === 1 ? "" : "s"} for this query (page still shows the
+        published 0 from {asOf}). Comparison lines below still use the frozen
+        dataset — this disease is queued for the nightly artifact refresh.{" "}
         <a
           href={searchUrl}
           className="underline decoration-line underline-offset-2 hover:text-ink"
           target="_blank"
           rel="noopener noreferrer"
         >
-          view them
+          View live search
         </a>
-        . Comparison lines below still use the frozen dataset.
+        .
       </p>
     );
   }
@@ -166,8 +95,9 @@ export function LiveTrialCheck({
       Live ClinicalTrials.gov now reports about{" "}
       {liveTotal.toLocaleString("en")} interventional hit
       {liveTotal === 1 ? "" : "s"} for this query; this page still shows the
-      published count of {publishedTotal.toLocaleString("en")} (as of{" "}
-      {publishedAsOf}).{" "}
+      published count of {publishedTotal.toLocaleString("en")} (as of {asOf}).
+      Comparison lines below still use the frozen dataset; a nightly job merges
+      refreshed counts into the published artifact.{" "}
       <a
         href={searchUrl}
         className="underline decoration-line underline-offset-2 hover:text-ink"

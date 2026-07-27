@@ -7,6 +7,7 @@
  *   npx tsx scripts/refetch-trials.ts --limit 20
  *   npx tsx scripts/refetch-trials.ts --codes-from data/analysis/remediation-manifest.json
  *   npx tsx scripts/refetch-trials.ts --codes 100020,2612
+ *   npx tsx scripts/refetch-trials.ts --codes-from … --no-cache
  */
 import fs from "node:fs";
 import path from "node:path";
@@ -25,15 +26,19 @@ import {
 import { loadMondoHierarchy } from "./lib/mondo";
 import { collectExactSynonyms } from "./lib/identifiers";
 import { deriveArtifact } from "./lib/derive";
+import { setCacheReadsDisabled } from "./lib/cache";
 import { log } from "./lib/logger";
+import { readArtifact, writeArtifact } from "./lib/artifact-io";
 import type { DiseasesArtifact, MatchStrategy } from "../src/lib/types";
 
 function parseArgs(argv: string[]): {
   limit: number | null;
   codes: Set<string> | null;
+  noCache: boolean;
 } {
   let limit: number | null = null;
   const codes = new Set<string>();
+  let noCache = false;
 
   for (let i = 0; i < argv.length; i += 1) {
     const a = argv[i];
@@ -44,6 +49,8 @@ function parseArgs(argv: string[]): {
       }
       limit = n;
       i += 1;
+    } else if (a === "--no-cache") {
+      noCache = true;
     } else if (a === "--codes") {
       const raw = argv[i + 1];
       if (!raw) throw new Error("--codes requires a comma-separated ORPHA list");
@@ -77,10 +84,11 @@ function parseArgs(argv: string[]): {
     }
   }
 
-  return { limit, codes: codes.size > 0 ? codes : null };
+  return { limit, codes: codes.size > 0 ? codes : null, noCache };
 }
 
 function writeAtomic(file: string, value: unknown): void {
+  // Keep for codes-from path resolution only; artifact writes go through writeArtifact.
   const tmp = `${file}.tmp`;
   fs.writeFileSync(tmp, `${JSON.stringify(value, null, 2)}\n`, "utf8");
   fs.renameSync(tmp, file);
@@ -88,10 +96,11 @@ function writeAtomic(file: string, value: unknown): void {
 
 async function main(): Promise<void> {
   const args = parseArgs(process.argv.slice(2));
-  const artifactPath = path.join(process.cwd(), "data", "diseases.json");
-  const artifact = JSON.parse(
-    fs.readFileSync(artifactPath, "utf8")
-  ) as DiseasesArtifact;
+  if (args.noCache) {
+    setCacheReadsDisabled(true);
+    log.info("--no-cache: ignoring .cache/ reads");
+  }
+  const artifact = readArtifact();
 
   const mondo = await loadMondoHierarchy();
 
@@ -154,7 +163,42 @@ async function main(): Promise<void> {
         trials = await fetchTrialSignals(phraseTerms, d.meshLabels, safe);
         recallTerms = safe;
         if (!trials.fullyScanned) {
-          throw new Error("incomplete ClinicalTrials.gov scan after safe retry");
+          log.warn(`  still incomplete; retrying preferred-name-only`);
+          trials = await fetchTrialSignals([diseaseName], d.meshLabels, []);
+          recallTerms = [];
+        }
+        if (!trials.fullyScanned) {
+          // Soft-null — never keep a truncated partial total.
+          const prevNull = d.trials.total;
+          log.warn(
+            `  soft-failing trials to null (unmeasurable under safety ceiling)`
+          );
+          d.trials = {
+            ...d.trials,
+            total: null,
+            recruitingCount: null,
+            recruiting: [],
+            registeredStudiesTotal: null,
+            observationalTotal: null,
+            observationalRecruitingCount: null,
+            observational: [],
+            expandedAccessTotal: null,
+            generalRegistries: [],
+            query: trials.query,
+            recallTerms: [],
+            fullyScanned: false,
+            matchedVia: [],
+            parentCategory: null,
+          };
+          d.sourceErrors = {
+            ...(d.sourceErrors ?? {}),
+            trials:
+              "incomplete ClinicalTrials.gov scan after name-only retry (page ceiling)",
+          };
+          failed += 1;
+          d.lastTrialCheck = new Date().toISOString();
+          log.info(`  trials ${prevNull} → null (soft-fail)`);
+          continue;
         }
       }
 
@@ -235,6 +279,8 @@ async function main(): Promise<void> {
           : null;
       }
 
+      d.lastTrialCheck = new Date().toISOString();
+
       const parentNote = parentCategory
         ? `; parent="${parentCategory.label}" n=${parentCategory.total}`
         : "";
@@ -266,16 +312,17 @@ async function main(): Promise<void> {
         fullyScanned: false,
         parentCategory: null,
       };
+      d.lastTrialCheck = new Date().toISOString();
     }
 
     if ((i + 1) % 25 === 0) {
-      writeAtomic(artifactPath, deriveArtifact(artifact));
+      writeArtifact(deriveArtifact(artifact));
       log.info(`  checkpoint wrote through ${i + 1}`);
     }
   }
 
   const derived = deriveArtifact(artifact);
-  writeAtomic(artifactPath, derived);
+  writeArtifact(derived);
   const a = derived.aggregate;
   const pct =
     a.trialsDenominator > 0

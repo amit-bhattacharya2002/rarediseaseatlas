@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import zlib from "node:zlib";
 import indiaJson from "../../data/india-nprd.json";
 import { reportProblemGithubUrl } from "./site";
 import { signalLevel } from "./signals";
@@ -13,13 +14,23 @@ import type {
 export type { SearchIndexEntry };
 
 /**
- * Load the artifact once via fs (not a webpack JSON module). Importing a 4MB+
- * diseases.json through the bundler makes every `next dev` compile and navigation
- * pay a large parse/transform cost.
+ * Load the artifact once via fs (not a webpack JSON module). Prefer the
+ * git-tracked gzip (~11MB for the full corpus); fall back to diseases.json
+ * for local scripts that extract it.
  */
 function loadDiseasesArtifact(): DiseasesArtifact {
-  const filePath = path.join(process.cwd(), "data", "diseases.json");
-  return JSON.parse(fs.readFileSync(filePath, "utf8")) as DiseasesArtifact;
+  const gzPath = path.join(process.cwd(), "data", "diseases.json.gz");
+  const jsonPath = path.join(process.cwd(), "data", "diseases.json");
+  if (fs.existsSync(gzPath)) {
+    const buf = zlib.gunzipSync(fs.readFileSync(gzPath));
+    return JSON.parse(buf.toString("utf8")) as DiseasesArtifact;
+  }
+  if (fs.existsSync(jsonPath)) {
+    return JSON.parse(fs.readFileSync(jsonPath, "utf8")) as DiseasesArtifact;
+  }
+  throw new Error(
+    `Missing disease artifact: expected ${gzPath} or ${jsonPath}`
+  );
 }
 
 export const diseasesArtifact = loadDiseasesArtifact();
