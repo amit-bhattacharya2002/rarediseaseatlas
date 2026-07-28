@@ -103,9 +103,10 @@ export function LandscapeExplorer({ cells }: { cells: LandscapeCell[] }) {
   }, [metric, order, view]);
 
   const selected = active != null ? ordered[active]?.c ?? null : null;
+  const showMobileDock = Boolean(coarse && selected && view === "map");
 
   return (
-    <div className="mt-8">
+    <div className={`mt-8 ${showMobileDock ? "pb-36" : ""}`}>
       <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-6 sm:gap-y-3">
         <Toggle
           label="Colour by"
@@ -162,37 +163,47 @@ export function LandscapeExplorer({ cells }: { cells: LandscapeCell[] }) {
         </span>
       </div>
 
-      <div className="mt-4 min-h-[4.5rem] rounded border border-line bg-sand-50/40 px-3 py-3 font-sans text-sm sm:min-h-[2.75rem] sm:border-0 sm:bg-transparent sm:px-0 sm:py-0">
-        {selected ? (
-          <div className="flex flex-col gap-2 sm:block">
-            <div className="text-ink">
-              <span className="font-serif text-base leading-snug">
-                {selected.name}
+      {/* Fine pointer: sticky strip under the site header so hover details stay
+          visible while scrolling the long map. Touch: fixed bottom dock. */}
+      {!coarse ? (
+        <div className="sticky top-16 z-30 mt-4 border-y border-line bg-ground/95 py-3 backdrop-blur supports-[backdrop-filter]:bg-ground/90">
+          <div className="min-h-[2.75rem] font-sans text-sm">
+            {selected ? (
+              <div className="text-ink">
+                <span className="font-serif text-base leading-snug">
+                  {selected.name}
+                </span>
+                <span className="mt-1 block font-mono text-xs text-mute sm:mt-0 sm:ml-2 sm:inline">
+                  ORPHA:{selected.orphaCode} ·{" "}
+                  {selected.trials == null ? "—" : selected.trials}{" "}
+                  interventional trials ·{" "}
+                  {selected.recent == null ? "—" : selected.recent} papers
+                  (10y) · {selected.pubs == null ? "—" : selected.pubs} total ·{" "}
+                  {selected.confidence} confidence
+                  {selected.broken
+                    ? " · broken query (excluded from stats)"
+                    : ""}
+                </span>
+                <Link
+                  href={`/disease/${selected.orphaCode}`}
+                  className="mt-1 inline-block underline decoration-line underline-offset-2 sm:ml-2 sm:mt-0"
+                >
+                  Open disease page
+                </Link>
+              </div>
+            ) : (
+              <span className="text-mute">
+                Hover or focus a cell for its counts. Click to open the disease.
               </span>
-              <span className="mt-1 block font-mono text-xs text-mute sm:ml-2 sm:mt-0 sm:inline">
-                ORPHA:{selected.orphaCode} ·{" "}
-                {selected.trials == null ? "—" : selected.trials} interventional
-                trials · {selected.recent == null ? "—" : selected.recent}{" "}
-                papers (10y) · {selected.pubs == null ? "—" : selected.pubs}{" "}
-                total · {selected.confidence} confidence
-                {selected.broken ? " · broken query (excluded from stats)" : ""}
-              </span>
-            </div>
-            <Link
-              href={`/disease/${selected.orphaCode}`}
-              className="inline-flex min-h-11 items-center justify-center border border-ink px-4 font-sans text-sm text-ink hover:bg-ink hover:text-ground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink sm:min-h-0 sm:border-0 sm:px-0 sm:underline sm:decoration-line sm:underline-offset-2 sm:hover:bg-transparent sm:hover:text-ink"
-            >
-              Open disease page
-            </Link>
+            )}
           </div>
-        ) : (
-          <span className="text-mute">
-            {coarse
-              ? "Tap a cell to see its counts, then open the disease page."
-              : "Hover or focus a cell for its counts. Click to open the disease."}
-          </span>
-        )}
-      </div>
+        </div>
+      ) : view === "map" && !selected ? (
+        <p className="mt-4 font-sans text-sm text-mute">
+          Tap a cell — details stay pinned at the bottom so you can open the
+          page without scrolling back up.
+        </p>
+      ) : null}
 
       {view === "map" ? (
         <div
@@ -299,6 +310,47 @@ export function LandscapeExplorer({ cells }: { cells: LandscapeCell[] }) {
           })}
         </ol>
       )}
+
+      {showMobileDock && selected ? (
+        <div
+          role="status"
+          aria-live="polite"
+          className="fixed inset-x-0 bottom-0 z-40 border-t border-ink bg-ground px-4 pt-3 shadow-[0_-10px_28px_rgba(28,25,23,0.08)]"
+          style={{
+            paddingBottom: "max(0.75rem, env(safe-area-inset-bottom))",
+          }}
+        >
+          <div className="mx-auto flex max-w-5xl flex-col gap-3">
+            <div className="min-w-0">
+              <p className="font-serif text-base leading-snug text-ink">
+                {selected.name}
+              </p>
+              <p className="mt-1 font-mono text-xs text-mute">
+                ORPHA:{selected.orphaCode} ·{" "}
+                {selected.trials == null ? "—" : selected.trials} interventional
+                trials · {selected.recent == null ? "—" : selected.recent}{" "}
+                papers (10y)
+                {selected.broken ? " · broken query" : ""}
+              </p>
+            </div>
+            <div className="flex gap-2">
+              <Link
+                href={`/disease/${selected.orphaCode}`}
+                className="inline-flex min-h-11 flex-1 items-center justify-center bg-ink px-4 font-sans text-sm text-ground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+              >
+                Open disease page
+              </Link>
+              <button
+                type="button"
+                onClick={() => setActive(null)}
+                className="inline-flex min-h-11 shrink-0 items-center justify-center border border-line px-4 font-sans text-sm text-mute focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+              >
+                Dismiss
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }
