@@ -13,7 +13,7 @@ import fs from "node:fs";
 import path from "node:path";
 import {
   buildPhraseTerms,
-  buildRecallExpansionTerms,
+  buildTrialRecallExpansionTerms,
   capRecallGenes,
   novelRecallTerms,
   parentCategoryLabelForTrials,
@@ -142,7 +142,7 @@ async function main(): Promise<void> {
       const liveMondoSyn = collectExactSynonyms(d.mondoIds, mondo);
       let recallTerms = novelRecallTerms(
         phraseTerms,
-        buildRecallExpansionTerms({
+        buildTrialRecallExpansionTerms({
           name: diseaseName,
           synonyms: d.synonyms,
           mondoSynonyms: liveMondoSyn.length > 0 ? liveMondoSyn : d.mondoSynonyms,
@@ -151,7 +151,18 @@ async function main(): Promise<void> {
         })
       );
 
-      let trials = await fetchTrialSignals(phraseTerms, d.meshLabels, recallTerms);
+      let trials;
+      try {
+        trials = await fetchTrialSignals(phraseTerms, d.meshLabels, recallTerms);
+      } catch (primaryErr) {
+        const msg = String(primaryErr);
+        if (!/HTTP 400/.test(msg)) throw primaryErr;
+        log.warn(
+          `  primary CT.gov query HTTP 400; retrying preferred-name-only`
+        );
+        trials = await fetchTrialSignals([diseaseName], d.meshLabels, []);
+        recallTerms = [];
+      }
       if (!trials.fullyScanned) {
         const safe = novelRecallTerms(
           phraseTerms,
@@ -301,6 +312,8 @@ async function main(): Promise<void> {
         ...(d.sourceErrors ?? {}),
         trials: String(err),
       };
+      // Drop gene/legacy recallTerms even on hard fail so the next pass can
+      // rebuild under the gene-free trial builder without sticky contamination.
       d.trials = {
         ...d.trials,
         total: null,
@@ -310,6 +323,7 @@ async function main(): Promise<void> {
         observationalRecruitingCount: null,
         expandedAccessTotal: null,
         fullyScanned: false,
+        recallTerms: [],
         parentCategory: null,
       };
       d.lastTrialCheck = new Date().toISOString();

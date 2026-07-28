@@ -121,20 +121,46 @@ export interface PublicationSignals {
   strategiesWithHits: ("phrase" | "mesh")[];
 }
 
+export interface FetchPublicationOptions {
+  /** Skip core author sampling (caller may preserve prior researcher rows). */
+  skipAuthors?: boolean;
+  /** Skip separate phrase/mesh lite counts (caller may preserve prior counts). */
+  skipStrategyCounts?: boolean;
+  /**
+   * How many calendar years of PUB_YEAR series to fetch (ending at current year).
+   * Defaults to 15 (legacy sparkline window). Use 10 for faster gene-expansion passes.
+   */
+  yearSeriesYears?: number;
+}
+
 /**
- * Union of the quoted phrase query and a MeSH descriptor query. Europe PMC
- * hitCount of the OR query is already deduplicated, so it is the union total.
+ * Union of quoted phrase query, optional MeSH descriptors, and optional
+ * gene/alias expansion terms (GenCC + name-inferred). Europe PMC hitCount of
+ * the OR query is already deduplicated, so it is the union total.
  */
 export async function fetchPublicationSignals(
   phraseQuery: string,
-  meshLabels: string[] = []
+  meshLabels: string[] = [],
+  expansionTerms: string[] = [],
+  options: FetchPublicationOptions = {}
 ): Promise<PublicationSignals> {
+  const {
+    skipAuthors = false,
+    skipStrategyCounts = false,
+    yearSeriesYears = 15,
+  } = options;
   const meshQuery = buildMeshQuery(meshLabels);
-  const effectiveQuery = meshQuery
-    ? phraseQuery
-      ? `(${phraseQuery}) OR (${meshQuery})`
-      : `(${meshQuery})`
-    : phraseQuery;
+  const expansionQuery = expansionTerms
+    .map((t) => t.trim().replace(/"/g, ""))
+    .filter(Boolean)
+    .map((t) => `"${t}"`)
+    .join(" OR ");
+
+  const parts: string[] = [];
+  if (phraseQuery.trim()) parts.push(`(${phraseQuery})`);
+  if (meshQuery) parts.push(`(${meshQuery})`);
+  if (expansionQuery) parts.push(`(${expansionQuery})`);
+  const effectiveQuery = parts.join(" OR ");
 
   if (!effectiveQuery.trim()) {
     return {
@@ -153,12 +179,16 @@ export async function fetchPublicationSignals(
   }
 
   const query = effectiveQuery;
-  const phraseCount = phraseQuery
-    ? (await pmcSearch(phraseQuery, 1, "*", "lite")).hitCount ?? 0
-    : 0;
-  const meshCount = meshQuery
-    ? (await pmcSearch(meshQuery, 1, "*", "lite")).hitCount ?? 0
-    : 0;
+  let phraseCount = 0;
+  let meshCount = 0;
+  if (!skipStrategyCounts) {
+    phraseCount = phraseQuery
+      ? (await pmcSearch(phraseQuery, 1, "*", "lite")).hitCount ?? 0
+      : 0;
+    meshCount = meshQuery
+      ? (await pmcSearch(meshQuery, 1, "*", "lite")).hitCount ?? 0
+      : 0;
+  }
   const totalRes = await pmcSearch(query, 1, "*", "lite");
   const total = totalRes.hitCount ?? 0;
 
@@ -176,43 +206,45 @@ export async function fetchPublicationSignals(
     }
   >();
 
-  let cursor = "*";
   let fetched = 0;
-  const target = Math.min(200, total);
+  if (!skipAuthors && total > 0) {
+    let cursor = "*";
+    const target = Math.min(200, total);
 
-  while (fetched < target) {
-    const pageSize = Math.min(100, target - fetched);
-    const page = await pmcSearch(query, pageSize, cursor, "core");
-    const results = asArray(page.resultList?.result);
-    if (results.length === 0) break;
+    while (fetched < target) {
+      const pageSize = Math.min(100, target - fetched);
+      const page = await pmcSearch(query, pageSize, cursor, "core");
+      const results = asArray(page.resultList?.result);
+      if (results.length === 0) break;
 
-    for (const r of results) {
-      const year = r.pubYear ? parseInt(r.pubYear, 10) : null;
-      const authors = asArray(r.authorList?.author);
-      // Structured authors only — authorString comma-splits inflate distinct counts
-      for (const a of authors) {
-        const id = authorDedupKey(a);
-        if (!id) continue;
-        const aff = firstAffiliation(a);
-        const prev = authorCounts.get(id.key) ?? {
-          display: id.display,
-          count: 0,
-          affiliation: null,
-          mostRecentYear: null,
-        };
-        prev.count += 1;
-        if (aff) prev.affiliation = aff;
-        if (year && (!prev.mostRecentYear || year > prev.mostRecentYear)) {
-          prev.mostRecentYear = year;
+      for (const r of results) {
+        const year = r.pubYear ? parseInt(r.pubYear, 10) : null;
+        const authors = asArray(r.authorList?.author);
+        // Structured authors only — authorString comma-splits inflate distinct counts
+        for (const a of authors) {
+          const id = authorDedupKey(a);
+          if (!id) continue;
+          const aff = firstAffiliation(a);
+          const prev = authorCounts.get(id.key) ?? {
+            display: id.display,
+            count: 0,
+            affiliation: null,
+            mostRecentYear: null,
+          };
+          prev.count += 1;
+          if (aff) prev.affiliation = aff;
+          if (year && (!prev.mostRecentYear || year > prev.mostRecentYear)) {
+            prev.mostRecentYear = year;
+          }
+          authorCounts.set(id.key, prev);
         }
-        authorCounts.set(id.key, prev);
       }
-    }
 
-    fetched += results.length;
-    const next = page.nextCursorMark;
-    if (!next || next === cursor) break;
-    cursor = next;
+      fetched += results.length;
+      const next = page.nextCursorMark;
+      if (!next || next === cursor) break;
+      cursor = next;
+    }
   }
 
   const topAuthors: AuthorRecord[] = [...authorCounts.values()]
@@ -227,19 +259,44 @@ export async function fetchPublicationSignals(
     }));
 
   const currentYear = new Date().getFullYear();
+  const seriesYears = Math.max(0, Math.min(30, yearSeriesYears));
   const byYear: YearCount[] = [];
   let last10Years = 0;
 
-  for (let y = currentYear - 14; y <= currentYear; y++) {
-    const yearQuery = `(${query}) AND PUB_YEAR:${y}`;
+  if (seriesYears === 0) {
+    const from = currentYear - 9;
+    const rangeQuery = `(${query}) AND PUB_YEAR:[${from} TO ${currentYear}]`;
     try {
-      const yr = await pmcSearch(yearQuery, 1, "*", "lite");
-      const count = yr.hitCount ?? 0;
-      byYear.push({ year: y, count });
-      if (y >= currentYear - 9) last10Years += count;
+      last10Years =
+        (await pmcSearch(rangeQuery, 1, "*", "lite")).hitCount ?? 0;
     } catch (err) {
-      log.warn(`PMC year query failed for ${y}: ${String(err)}`);
-      byYear.push({ year: y, count: 0 });
+      log.warn(`PMC last-10-years range query failed: ${String(err)}`);
+    }
+  } else {
+    const seriesStart = currentYear - (seriesYears - 1);
+    for (let y = seriesStart; y <= currentYear; y++) {
+      const yearQuery = `(${query}) AND PUB_YEAR:${y}`;
+      try {
+        const yr = await pmcSearch(yearQuery, 1, "*", "lite");
+        const count = yr.hitCount ?? 0;
+        byYear.push({ year: y, count });
+        if (y >= currentYear - 9) last10Years += count;
+      } catch (err) {
+        log.warn(`PMC year query failed for ${y}: ${String(err)}`);
+        byYear.push({ year: y, count: 0 });
+      }
+    }
+
+    // If the series window is shorter than 10 years, fill last10Years with a range query.
+    if (seriesYears < 10) {
+      const from = currentYear - 9;
+      const rangeQuery = `(${query}) AND PUB_YEAR:[${from} TO ${currentYear}]`;
+      try {
+        last10Years =
+          (await pmcSearch(rangeQuery, 1, "*", "lite")).hitCount ?? last10Years;
+      } catch (err) {
+        log.warn(`PMC last-10-years range query failed: ${String(err)}`);
+      }
     }
   }
 

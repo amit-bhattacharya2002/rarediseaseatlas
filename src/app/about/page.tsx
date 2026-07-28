@@ -142,17 +142,26 @@ export default function AboutPage() {
 
       <section className="mt-12">
         <h2 className="font-serif text-title text-ink">Matching by name and by identifier</h2>
-        <p className="mt-3 font-sans text-sm leading-relaxed text-mute">
+          <p className="mt-3 font-sans text-sm leading-relaxed text-mute">
           The root cause of most data errors here is matching on disease name
           strings — names are misspelled, differ between databases, or are
           hyper-specific. We reduce this by matching on structured MeSH
           identifiers as well as names. From Mondo we extract MeSH, UMLS, OMIM
           and NCIT cross-references (shown on disease pages), resolve MeSH
           descriptor labels when the NLM id service responds, and union those
-          MeSH labels into Europe PMC and ClinicalTrials.gov queries. Trial
-          matching also uses carefully filtered recall-expansion terms (genes,
-          selected Mondo parents). A trial that registers its condition as a
-          broader MeSH descriptor (e.g. &ldquo;Fatty Acid Oxidation
+          MeSH labels into Europe PMC and ClinicalTrials.gov queries.
+          Publication queries also expand with GenCC gene symbols (and
+          name-inferred symbols such as <span className="font-mono">ZMYND11</span>{" "}
+          from &ldquo;ZMYND11-related …&rdquo; labels) plus generated patterns like{" "}
+          <span className="font-mono">GENE syndrome</span> /{" "}
+          <span className="font-mono">GENE-related</span> — literature is often
+          organised around genes, not long Orphanet labels. High-frequency
+          oncogenes are excluded from that expansion. Trial matching on the
+          specific-condition tier does <em>not</em> use gene symbols (they
+          contaminate CT.gov with unrelated oncology studies); it uses name,
+          MeSH, and a safe shortest synonym. Broader Mondo parents appear only
+          in a separate parent-category trial tier. A trial that registers its
+          condition as a broader MeSH descriptor (e.g. &ldquo;Fatty Acid Oxidation
           Disorders&rdquo; for an LCHAD-deficiency study) can then be found even
           when no name phrase would match. Each disease page records whether a
           trial matched via <span className="font-mono">phrase</span>,{" "}
@@ -161,12 +170,13 @@ export default function AboutPage() {
         </p>
         <p className="mt-3 font-sans text-sm leading-relaxed text-mute">
           Each Europe PMC query is the Orphanet preferred label plus Orphanet and
-          Mondo exact synonyms, each as a quoted phrase, OR&apos;d together and
-          unioned with a MeSH query where a cross-reference exists. A stoplist
-          drops terms under 5 characters, bare acronyms under 4 characters,
-          single common English words, and hyphenated/spaced numeric-prefix +
-          single letter generics (e.g. Poly-X, Tetra X). Dropped synonyms are
-          logged and shown on each disease page.
+          Mondo exact synonyms, each as a quoted phrase, OR&apos;d together,
+          unioned with MeSH where a cross-reference exists, and unioned with the
+          gene/alias expansion above when GenCC or the disease name yields a
+          safe gene symbol. A stoplist drops terms under 5 characters, bare
+          acronyms under 4 characters, single common English words, and
+          hyphenated/spaced numeric-prefix + single letter generics (e.g. Poly-X,
+          Tetra X). Dropped synonyms are logged and shown on each disease page.
         </p>
         <p className="mt-3 font-sans text-sm leading-relaxed text-mute">
           Labels are normalised additively at parse time and the source value is

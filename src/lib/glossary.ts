@@ -142,9 +142,9 @@ const SITE_ENTRIES: GlossaryEntry[] = [
     id: "recall-expansion",
     term: "Recall-expansion",
     definition:
-      "Extra carefully filtered search terms (for example gene symbols or selected Mondo parents) used to find trials that phrase/MeSH matching alone might miss.",
+      "Extra carefully filtered search terms beyond the preferred name and MeSH. For Europe PMC, that includes GenCC gene symbols and gene-related disease patterns (oncogenes capped). For ClinicalTrials.gov, that includes short safe synonyms and selected Mondo parents on a separate parent-sensitivity tier — not gene symbols on the specific-disease tier.",
     detail:
-      "Used for ClinicalTrials.gov matching, not as the basis for publication denominators. Disease pages record when a trial matched via recall-expansion.",
+      "Genes help find publications; trials stay on disease name, MeSH, and safe synonyms so a common gene does not inflate the matched-trial count. Disease pages still note when a trial came from parent-tier matching.",
     category: "how-we-measure",
   },
   {

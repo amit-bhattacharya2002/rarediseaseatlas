@@ -1,6 +1,6 @@
 import { readCache, writeCache } from "./cache";
 
-const MIN_INTERVAL_MS = 340; // ~3 req/sec
+const MIN_INTERVAL_MS = Number(process.env.RRD_HTTP_MIN_INTERVAL_MS ?? 220); // ~4.5 req/sec default
 let lastRequestAt = 0;
 let queue: Promise<void> = Promise.resolve();
 

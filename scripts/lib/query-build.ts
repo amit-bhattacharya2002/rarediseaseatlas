@@ -49,7 +49,8 @@ export function buildPhraseTerms(
 /** Split terms into chunks whose OR'd quoted query stays under CT.gov URL limits. */
 export function chunkTermsForTrials(
   terms: string[],
-  maxQueryChars = 1600
+  // Encoded URLs expand spaces/punctuation; stay well under CT.gov's practical limit.
+  maxQueryChars = 900
 ): string[][] {
   const chunks: string[][] = [];
   let current: string[] = [];
@@ -396,25 +397,24 @@ export function isSafeRecallTerm(term: string, genes: string[]): boolean {
 }
 
 /**
- * Production recall expansions for the *specific-tier* trial query: capped
- * genes + a safe shortest synonym (+ manual aliases). Qualifier-stripped
- * aliases are intentionally omitted.
+ * Production recall expansions for the *specific-tier* trial query: safe
+ * shortest synonym (+ manual aliases). Genes are intentionally omitted —
+ * gene symbols contaminate CT.gov (oncology/umbrella hits). Use
+ * `capRecallGenes` only for incomplete-scan retries.
  *
  * Mondo parent labels are NOT included here — they belong only in the
- * parent-category tier (`parentCategoryLabelForTrials`). Putting them in
- * specific-tier recall contaminated trial counts (parent-term bug).
+ * parent-category tier (`parentCategoryLabelForTrials`).
  *
- * `parentLabels` is accepted for call-site compatibility but ignored.
+ * `parentLabels` / `genes` accepted for call-site compatibility; genes ignored.
  */
-export function buildRecallExpansionTerms(args: {
+export function buildTrialRecallExpansionTerms(args: {
   name: string;
   synonyms: string[];
   mondoSynonyms: string[];
-  parentLabels: string[];
-  genes: string[];
+  parentLabels?: string[];
+  genes?: string[];
   manualAliases?: string[];
 }): string[] {
-  const genes = capRecallGenes(args.genes);
   const allSynonyms = [...args.synonyms, ...args.mondoSynonyms]
     .map((value) => value.trim())
     .filter(
@@ -423,8 +423,6 @@ export function buildRecallExpansionTerms(args: {
         value.length <= 100 &&
         !isOntologySpeak(value) &&
         !isGenericParentLabel(value) &&
-        // Block "Gaucher disease" as a synonym expansion of "Gaucher disease type 3".
-        // Same-entity eponyms (exact match) still pass isNameParentCollapse.
         !isNameParentCollapse(args.name, value)
     )
     .sort((a, b) => a.length - b.length);
@@ -434,11 +432,71 @@ export function buildRecallExpansionTerms(args: {
     ...(args.manualAliases ?? []).filter(
       (alias) => !isNameParentCollapse(args.name, alias)
     ),
-    ...genes,
     shortestSynonym,
   ]);
 
-  return candidates.filter((term) => isSafeRecallTerm(term, genes));
+  return candidates.filter((term) => isSafeRecallTerm(term, []));
+}
+
+/**
+ * @deprecated Prefer `buildTrialRecallExpansionTerms` (no genes in specific tier).
+ * Kept as an alias so older call sites compile during the migration.
+ */
+export function buildRecallExpansionTerms(args: {
+  name: string;
+  synonyms: string[];
+  mondoSynonyms: string[];
+  parentLabels: string[];
+  genes: string[];
+  manualAliases?: string[];
+}): string[] {
+  return buildTrialRecallExpansionTerms(args);
+}
+
+/**
+ * Infer HGNC-like symbols from long Orphanet labels when GenCC is empty
+ * (e.g. "ZMYND11-related … syndrome").
+ */
+export function inferGeneSymbolsFromName(name: string): string[] {
+  const out: string[] = [];
+  const related = name.match(
+    /\b([A-Z][A-Z0-9]{1,14}(?:-[A-Z0-9]{1,8})?)-related\b/
+  );
+  if (related?.[1]) out.push(related[1]);
+  const leading = name.match(
+    /^([A-Z][A-Z0-9]{1,14}(?:-[A-Z0-9]{1,8})?)(?:\s|,|:|\/)/
+  );
+  if (leading?.[1] && !/^(ORPHA|OMIM|MESH|MONDO)$/i.test(leading[1])) {
+    out.push(leading[1]);
+  }
+  return uniqueTerms(out).filter(
+    (g) => !HIGH_FREQUENCY_ONCOGENES.has(g.toUpperCase())
+  );
+}
+
+/**
+ * Europe PMC expansions: capped GenCC genes (plus name-inferred symbols) and
+ * generated `<GENE> syndrome` / `<GENE>-related` patterns. Mondo parents and
+ * bare OMIM IDs are never included.
+ */
+export function buildPublicationExpansionTerms(args: {
+  name: string;
+  synonyms?: string[];
+  mondoSynonyms?: string[];
+  genes: string[];
+}): string[] {
+  const genes = capRecallGenes([
+    ...args.genes,
+    ...inferGeneSymbolsFromName(args.name),
+  ]);
+  const patterns: string[] = [];
+  for (const g of genes) {
+    // Bare 2–3 letter symbols (e.g. GLA) over-match in Europe PMC; keep patterns.
+    if (g.length >= 4) patterns.push(g);
+    patterns.push(`${g} syndrome`);
+    patterns.push(`${g}-related`);
+  }
+  return uniqueTerms(patterns);
 }
 
 /**

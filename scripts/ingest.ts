@@ -38,7 +38,8 @@ import {
 import { buildIndiaMatcher } from "./lib/india";
 import {
   buildPhraseTerms,
-  buildRecallExpansionTerms,
+  buildPublicationExpansionTerms,
+  buildTrialRecallExpansionTerms,
   capRecallGenes,
   novelRecallTerms,
   parentCategoryLabelForTrials,
@@ -485,16 +486,26 @@ async function main(): Promise<void> {
       const phraseQuery = phraseQueryFromTerms(phraseTerms);
 
       const gene = lookupGenCC(gencc, od.mondoIds, od.orphaCode);
+      const diseaseName = corrected ?? od.name;
       const parentLabels = parentLabelsForRecall(
         od.mondoIds,
         (id, maxDepth) => mondo.ancestors(id, maxDepth),
         (id) => mondo.label(id),
-        corrected ?? od.name
+        diseaseName
+      );
+      const pubExpansionTerms = novelRecallTerms(
+        phraseTerms,
+        buildPublicationExpansionTerms({
+          name: diseaseName,
+          synonyms: od.synonyms,
+          mondoSynonyms,
+          genes: gene.genes,
+        })
       );
       const recallTerms = novelRecallTerms(
         phraseTerms,
-        buildRecallExpansionTerms({
-          name: corrected ?? od.name,
+        buildTrialRecallExpansionTerms({
+          name: diseaseName,
           synonyms: od.synonyms,
           mondoSynonyms,
           parentLabels,
@@ -505,9 +516,14 @@ async function main(): Promise<void> {
       for (const d of dropped) {
         log.info(`  stoplist drop ORPHA:${od.orphaCode}: "${d.term}" (${d.reason})`);
       }
+      if (pubExpansionTerms.length > 0) {
+        log.info(
+          `  publication expansion ORPHA:${od.orphaCode}: ${pubExpansionTerms.join(" | ")}`
+        );
+      }
       if (recallTerms.length > 0) {
         log.info(
-          `  recall expansion ORPHA:${od.orphaCode}: ${recallTerms.join(" | ")}`
+          `  trial recall ORPHA:${od.orphaCode}: ${recallTerms.join(" | ")}`
         );
       }
 
@@ -515,7 +531,11 @@ async function main(): Promise<void> {
 
       let pubs: Awaited<ReturnType<typeof fetchPublicationSignals>> | null = null;
       try {
-        pubs = await fetchPublicationSignals(phraseQuery, meshLabels);
+        pubs = await fetchPublicationSignals(
+          phraseQuery,
+          meshLabels,
+          pubExpansionTerms
+        );
       } catch (err) {
         sourceErrors.publications = String(err);
         log.warn(`  ORPHA:${od.orphaCode}: publications fetch failed: ${String(err)}`);

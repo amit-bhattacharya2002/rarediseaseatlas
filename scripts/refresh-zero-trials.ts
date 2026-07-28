@@ -13,7 +13,7 @@ import path from "node:path";
 import { setCacheReadsDisabled } from "./lib/cache";
 import {
   buildPhraseTerms,
-  buildRecallExpansionTerms,
+  buildTrialRecallExpansionTerms,
   capRecallGenes,
   novelRecallTerms,
   parentCategoryLabelForTrials,
@@ -127,7 +127,7 @@ async function refreshOne(
     const liveMondoSyn = collectExactSynonyms(d.mondoIds, mondo);
     let recallTerms = novelRecallTerms(
       phraseTerms,
-      buildRecallExpansionTerms({
+      buildTrialRecallExpansionTerms({
         name: diseaseName,
         synonyms: d.synonyms,
         mondoSynonyms:

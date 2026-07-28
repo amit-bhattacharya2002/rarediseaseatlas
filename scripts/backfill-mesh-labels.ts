@@ -27,7 +27,8 @@ import { loadMondoHierarchy } from "./lib/mondo";
 import { collectExactSynonyms } from "./lib/identifiers";
 import {
   buildPhraseTerms,
-  buildRecallExpansionTerms,
+  buildPublicationExpansionTerms,
+  buildTrialRecallExpansionTerms,
   capRecallGenes,
   novelRecallTerms,
   parentCategoryLabelForTrials,
@@ -121,7 +122,7 @@ async function requerySignals(
   );
   let recallTerms = novelRecallTerms(
     phraseTerms,
-    buildRecallExpansionTerms({
+    buildTrialRecallExpansionTerms({
       name: diseaseName,
       synonyms: d.synonyms,
       mondoSynonyms,
@@ -129,9 +130,22 @@ async function requerySignals(
       genes: d.geneDiseaseValidity.genes,
     })
   );
+  const pubExpansion = novelRecallTerms(
+    phraseTerms,
+    buildPublicationExpansionTerms({
+      name: diseaseName,
+      synonyms: d.synonyms,
+      mondoSynonyms,
+      genes: d.geneDiseaseValidity.genes,
+    })
+  );
 
   try {
-    const pubs = await fetchPublicationSignals(phraseQuery, meshLabels);
+    const pubs = await fetchPublicationSignals(
+      phraseQuery,
+      meshLabels,
+      pubExpansion
+    );
     d.publications = {
       ...d.publications,
       total: pubs.total,
