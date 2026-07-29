@@ -184,7 +184,7 @@ export default function HomePage() {
               href="/landscape"
               className="underline decoration-line underline-offset-2 hover:text-ink"
             >
-              see this build as a heat map
+              see this build as a landscape
             </Link>
             .
           </p>

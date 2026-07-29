@@ -179,6 +179,7 @@ function buildLandscapeCells() {
     researchers: d.researchers.distinctCount,
     confidence: d.confidence,
     broken: d.queryHealth?.status === "broken",
+    disorderGroup: d.disorderGroup,
   }));
 }
 
