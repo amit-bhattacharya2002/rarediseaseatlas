@@ -567,7 +567,7 @@ function niceCountTicks(logMin: number, logMax: number): number[] {
       if (inRange(c)) denser.push(c);
     }
     if (inRange(0)) denser.unshift(0);
-    ticks = [...new Set(denser)].sort((a, b) => a - b);
+    ticks = Array.from(new Set(denser)).sort((a, b) => a - b);
   }
   return ticks;
 }
