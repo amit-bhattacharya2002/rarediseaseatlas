@@ -164,7 +164,7 @@ export function LandscapeExplorer({ cells }: { cells: LandscapeCell[] }) {
       list.push(row);
       map.set(key, list);
     }
-    return [...map.entries()].sort(
+    return Array.from(map.entries()).sort(
       (a, b) => b[1].length - a[1].length || a[0].localeCompare(b[0])
     );
   }, [ordered]);
