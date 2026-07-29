@@ -184,3 +184,78 @@ export async function fetchJsonPost<T>(
     `Failed after ${maxRetries} retries: ${url} — ${String(lastError)}`
   );
 }
+
+/** POST application/x-www-form-urlencoded (MyDisease batch, etc.). */
+export async function fetchFormPost(
+  url: string,
+  formBody: string,
+  options: FetchJsonOptions = {}
+): Promise<string> {
+  const { cacheKey, maxRetries = 5, timeoutMs = 60_000, headers = {} } = options;
+
+  if (cacheKey) {
+    const cached = readCache<{ body: string }>(cacheKey);
+    if (cached?.body != null) return cached.body;
+  }
+
+  let attempt = 0;
+  let lastError: unknown;
+
+  while (attempt < maxRetries) {
+    attempt += 1;
+    await rateLimit();
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), timeoutMs);
+    try {
+      const res = await fetch(url, {
+        method: "POST",
+        signal: controller.signal,
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+          "User-Agent":
+            "IsAnyoneWorkingOnThis/0.1 (research-landscape; contact via GitHub issues)",
+          ...headers,
+        },
+        body: formBody,
+      });
+      clearTimeout(timer);
+
+      if (res.status === 429 || res.status >= 500) {
+        const backoff =
+          Math.min(30_000, 500 * 2 ** attempt) + Math.random() * 200;
+        await new Promise((r) => setTimeout(r, backoff));
+        continue;
+      }
+      if (res.status >= 400 && res.status < 500) {
+        throw new Error(`HTTP ${res.status} for ${url}: ${await res.text()}`);
+      }
+      if (!res.ok) {
+        throw new Error(`HTTP ${res.status} for ${url}`);
+      }
+      const text = await res.text();
+      if (cacheKey) {
+        writeCache(cacheKey, {
+          body: text,
+          fetchedAt: new Date().toISOString(),
+          url,
+        });
+      }
+      return text;
+    } catch (err) {
+      clearTimeout(timer);
+      lastError = err;
+      const msg = String(err);
+      if (/\bHTTP 4\d\d\b/.test(msg)) {
+        throw err instanceof Error ? err : new Error(msg);
+      }
+      const backoff =
+        Math.min(30_000, 500 * 2 ** attempt) + Math.random() * 200;
+      await new Promise((r) => setTimeout(r, backoff));
+    }
+  }
+
+  throw new Error(
+    `Failed after ${maxRetries} retries: ${url} — ${String(lastError)}`
+  );
+}

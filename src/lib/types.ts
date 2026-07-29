@@ -292,6 +292,66 @@ export interface DiseaseRecord {
     }>;
   } | null;
 
+  /**
+   * Optional MyDisease.info enrichment (Mondo ID joins).
+   * CTD chemicals / pathways + HPO sample. Does not replace Monarch.
+   */
+  mydisease?: {
+    fetchedAt: string;
+    mondoId: string | null;
+    chemicalCount: number;
+    chemicals: Array<{
+      name: string;
+      evidence: string | null;
+      meshId: string | null;
+      pubmed: string | null;
+    }>;
+    pathwayCount: number;
+    pathways: string[];
+    phenotypeCount: number;
+    phenotypeSample: Array<{
+      id: string;
+      name: string;
+    }>;
+  } | null;
+
+  /**
+   * Optional FDA orphan-drug designation matches (UMLS / name join).
+   * Filled by `npm run enrich:orphan`. EMA not yet wired.
+   */
+  orphanDesignation?: {
+    fetchedAt: string;
+    source: "fda-oopd";
+    matched: boolean;
+    designationCount: number;
+    approvedOrphanIndicationCount: number;
+    designations: Array<{
+      genericName: string;
+      tradeName: string | null;
+      designation: string;
+      designationStatus: string | null;
+      approvalStatus: string | null;
+      designatedDate: string | null;
+      matchedVia: "umls" | "name";
+    }>;
+  } | null;
+
+  /**
+   * Optional Open Targets Platform drugs / clinical candidates (Mondo ID).
+   * Filled by `npm run enrich:opentargets`. Never merged into trial totals.
+   */
+  openTargets?: {
+    fetchedAt: string;
+    efoId: string | null;
+    drugCount: number;
+    drugs: Array<{
+      chemblId: string;
+      name: string;
+      maxClinicalStage: string | null;
+      url: string;
+    }>;
+  } | null;
+
   /** Derived research-stage checklist — recomputed by derive. */
   trialReadiness?: TrialReadiness;
 
@@ -376,6 +436,10 @@ export interface DiseasesArtifact {
     /** Monarch API host when enrich:monarch has been run */
     monarchApi?: string;
     monarchEnrichedAt?: string;
+    mydiseaseEnrichedAt?: string;
+    orphanDesignationEnrichedAt?: string;
+    orphanDesignationSource?: string;
+    openTargetsEnrichedAt?: string;
   };
   /** Orphanet product1 taxonomy breakdown — denominators for narrative counts. */
   corpusLevels?: CorpusLevels;

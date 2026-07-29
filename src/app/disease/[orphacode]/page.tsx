@@ -10,6 +10,7 @@ import { DiseaseOverview } from "@/components/disease/DiseaseOverview";
 import { DiseaseResearch } from "@/components/disease/DiseaseResearch";
 import { DiseaseSectionNav } from "@/components/disease/DiseaseSectionNav";
 import { DiseaseSupport } from "@/components/disease/DiseaseSupport";
+import { DiseaseTherapies } from "@/components/disease/DiseaseTherapies";
 import { DiseaseTrials } from "@/components/disease/DiseaseTrials";
 import { ReadinessRail } from "@/components/ReadinessRail";
 import {
@@ -109,6 +110,7 @@ export default function DiseasePage({
         </section>
       )}
       <DiseaseBiology d={d} />
+      <DiseaseTherapies d={d} />
       <DiseaseResearch d={d} distributions={distributions} />
       <DiseaseTrials
         d={d}

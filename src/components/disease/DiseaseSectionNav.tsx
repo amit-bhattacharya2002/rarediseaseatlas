@@ -5,6 +5,7 @@ const NAV_ITEMS: Array<[string, string]> = [
   ["meaning", "Meaning"],
   ["readiness", "Readiness"],
   ["biology", "Biology"],
+  ["therapies", "Therapies"],
   ["research", "Research"],
   ["trials-studies", "Trials"],
   ["support", "Support"],

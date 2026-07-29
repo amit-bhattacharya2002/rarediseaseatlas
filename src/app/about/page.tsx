@@ -129,6 +129,22 @@ export default function AboutPage() {
             succeeds.
           </li>
           <li>
+            <strong className="text-ink">MyDisease.info</strong> — BioThings
+            disease annotation (CTD chemicals / pathways and HPO phenotype
+            samples), joined on Mondo IDs. Optional post-ingest enrichment;
+            never changes trial totals.
+          </li>
+          <li>
+            <strong className="text-ink">FDA OOPD</strong> — orphan-drug
+            designations matched via UMLS and preferred name (cached OOPD
+            mirror). Feeds the orphan-designation readiness stage.
+          </li>
+          <li>
+            <strong className="text-ink">Open Targets Platform</strong> — drugs
+            and clinical candidates for each Mondo ID. Shown on disease pages
+            only; never merged into the interventional-trial headline.
+          </li>
+          <li>
             <strong className="text-ink">India NPRD layer</strong> — hand-curated
             from the National Policy for Rare Diseases 2021 and later MoHFW/PIB
             lists. Last verified{" "}

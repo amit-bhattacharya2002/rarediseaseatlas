@@ -70,7 +70,26 @@ export function DiseaseBiology({ d }: { d: DiseaseRecord }) {
           <h3 className="font-sans text-sm font-medium text-ink">
             Phenotypes (Monarch / HPO)
           </h3>
-          {!monarch ? (
+          {!monarch && d.mydisease && d.mydisease.phenotypeCount > 0 ? (
+            <>
+              <p className="mt-3 font-mono text-2xl tabular-nums text-ink">
+                {d.mydisease.phenotypeCount.toLocaleString("en")}
+              </p>
+              <p className="mt-1 font-sans text-xs text-mute">
+                HPO annotations via MyDisease.info (Monarch not enriched)
+              </p>
+              <ul className="mt-4 flex flex-wrap gap-2">
+                {d.mydisease.phenotypeSample.map((p) => (
+                  <li
+                    key={p.id}
+                    className="border border-line bg-ground px-2 py-1 font-sans text-xs text-ink"
+                  >
+                    {p.name}
+                  </li>
+                ))}
+              </ul>
+            </>
+          ) : !monarch ? (
             <p className="mt-3 font-sans text-sm leading-relaxed text-mute">
               Not enriched in this build — Monarch phenotype joins were not run
               for this record.

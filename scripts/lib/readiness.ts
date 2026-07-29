@@ -102,6 +102,22 @@ function literatureStage(d: DiseaseRecord): ReadinessStage {
 
 function phenotypeStage(d: DiseaseRecord): ReadinessStage {
   const m = d.monarch;
+  const md = d.mydisease;
+  if ((!m || m.phenotypeCount == null) && md && md.phenotypeCount > 0) {
+    const sample = md.phenotypeSample
+      .slice(0, 3)
+      .map((p) => p.name)
+      .join("; ");
+    return {
+      id: "phenotype",
+      status: "met",
+      label: "Phenotype characterised",
+      detail: `${md.phenotypeCount.toLocaleString("en")} HPO annotations via MyDisease.info${sample ? ` (e.g. ${sample})` : ""}`,
+      evidenceUrl: md.mondoId
+        ? `https://mydisease.info/v1/disease/${encodeURIComponent(md.mondoId)}`
+        : null,
+    };
+  }
   if (!m || m.phenotypeCount == null) {
     return {
       id: "phenotype",
@@ -166,12 +182,44 @@ function modelStage(d: DiseaseRecord): ReadinessStage {
   };
 }
 
-function orphanStage(): ReadinessStage {
+function orphanStage(d: DiseaseRecord): ReadinessStage {
+  const o = d.orphanDesignation;
+  if (!o) {
+    return {
+      id: "orphan-designation",
+      status: "unknown",
+      label: "Orphan designation",
+      detail: "FDA orphan-drug designation not enriched yet",
+      evidenceUrl:
+        "https://www.accessdata.fda.gov/scripts/opdlisting/oopd/",
+    };
+  }
+  if (o.matched && o.designationCount > 0) {
+    const approved = o.approvedOrphanIndicationCount;
+    const sample = o.designations[0];
+    return {
+      id: "orphan-designation",
+      status: approved > 0 ? "met" : "partial",
+      label: "Orphan designation",
+      detail:
+        approved > 0
+          ? `${o.designationCount} FDA designation${o.designationCount === 1 ? "" : "s"} (${approved} with orphan-indication approval)${
+              sample ? ` — e.g. ${sample.genericName}` : ""
+            }`
+          : `${o.designationCount} FDA designation${o.designationCount === 1 ? "" : "s"} (none yet approved for the orphan indication)${
+              sample ? ` — e.g. ${sample.genericName}` : ""
+            }`,
+      evidenceUrl:
+        "https://www.accessdata.fda.gov/scripts/opdlisting/oopd/",
+    };
+  }
   return {
     id: "orphan-designation",
-    status: "unknown",
+    status: "absent",
     label: "Orphan designation",
-    detail: "FDA/EMA orphan-drug designation not enriched yet",
+    detail:
+      "No FDA orphan-drug designation matched this disease via UMLS or preferred name in the OOPD mirror",
+    evidenceUrl: "https://www.accessdata.fda.gov/scripts/opdlisting/oopd/",
   };
 }
 
@@ -263,7 +311,7 @@ export function computeTrialReadiness(d: DiseaseRecord): TrialReadiness {
     literatureStage(d),
     phenotypeStage(d),
     modelStage(d),
-    orphanStage(),
+    orphanStage(d),
     trialStage(d),
   ];
   const scored = stages.filter((s) => s.status !== "not-applicable");
