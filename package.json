@@ -1,5 +1,5 @@
 {
-  "name": "is-anyone-working-on-this",
+  "name": "rare-disease-research-atlas",
   "version": "0.1.0",
   "private": true,
   "license": "Apache-2.0",
@@ -18,7 +18,7 @@
     "enrich:mydisease": "tsx scripts/enrich-mydisease.ts",
     "enrich:orphan": "tsx scripts/enrich-orphan.ts",
     "enrich:opentargets": "tsx scripts/enrich-opentargets.ts",
-    "enrich:all": "tsx scripts/enrich-mydisease.ts && tsx scripts/enrich-orphan.ts && tsx scripts/enrich-opentargets.ts",
+    "enrich:all": "tsx scripts/enrich-mydisease.ts && tsx scripts/enrich-orphan.ts && tsx scripts/enrich-opentargets.ts && tsx scripts/enrich-monarch.ts && tsx scripts/enrich-registries.ts --skip-llm",
     "refetch:publications": "tsx scripts/refetch-publications.ts",
     "refetch:trials": "tsx scripts/refetch-trials.ts",
     "ingest": "tsx scripts/ingest.ts --limit 50",

@@ -46,6 +46,10 @@ data/*.tmp
 # Offline quality audits — not publishable; never serve from public/
 data/analysis/
 
+# Local NCT bulk extracts + slim disease dumps (matching experiments)
+data/nct-inspect/
+data/dumps/
+
 # Local extracted full corpus (canonical git object is diseases.json.gz)
 data/diseases.json
 data/diseases.json.tmp

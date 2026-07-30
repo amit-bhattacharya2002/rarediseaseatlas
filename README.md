@@ -1,6 +1,6 @@
-# Is Anyone Working On This?
+# Rare Disease Research Atlas
 
-An open rare disease research landscape. For every Orphanet condition in the build, the site answers: **does anyone appear to be working on this?**
+An open rare disease research landscape at [rarediseaseatlas.org](https://www.rarediseaseatlas.org). For every Orphanet condition in the build, the site answers: **Is anyone working on this?**
 
 Built for families who have just received a diagnosis they have never heard of, and for journalists or advocacy groups who need a defensible picture of research attention.
 

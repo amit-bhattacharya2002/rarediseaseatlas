@@ -52,7 +52,7 @@ export async function fetchText(
         headers: {
           Accept: "*/*",
           "User-Agent":
-            "IsAnyoneWorkingOnThis/0.1 (research-landscape; contact via GitHub issues)",
+            "RareDiseaseResearchAtlas/0.1 (https://www.rarediseaseatlas.org; contact via GitHub issues)",
           ...headers,
         },
       });
@@ -139,7 +139,7 @@ export async function fetchJsonPost<T>(
           Accept: "application/json",
           "Content-Type": "application/json",
           "User-Agent":
-            "IsAnyoneWorkingOnThis/0.1 (research-landscape; contact via GitHub issues)",
+            "RareDiseaseResearchAtlas/0.1 (https://www.rarediseaseatlas.org; contact via GitHub issues)",
           ...headers,
         },
         body: payload,
@@ -214,7 +214,7 @@ export async function fetchFormPost(
           Accept: "application/json",
           "Content-Type": "application/x-www-form-urlencoded",
           "User-Agent":
-            "IsAnyoneWorkingOnThis/0.1 (research-landscape; contact via GitHub issues)",
+            "RareDiseaseResearchAtlas/0.1 (https://www.rarediseaseatlas.org; contact via GitHub issues)",
           ...headers,
         },
         body: formBody,

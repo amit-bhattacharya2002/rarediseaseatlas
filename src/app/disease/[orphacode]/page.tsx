@@ -118,7 +118,7 @@ export default function DiseasePage({
         publishedAsOf={publishedAsOf}
         trialsCompare={trialsCompare}
       />
-      <DiseaseSupport />
+      <DiseaseSupport orphaCode={d.orphaCode} name={d.name} />
       <DiseaseIndia d={d} />
       <DiseaseMethods d={d} />
       <div className="mt-10">

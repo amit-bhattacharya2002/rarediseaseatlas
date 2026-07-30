@@ -1,12 +1,15 @@
 /**
- * Enrich diseases with FDA orphan-drug designations (UMLS / name join).
+ * Enrich diseases with FDA + EMA orphan-drug designations (UMLS / name join).
  *
  *   npx tsx scripts/enrich-orphan.ts
  *   npx tsx scripts/enrich-orphan.ts --limit 100
  */
 import {
-  loadOrphanIndex,
-  matchOrphanDesignations,
+  loadEmaOrphanIndex,
+  loadFdaOrphanIndex,
+  matchEmaOrphanDesignations,
+  matchFdaOrphanDesignations,
+  mergeOrphanDesignations,
 } from "./lib/orphan-designation";
 import { deriveArtifact } from "./lib/derive";
 import { readArtifact, writeArtifact } from "./lib/artifact-io";
@@ -42,30 +45,42 @@ async function main(): Promise<void> {
   if (args.codes) targets = targets.filter((d) => args.codes!.has(d.orphaCode));
   if (args.limit) targets = targets.slice(0, args.limit);
 
-  log.info(`Loading FDA orphan designation index…`);
-  const index = await loadOrphanIndex();
+  log.info(`Loading FDA + EMA orphan designation indexes…`);
+  const [fdaIndex, emaIndex] = await Promise.all([
+    loadFdaOrphanIndex(),
+    loadEmaOrphanIndex(),
+  ]);
   log.info(
     `Orphan enrich: ${targets.length}/${artifact.diseases.length} diseases`
   );
 
   let matched = 0;
+  let emaMatched = 0;
+  const fetchedAt = new Date().toISOString();
   for (let i = 0; i < targets.length; i += 1) {
     const d = targets[i];
-    d.orphanDesignation = matchOrphanDesignations(d, index);
+    const fda = matchFdaOrphanDesignations(d, fdaIndex);
+    const emaRows = matchEmaOrphanDesignations(d, emaIndex);
+    if (emaRows.length) emaMatched += 1;
+    d.orphanDesignation = mergeOrphanDesignations(fda, emaRows, fetchedAt);
     if (d.orphanDesignation.matched) matched += 1;
     if ((i + 1) % 1000 === 0 || i === targets.length - 1) {
-      log.info(`  progress ${i + 1}/${targets.length} (matched=${matched})`);
+      log.info(
+        `  progress ${i + 1}/${targets.length} (matched=${matched}, ema=${emaMatched})`
+      );
       writeArtifact(deriveArtifact(artifact));
     }
   }
 
   artifact.sourceVersions = {
     ...artifact.sourceVersions,
-    orphanDesignationEnrichedAt: new Date().toISOString(),
-    orphanDesignationSource: "fda-oopd-mirror",
+    orphanDesignationEnrichedAt: fetchedAt,
+    orphanDesignationSource: "fda-oopd-mirror+ema-json",
   };
   writeArtifact(deriveArtifact(artifact));
-  log.info(`Done. matched=${matched}/${targets.length}. Wrote diseases.json + .gz`);
+  log.info(
+    `Done. matched=${matched}/${targets.length} (ema hits=${emaMatched}). Wrote diseases.json + .gz`
+  );
 }
 
 main().catch((err) => {

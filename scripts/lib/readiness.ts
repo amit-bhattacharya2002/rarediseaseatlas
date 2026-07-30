@@ -189,28 +189,40 @@ function orphanStage(d: DiseaseRecord): ReadinessStage {
       id: "orphan-designation",
       status: "unknown",
       label: "Orphan designation",
-      detail: "FDA orphan-drug designation not enriched yet",
+      detail: "FDA / EMA orphan-drug designation not enriched yet",
       evidenceUrl:
         "https://www.accessdata.fda.gov/scripts/opdlisting/oopd/",
     };
   }
   if (o.matched && o.designationCount > 0) {
     const approved = o.approvedOrphanIndicationCount;
+    const fdaCount = o.designations.filter(
+      (x) => (x.agency ?? "fda") === "fda"
+    ).length;
+    const emaCount = o.designations.filter((x) => x.agency === "ema").length;
     const sample = o.designations[0];
+    const agencyBits = [
+      fdaCount ? `${fdaCount} FDA` : null,
+      emaCount ? `${emaCount} EMA` : null,
+    ]
+      .filter(Boolean)
+      .join(" · ");
     return {
       id: "orphan-designation",
-      status: approved > 0 ? "met" : "partial",
+      status: approved > 0 || emaCount > 0 ? (approved > 0 ? "met" : "partial") : "partial",
       label: "Orphan designation",
       detail:
         approved > 0
-          ? `${o.designationCount} FDA designation${o.designationCount === 1 ? "" : "s"} (${approved} with orphan-indication approval)${
+          ? `${agencyBits} designation${o.designationCount === 1 ? "" : "s"} (${approved} FDA orphan-indication approval${approved === 1 ? "" : "s"})${
               sample ? ` — e.g. ${sample.genericName}` : ""
             }`
-          : `${o.designationCount} FDA designation${o.designationCount === 1 ? "" : "s"} (none yet approved for the orphan indication)${
+          : `${agencyBits} designation${o.designationCount === 1 ? "" : "s"} (none yet with FDA orphan-indication approval)${
               sample ? ` — e.g. ${sample.genericName}` : ""
             }`,
       evidenceUrl:
-        "https://www.accessdata.fda.gov/scripts/opdlisting/oopd/",
+        sample?.agency === "ema" && sample.url
+          ? sample.url
+          : "https://www.accessdata.fda.gov/scripts/opdlisting/oopd/",
     };
   }
   return {
@@ -218,7 +230,7 @@ function orphanStage(d: DiseaseRecord): ReadinessStage {
     status: "absent",
     label: "Orphan designation",
     detail:
-      "No FDA orphan-drug designation matched this disease via UMLS or preferred name in the OOPD mirror",
+      "No FDA or EMA orphan-drug designation matched this disease via UMLS or preferred name",
     evidenceUrl: "https://www.accessdata.fda.gov/scripts/opdlisting/oopd/",
   };
 }

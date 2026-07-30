@@ -38,9 +38,9 @@ function ledgerPath(): string {
 
 function configuredBudget(): number {
   const value = Number(process.env.ADJUDICATION_BUDGET_USD ?? "5");
-  if (!Number.isFinite(value) || value <= 0 || value > 5) {
+  if (!Number.isFinite(value) || value <= 0 || value > 50) {
     throw new Error(
-      "ADJUDICATION_BUDGET_USD must be greater than 0 and no more than 5"
+      "ADJUDICATION_BUDGET_USD must be greater than 0 and no more than 50"
     );
   }
   return value;

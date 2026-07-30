@@ -5,6 +5,10 @@ function stageLabel(stage: string | null): string {
   return stage.replace(/_/g, " ").toLowerCase();
 }
 
+function agencyLabel(agency: "fda" | "ema" | undefined): string {
+  return agency === "ema" ? "EMA" : "FDA";
+}
+
 export function DiseaseTherapies({ d }: { d: DiseaseRecord }) {
   const orphan = d.orphanDesignation;
   const ot = d.openTargets;
@@ -22,7 +26,7 @@ export function DiseaseTherapies({ d }: { d: DiseaseRecord }) {
         Designations, candidates, and chemicals
       </h2>
       <p className="mt-2 max-w-2xl font-sans text-sm leading-relaxed text-mute">
-        FDA orphan designations (OOPD mirror), Open Targets clinical candidates,
+        FDA OOPD and EMA orphan designations, Open Targets clinical candidates,
         and CTD chemical associations via MyDisease.info. These never change the
         interventional-trial headline.
       </p>
@@ -30,7 +34,7 @@ export function DiseaseTherapies({ d }: { d: DiseaseRecord }) {
       <div className="mt-8 grid gap-10 lg:grid-cols-2">
         <div>
           <h3 className="font-sans text-sm font-medium text-ink">
-            FDA orphan designation
+            Orphan designation (FDA · EMA)
           </h3>
           {!orphan ? (
             <p className="mt-3 font-sans text-sm text-mute">
@@ -38,8 +42,9 @@ export function DiseaseTherapies({ d }: { d: DiseaseRecord }) {
             </p>
           ) : !orphan.matched ? (
             <p className="mt-3 font-sans text-sm text-mute">
-              No designation matched this disease via UMLS or preferred name.
-              Absence here is not proof that none exists under another wording.
+              No designation matched this disease via UMLS or preferred name on
+              the FDA OOPD mirror or EMA orphan register. Absence here is not
+              proof that none exists under another wording.
             </p>
           ) : (
             <>
@@ -49,15 +54,18 @@ export function DiseaseTherapies({ d }: { d: DiseaseRecord }) {
               <p className="mt-1 font-sans text-xs text-mute">
                 Designation{orphan.designationCount === 1 ? "" : "s"}
                 {orphan.approvedOrphanIndicationCount > 0
-                  ? ` · ${orphan.approvedOrphanIndicationCount} with orphan-indication approval`
-                  : " · none yet approved for the orphan indication"}
+                  ? ` · ${orphan.approvedOrphanIndicationCount} with FDA orphan-indication approval`
+                  : " · no FDA orphan-indication approval yet"}
               </p>
               <ul className="mt-4 space-y-3">
                 {orphan.designations.slice(0, 8).map((row) => (
                   <li
-                    key={`${row.genericName}-${row.designation}-${row.designatedDate}`}
+                    key={`${row.agency ?? "fda"}-${row.genericName}-${row.designation}-${row.designatedDate}`}
                     className="font-sans text-sm text-ink"
                   >
+                    <span className="font-mono text-[10px] uppercase tracking-wide text-mute">
+                      {agencyLabel(row.agency)}
+                    </span>{" "}
                     <span className="font-medium">{row.genericName}</span>
                     {row.tradeName ? (
                       <span className="text-mute"> ({row.tradeName})</span>
@@ -67,11 +75,21 @@ export function DiseaseTherapies({ d }: { d: DiseaseRecord }) {
                       {row.designatedDate ? ` · ${row.designatedDate}` : ""}
                       {row.approvalStatus ? ` · ${row.approvalStatus}` : ""}
                     </span>
+                    {row.url ? (
+                      <a
+                        href={row.url}
+                        className="mt-0.5 inline-block font-sans text-xs underline decoration-line underline-offset-2 hover:text-ink"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        EMA designation
+                      </a>
+                    ) : null}
                   </li>
                 ))}
               </ul>
               <p className="mt-3 font-sans text-xs text-mute">
-                Source:{" "}
+                Sources:{" "}
                 <a
                   href="https://www.accessdata.fda.gov/scripts/opdlisting/oopd/"
                   className="underline decoration-line underline-offset-2 hover:text-ink"
@@ -79,6 +97,15 @@ export function DiseaseTherapies({ d }: { d: DiseaseRecord }) {
                   rel="noopener noreferrer"
                 >
                   FDA OOPD
+                </a>
+                {" · "}
+                <a
+                  href="https://www.ema.europa.eu/en/human-regulatory-overview/research-development/orphan-designation-research-development"
+                  className="underline decoration-line underline-offset-2 hover:text-ink"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  EMA orphan designations
                 </a>
               </p>
             </>

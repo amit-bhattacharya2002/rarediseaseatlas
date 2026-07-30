@@ -669,6 +669,15 @@ function ScatterView({
     startY: number;
     vp: ScatterViewport;
   } | null>(null);
+  const pointersRef = useRef<
+    Map<number, { x: number; y: number }>
+  >(new Map());
+  const pinchRef = useRef<{
+    startDist: number;
+    startVp: ScatterViewport;
+    focusX: number;
+    focusY: number;
+  } | null>(null);
   const svgRef = useRef<SVGSVGElement | null>(null);
   const vpRef = useRef(vp);
   vpRef.current = vp;
@@ -784,19 +793,83 @@ function ScatterView({
   }, [pad.l, pad.t, innerW, innerH]);
 
   const onPointerDown = (e: PointerEvent<SVGSVGElement>) => {
-    if (e.button !== 0) return;
+    if (e.button !== 0 && e.pointerType === "mouse") return;
     e.currentTarget.setPointerCapture(e.pointerId);
-    dragRef.current = {
-      startX: e.clientX,
-      startY: e.clientY,
-      vp: { ...vp },
-    };
-    setDragging(true);
+    pointersRef.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
+
+    if (pointersRef.current.size === 2) {
+      dragRef.current = null;
+      setDragging(false);
+      const pts = Array.from(pointersRef.current.values());
+      const dist = Math.hypot(pts[1].x - pts[0].x, pts[1].y - pts[0].y);
+      const midX = (pts[0].x + pts[1].x) / 2;
+      const midY = (pts[0].y + pts[1].y) / 2;
+      const svg = e.currentTarget;
+      const rect = svg.getBoundingClientRect();
+      const mx = ((midX - rect.left) / rect.width) * W;
+      const my = ((midY - rect.top) / rect.height) * H;
+      const fx = (mx - pad.l) / innerW;
+      const fy = 1 - (my - pad.t) / innerH;
+      const cur = vp;
+      pinchRef.current = {
+        startDist: Math.max(dist, 1),
+        startVp: { ...cur },
+        focusX:
+          fx >= 0 && fx <= 1
+            ? cur.x0 + fx * (cur.x1 - cur.x0)
+            : (cur.x0 + cur.x1) / 2,
+        focusY:
+          fy >= 0 && fy <= 1
+            ? cur.y0 + fy * (cur.y1 - cur.y0)
+            : (cur.y0 + cur.y1) / 2,
+      };
+      return;
+    }
+
+    if (pointersRef.current.size === 1) {
+      pinchRef.current = null;
+      dragRef.current = {
+        startX: e.clientX,
+        startY: e.clientY,
+        vp: { ...vp },
+      };
+      setDragging(true);
+    }
   };
 
   const onPointerMove = (e: PointerEvent<SVGSVGElement>) => {
+    if (!pointersRef.current.has(e.pointerId)) return;
+    pointersRef.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
+
+    const pinch = pinchRef.current;
+    if (pinch && pointersRef.current.size >= 2) {
+      const pts = Array.from(pointersRef.current.values());
+      const dist = Math.hypot(pts[1].x - pts[0].x, pts[1].y - pts[0].y);
+      const factor = dist / pinch.startDist;
+      const nextW = (pinch.startVp.x1 - pinch.startVp.x0) / factor;
+      const nextH = (pinch.startVp.y1 - pinch.startVp.y0) / factor;
+      const relX =
+        (pinch.focusX - pinch.startVp.x0) /
+        (pinch.startVp.x1 - pinch.startVp.x0);
+      const relY =
+        (pinch.focusY - pinch.startVp.y0) /
+        (pinch.startVp.y1 - pinch.startVp.y0);
+      setVp(
+        clampViewport(
+          {
+            x0: pinch.focusX - relX * nextW,
+            x1: pinch.focusX + (1 - relX) * nextW,
+            y0: pinch.focusY - relY * nextH,
+            y1: pinch.focusY + (1 - relY) * nextH,
+          },
+          full
+        )
+      );
+      return;
+    }
+
     const drag = dragRef.current;
-    if (!drag) return;
+    if (!drag || pointersRef.current.size !== 1) return;
     const svg = e.currentTarget;
     const rect = svg.getBoundingClientRect();
     const dxPx = ((e.clientX - drag.startX) / rect.width) * W;
@@ -817,14 +890,24 @@ function ScatterView({
   };
 
   const onPointerUp = (e: PointerEvent<SVGSVGElement>) => {
-    if (dragRef.current) {
+    pointersRef.current.delete(e.pointerId);
+    try {
+      e.currentTarget.releasePointerCapture(e.pointerId);
+    } catch {
+      /* already released */
+    }
+    if (pointersRef.current.size < 2) pinchRef.current = null;
+    if (pointersRef.current.size === 0) {
       dragRef.current = null;
       setDragging(false);
-      try {
-        e.currentTarget.releasePointerCapture(e.pointerId);
-      } catch {
-        /* already released */
-      }
+    } else if (pointersRef.current.size === 1) {
+      const remaining = Array.from(pointersRef.current.values())[0];
+      dragRef.current = {
+        startX: remaining.x,
+        startY: remaining.y,
+        vp: { ...vpRef.current },
+      };
+      setDragging(true);
     }
   };
 
@@ -832,7 +915,8 @@ function ScatterView({
     <div className="mt-3 border border-line bg-sand-50/30">
       <div className="flex flex-wrap items-center justify-between gap-2 border-b border-line px-3 py-2">
         <p className="font-mono text-[10px] text-mute">
-          {Math.round(zoomRatio * 100)}% · scroll zooms the grid · drag pans
+          {Math.round(zoomRatio * 100)}% · scroll or pinch zooms the grid · drag
+          pans
         </p>
         <div className="flex items-center gap-1">
           <button

@@ -23,10 +23,10 @@ import {
 } from "./lib/trial-relevance";
 import { deriveArtifact } from "./lib/derive";
 import { ensureCacheDir } from "./lib/cache";
+import { readArtifact, writeArtifact } from "./lib/artifact-io";
 import { log } from "./lib/logger";
 import type {
   DiseaseRecord,
-  DiseasesArtifact,
   RegistryTrialRecord,
   TrialRecord,
 } from "../src/lib/types";
@@ -75,12 +75,6 @@ function parseArgs(argv: string[]): {
     }
   }
   return { limit, codes: codes.size ? codes : null, skipLlm };
-}
-
-function writeAtomic(file: string, value: unknown): void {
-  const tmp = `${file}.tmp`;
-  fs.writeFileSync(tmp, `${JSON.stringify(value, null, 2)}\n`, "utf8");
-  fs.renameSync(tmp, file);
 }
 
 function ctgovNctIds(d: DiseaseRecord): Set<string> {
@@ -203,16 +197,20 @@ async function main(): Promise<void> {
   loadEnvLocal();
   ensureCacheDir();
   const args = parseArgs(process.argv.slice(2));
-  const artifactPath = path.join(process.cwd(), "data", "diseases.json");
-  const artifact = JSON.parse(
-    fs.readFileSync(artifactPath, "utf8")
-  ) as DiseasesArtifact;
+  const artifact = readArtifact();
 
   let targets = artifact.diseases;
   if (args.codes) {
     targets = targets.filter((d) => args.codes!.has(d.orphaCode));
   }
   if (args.limit) targets = targets.slice(0, args.limit);
+  if (!args.codes) {
+    const pending = targets.filter((d) => !d.trials.secondaryRegistries);
+    log.info(
+      `Registries enrich: ${pending.length} pending of ${targets.length} selected`
+    );
+    targets = pending;
+  }
 
   const models = args.skipLlm ? null : loadRelevanceModels();
   if (!args.skipLlm && !models) {
@@ -279,16 +277,13 @@ async function main(): Promise<void> {
     }
 
     if ((i + 1) % 10 === 0 || i === targets.length - 1) {
-      writeAtomic(artifactPath, artifact);
+      writeArtifact(artifact);
       log.info(`  checkpointed publish artifact (${i + 1}/${targets.length})`);
     }
   }
 
-  const derived = deriveArtifact(artifact);
-  writeAtomic(artifactPath, derived);
-  log.info(
-    `Done. failed=${failed}. Wrote ${artifactPath} (checkpoint untouched).`
-  );
+  writeArtifact(deriveArtifact(artifact));
+  log.info(`Done. failed=${failed}. Wrote diseases.json + .gz`);
 }
 
 main().catch((err) => {

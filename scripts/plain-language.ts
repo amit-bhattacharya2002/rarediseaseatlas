@@ -15,12 +15,34 @@ import { rewriteDefinitionPlain } from "./lib/plain-language";
 import { ensureCacheDir, readCache, writeCache } from "./lib/cache";
 import { log } from "./lib/logger";
 import type { DiseasesArtifact } from "../src/lib/types";
+import { writeArtifact } from "./lib/artifact-io";
+
+function loadEnvLocal(): void {
+  const envPath = path.join(process.cwd(), ".env.local");
+  if (!fs.existsSync(envPath)) return;
+  for (const line of fs.readFileSync(envPath, "utf8").split("\n")) {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith("#")) continue;
+    const eq = trimmed.indexOf("=");
+    if (eq < 0) continue;
+    const key = trimmed.slice(0, eq).trim();
+    let value = trimmed.slice(eq + 1).trim();
+    if (
+      (value.startsWith('"') && value.endsWith('"')) ||
+      (value.startsWith("'") && value.endsWith("'"))
+    ) {
+      value = value.slice(1, -1);
+    }
+    if (!(key in process.env)) process.env[key] = value;
+  }
+}
 
 function defHash(definition: string): string {
   return crypto.createHash("sha256").update(definition.trim()).digest("hex");
 }
 
 async function main() {
+  loadEnvLocal();
   const limitIdx = process.argv.indexOf("--limit");
   const limit =
     limitIdx >= 0 ? parseInt(process.argv[limitIdx + 1] ?? "", 10) : Infinity;
@@ -61,12 +83,11 @@ async function main() {
       writeCache(key, { text: plain, diseaseName: d.name });
       written += 1;
     }
+    if (n % 50 === 0) writeArtifact(artifact);
     await new Promise((r) => setTimeout(r, 200));
   }
 
-  const tmp = p + ".tmp";
-  fs.writeFileSync(tmp, JSON.stringify(artifact, null, 2) + "\n", "utf8");
-  fs.renameSync(tmp, p);
+  writeArtifact(artifact);
   log.info(
     `Done. wrote plain language for ${written} diseases (${cachedHits} from cache)`
   );

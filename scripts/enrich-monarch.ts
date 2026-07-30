@@ -10,12 +10,11 @@
  *   npx tsx scripts/enrich-monarch.ts --codes 10,116,365
  */
 
-import fs from "node:fs";
-import path from "node:path";
 import { fetchJson } from "./lib/http";
 import { deriveArtifact } from "./lib/derive";
+import { readArtifact, writeArtifact } from "./lib/artifact-io";
 import { log } from "./lib/logger";
-import type { DiseasesArtifact, DiseaseRecord } from "../src/lib/types";
+import type { DiseaseRecord } from "../src/lib/types";
 
 const MONARCH = "https://api-v3.monarchinitiative.org/v3/api";
 
@@ -50,12 +49,6 @@ function parseArgs(argv: string[]): { limit: number | null; codes: Set<string> |
     }
   }
   return { limit, codes: codes.size ? codes : null };
-}
-
-function writeAtomic(file: string, value: unknown): void {
-  const tmp = `${file}.tmp`;
-  fs.writeFileSync(tmp, `${JSON.stringify(value, null, 2)}\n`, "utf8");
-  fs.renameSync(tmp, file);
 }
 
 function mondoCurie(id: string): string {
@@ -154,18 +147,26 @@ async function enrichOne(d: DiseaseRecord): Promise<void> {
 
 async function main(): Promise<void> {
   const args = parseArgs(process.argv.slice(2));
-  const artifactPath = path.join(process.cwd(), "data", "diseases.json");
-  const artifact = JSON.parse(
-    fs.readFileSync(artifactPath, "utf8")
-  ) as DiseasesArtifact;
+  const artifact = readArtifact();
 
   let targets = artifact.diseases;
   if (args.codes) {
     targets = targets.filter((d) => args.codes!.has(d.orphaCode));
   }
   if (args.limit) targets = targets.slice(0, args.limit);
-
-  log.info(`Monarch enrich: ${targets.length}/${artifact.diseases.length} diseases`);
+  // Resume-friendly: skip diseases that already have a Monarch block unless
+  // the caller filtered to an explicit --codes list.
+  if (!args.codes) {
+    const pending = targets.filter((d) => !d.monarch);
+    log.info(
+      `Monarch enrich: ${pending.length} pending of ${targets.length} selected (${artifact.diseases.length} corpus)`
+    );
+    targets = pending;
+  } else {
+    log.info(
+      `Monarch enrich: ${targets.length}/${artifact.diseases.length} diseases`
+    );
+  }
 
   let ok = 0;
   let failed = 0;
@@ -186,7 +187,7 @@ async function main(): Promise<void> {
       d.monarch = d.monarch ?? null;
     }
     if ((i + 1) % 25 === 0) {
-      writeAtomic(artifactPath, deriveArtifact(artifact));
+      writeArtifact(deriveArtifact(artifact));
       log.info(`  checkpoint wrote through ${i + 1}`);
     }
   }
@@ -195,9 +196,9 @@ async function main(): Promise<void> {
     ...artifact.sourceVersions,
     monarchApi: "api-v3.monarchinitiative.org",
     monarchEnrichedAt: new Date().toISOString(),
-  } as typeof artifact.sourceVersions;
+  };
 
-  writeAtomic(artifactPath, deriveArtifact(artifact));
+  writeArtifact(deriveArtifact(artifact));
   log.info(`Done. ok=${ok} failed=${failed}. trialReadiness recomputed via derive.`);
 }
 

@@ -135,14 +135,25 @@ export default function AboutPage() {
             never changes trial totals.
           </li>
           <li>
-            <strong className="text-ink">FDA OOPD</strong> — orphan-drug
-            designations matched via UMLS and preferred name (cached OOPD
-            mirror). Feeds the orphan-designation readiness stage.
+            <strong className="text-ink">FDA OOPD + EMA orphan</strong> —
+            orphan-drug designations matched via UMLS and preferred name (FDA
+            OOPD mirror) and intended-use name join (EMA public orphan JSON).
+            Feeds the orphan-designation readiness stage.
           </li>
           <li>
             <strong className="text-ink">Open Targets Platform</strong> — drugs
             and clinical candidates for each Mondo ID. Shown on disease pages
             only; never merged into the interventional-trial headline.
+          </li>
+          <li>
+            <strong className="text-ink">Monarch Initiative</strong> — HPO
+            phenotypes and Alliance genotype models joined on Mondo IDs
+            (post-ingest enrichment).
+          </li>
+          <li>
+            <strong className="text-ink">Secondary registries</strong> — CTIS
+            and ISRCTN (and ICTRP when available) as supplemental trial
+            listings; never change the CT.gov interventional headline.
           </li>
           <li>
             <strong className="text-ink">India NPRD layer</strong> — hand-curated
@@ -301,8 +312,10 @@ export default function AboutPage() {
             </span>
             . Precision is measured only among NCT IDs already labelled relevant
             or irrelevant in that gold set — not over every trial the pipeline
-            returns. Full unaided human validation of trial relevance is not yet
-            complete.
+            returns. A full unaided human re-labelling of trial relevance across
+            the corpus is still not complete; this gold set remains the published
+            accuracy evidence until the dual-model automated benchmark covers the
+            full gold file.
           </p>
         ) : (
           <p className="mt-3 font-sans text-sm leading-relaxed text-mute">

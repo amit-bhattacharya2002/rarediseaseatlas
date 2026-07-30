@@ -316,16 +316,19 @@ export interface DiseaseRecord {
   } | null;
 
   /**
-   * Optional FDA orphan-drug designation matches (UMLS / name join).
-   * Filled by `npm run enrich:orphan`. EMA not yet wired.
+   * Optional FDA / EMA orphan-drug designation matches (name / UMLS join).
+   * Filled by `npm run enrich:orphan`.
    */
   orphanDesignation?: {
     fetchedAt: string;
-    source: "fda-oopd";
+    source: "fda-oopd" | "ema" | "fda-oopd+ema";
     matched: boolean;
     designationCount: number;
+    /** FDA orphan-indication approvals only (EMA uses designation status). */
     approvedOrphanIndicationCount: number;
     designations: Array<{
+      /** Absent on older FDA-only enrichments — treat as FDA. */
+      agency?: "fda" | "ema";
       genericName: string;
       tradeName: string | null;
       designation: string;
@@ -333,6 +336,7 @@ export interface DiseaseRecord {
       approvalStatus: string | null;
       designatedDate: string | null;
       matchedVia: "umls" | "name";
+      url?: string | null;
     }>;
   } | null;
 
