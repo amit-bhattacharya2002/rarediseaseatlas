@@ -94,3 +94,5 @@
 {"kind":"nightly-refresh","ranAt":"2026-09-04T04:37:37.016Z","startedAt":"2026-09-04T03:33:13.015Z","priorityCount":0,"fromQueue":0,"fromContamination":0,"zeroLimit":null,"skipZero":false}
 {"kind":"nightly-zero-trials","ranAt":"2026-09-05T04:33:58.863Z","diseasesChecked":5501,"transitionsToNonZero":[],"durationMs":3902201,"errors":[]}
 {"kind":"nightly-refresh","ranAt":"2026-09-05T04:34:05.352Z","startedAt":"2026-09-05T03:28:55.051Z","priorityCount":0,"fromQueue":0,"fromContamination":0,"zeroLimit":null,"skipZero":false}
+{"kind":"nightly-zero-trials","ranAt":"2026-09-06T04:34:34.020Z","diseasesChecked":5501,"transitionsToNonZero":[],"durationMs":3865079,"errors":[]}
+{"kind":"nightly-refresh","ranAt":"2026-09-06T04:34:40.565Z","startedAt":"2026-09-06T03:30:07.358Z","priorityCount":0,"fromQueue":0,"fromContamination":0,"zeroLimit":null,"skipZero":false}
