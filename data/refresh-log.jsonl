@@ -242,3 +242,5 @@
 {"kind":"nightly-refresh","ranAt":"2026-11-18T04:25:00.416Z","startedAt":"2026-11-18T03:23:00.534Z","priorityCount":0,"fromQueue":0,"fromContamination":0,"zeroLimit":null,"skipZero":false}
 {"kind":"nightly-zero-trials","ranAt":"2026-11-19T04:28:09.048Z","diseasesChecked":5495,"transitionsToNonZero":[],"durationMs":3886043,"errors":[]}
 {"kind":"nightly-refresh","ranAt":"2026-11-19T04:28:16.345Z","startedAt":"2026-11-19T03:23:21.264Z","priorityCount":0,"fromQueue":0,"fromContamination":0,"zeroLimit":null,"skipZero":false}
+{"kind":"nightly-zero-trials","ranAt":"2026-11-20T04:27:54.414Z","diseasesChecked":5495,"transitionsToNonZero":[],"durationMs":3877673,"errors":[]}
+{"kind":"nightly-refresh","ranAt":"2026-11-20T04:28:01.131Z","startedAt":"2026-11-20T03:23:15.265Z","priorityCount":0,"fromQueue":0,"fromContamination":0,"zeroLimit":null,"skipZero":false}
